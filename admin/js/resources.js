@@ -1,3 +1,5 @@
+let editingResourceId = null;
+let allResources = [];
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
 
@@ -92,7 +94,11 @@ async function loadResources() {
     .select(
       `
       *,
-      subjects(name)
+      subjects (
+          id,
+          name,
+          topic_id
+      )
   `
     )
     .order("year", { ascending: false });
@@ -103,45 +109,9 @@ async function loadResources() {
     return;
   }
 
-  container.innerHTML = "";
+  allResources = data;
 
-  data.forEach((resource) => {
-    const card = document.createElement("div");
-
-    card.className = "list-card";
-
-    card.innerHTML = `
-            <h3>
-                ${resource.title}
-            </h3>
-
-            <p>
-                Subject:
-                ${resource.subjects?.name || ""}
-            </p>
-
-            <p>
-                Year:
-                ${resource.year}
-            </p>
-
-            <p>
-                Type:
-                ${resource.type}
-            </p>
-
-            <br>
-
-            <button
-                class="delete-btn"
-                onclick="deleteResource(${resource.id})"
-            >
-                Delete
-            </button>
-        `;
-
-    container.appendChild(card);
-  });
+  renderResources(data);
 }
 
 window.addResource = async function () {
@@ -195,19 +165,66 @@ window.addResource = async function () {
       }
     }
 
-    const { error } = await supabaseClient.from("resources").insert([
-      {
-        subject_id: subjectId,
-        year,
-        title,
-        type,
-        file_url,
-      },
-    ]);
+    let error;
+
+    if (editingResourceId) {
+      ({ error } = await supabaseClient
+
+        .from("resources")
+
+        .update({
+          subject_id: subjectId,
+
+          year,
+
+          title,
+
+          type,
+
+          file_url,
+        })
+
+        .eq("id", editingResourceId));
+    } else {
+      ({ error } = await supabaseClient
+
+        .from("resources")
+
+        .insert([
+          {
+            subject_id: subjectId,
+
+            year,
+
+            title,
+
+            type,
+
+            file_url,
+          },
+        ]));
+    }
 
     if (error) throw error;
 
-    alert("Resource Added");
+    editingResourceId = null;
+
+    document.getElementById("saveResourceBtn").innerText = "Add Resource";
+
+    document.getElementById("resourceTitle").value = "";
+
+    document.getElementById("resourceYear").value = "";
+
+    document.getElementById("resourceUrl").value = "";
+
+    document.getElementById("pdfFile").value = "";
+
+    document.getElementById("topicSelect").value = "";
+
+    document.getElementById("subjectSelect").innerHTML =
+      "<option>Select Subject</option>";
+
+    alert("Saved Successfully");
 
     loadResources();
   } catch (err) {
@@ -233,4 +250,109 @@ window.deleteResource = async function (id) {
   }
 
   loadResources();
+};
+function renderResources(data) {
+  const container = document.getElementById("resourcesList");
+
+  container.innerHTML = "";
+
+  if (data.length == 0) {
+    container.innerHTML = "<div class='list-card'>No Resources Found</div>";
+
+    return;
+  }
+
+  data.forEach((resource) => {
+    const card = document.createElement("div");
+
+    card.className = "list-card";
+
+    card.innerHTML = `
+    
+    <h3>${resource.title}</h3>
+    
+    <p><b>Subject:</b> ${resource.subjects?.name || ""}</p>
+    
+    <p><b>Year:</b> ${resource.year}</p>
+    
+    <p><b>Type:</b> ${resource.type.toUpperCase()}</p>
+    
+    <div class="card-actions">
+    
+    <button class="edit-btn"
+    
+    onclick="editResource(${resource.id})">
+    
+    ✏ Edit
+    
+    </button>
+
+    <button class="delete-btn"
+    
+    onclick="deleteResource(${resource.id})">
+    
+    🗑 Delete
+    
+    </button>
+    
+    </div>
+    
+    `;
+
+    container.appendChild(card);
+  });
+}
+window.searchResources = function () {
+  const value = document
+
+    .getElementById("searchResource")
+
+    .value.toLowerCase();
+
+  const filtered = allResources.filter(
+    (r) =>
+      r.title.toLowerCase().includes(value) ||
+      String(r.year).includes(value) ||
+      r.subjects?.name?.toLowerCase().includes(value)
+  );
+
+  renderResources(filtered);
+};
+window.editResource = async function(id){
+
+    const resource = allResources.find(r => r.id === id);
+
+    if(!resource) return;
+
+    editingResourceId = id;
+
+    document.getElementById("resourceTitle").value = resource.title;
+    document.getElementById("resourceYear").value = resource.year;
+    document.getElementById("resourceType").value = resource.type;
+
+    toggleResourceFields();
+
+    if(resource.type==="link"){
+        document.getElementById("resourceUrl").value=resource.file_url;
+    }
+
+    const {data} = await supabaseClient
+        .from("subjects")
+        .select("topic_id")
+        .eq("id",resource.subject_id)
+        .single();
+
+    document.getElementById("topicSelect").value=data.topic_id;
+
+    await loadSubjects(data.topic_id);
+
+    document.getElementById("subjectSelect").value=resource.subject_id;
+
+    document.getElementById("saveResourceBtn").innerText="Update Resource";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
 };

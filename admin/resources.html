@@ -27,45 +27,45 @@
 
       <main class="main-content">
         <h1>Manage Resources</h1>
-
         <div class="admin-form">
-          <!-- Topic -->
-
           <select id="topicSelect">
             <option value="">Select Topic</option>
           </select>
-
-          <!-- Subject -->
 
           <select id="subjectSelect">
             <option value="">Select Subject</option>
           </select>
 
-          <!-- Year -->
-
           <input type="number" id="resourceYear" placeholder="Year" />
 
-          <!-- Resource Title -->
-
           <input type="text" id="resourceTitle" placeholder="Resource Title" />
-
-          <!-- Resource Type -->
 
           <select id="resourceType">
             <option value="pdf">PDF</option>
             <option value="link">External Link</option>
           </select>
 
-          <!-- PDF -->
-
           <input type="file" id="pdfFile" accept=".pdf" />
 
-          <!-- External Link -->
+          <input
+            type="url"
+            id="resourceUrl"
+            placeholder="https://..."
+            style="display: none"
+          />
 
-          <input type="text" id="resourceUrl" placeholder="External URL" />
-
-          <button onclick="addResource()">Add Resource</button>
+          <button id="saveResourceBtn" onclick="addResource()">
+            Add Resource
+          </button>
         </div>
+
+        <hr />
+
+        <input
+          id="searchResource"
+          placeholder="🔍 Search Resource..."
+          onkeyup="searchResources()"
+        />
 
         <div id="resourcesList"></div>
       </main>
