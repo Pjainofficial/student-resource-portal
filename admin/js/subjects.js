@@ -1,8 +1,13 @@
 let editingSubjectId = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
   loadSubjects();
 });
+
+/* ===========================
+   LOAD TOPICS
+=========================== */
 
 async function loadTopics() {
   const select = document.getElementById("topicSelect");
@@ -29,6 +34,10 @@ async function loadTopics() {
   });
 }
 
+/* ===========================
+   LOAD SUBJECTS
+=========================== */
+
 async function loadSubjects() {
   const container = document.getElementById("subjectsList");
 
@@ -36,9 +45,9 @@ async function loadSubjects() {
     .from("subjects")
     .select(
       `
-                *,
-                topics(name)
-            `
+            *,
+            topics(name)
+        `
     )
     .order("id", {
       ascending: false,
@@ -51,47 +60,68 @@ async function loadSubjects() {
 
   container.innerHTML = "";
 
+  if (!data.length) {
+    container.innerHTML = `
+            <div class="list-card">
+                No Subjects Found
+            </div>
+        `;
+    return;
+  }
+
   data.forEach((subject) => {
     const card = document.createElement("div");
 
     card.className = "list-card";
 
     card.innerHTML = `
-    <h3>${subject.name}</h3>
-    
-    <p><strong>Topic:</strong> ${subject.topics?.name || "-"}</p>
-    
-    <p>${subject.description || "No description available."}</p>
-    
-    <div class="card-actions">
-    
-    <button
-    class="edit-btn"
-    onclick='editSubject(
-    ${subject.id},
-    ${subject.topic_id},
-    ${JSON.stringify(subject.name)},
-    ${JSON.stringify(subject.description || "")}
-    )'>
-    ✏ Edit
-    </button>
-    
-    <button
-    class="delete-btn"
-    onclick="deleteSubject(${subject.id})">
-    🗑 Delete
-    </button>
-    
-    </div>
-    `;
+            <h3>${subject.name}</h3>
+
+            <p class="subject-topic">
+                📚 ${subject.topics?.name || "No Topic"}
+            </p>
+
+            <p class="subject-description">
+                ${subject.description || "No description available."}
+            </p>
+
+            <div class="card-actions">
+
+                <button
+                    class="edit-btn"
+                    onclick='editSubject(
+                        ${subject.id},
+                        ${subject.topic_id},
+                        ${JSON.stringify(subject.name)},
+                        ${JSON.stringify(subject.description || "")}
+                    )'
+                >
+                    ✏️ Edit
+                </button>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteSubject(${subject.id})"
+                >
+                    🗑 Delete
+                </button>
+
+            </div>
+        `;
 
     container.appendChild(card);
   });
 }
 
+/* ===========================
+   ADD / UPDATE SUBJECT
+=========================== */
+
 window.addSubject = async function () {
   const topicId = document.getElementById("topicSelect").value;
+
   const subjectName = document.getElementById("subjectName").value.trim();
+
   const description = document
     .getElementById("subjectDescription")
     .value.trim();
@@ -125,20 +155,25 @@ window.addSubject = async function () {
 
   if (error) {
     console.error(error);
-    alert("Failed");
+    alert("Failed to save subject.");
     return;
   }
 
   editingSubjectId = null;
 
-  document.querySelector(".admin-form button").innerText = "Add Subject";
-
+  document.getElementById("topicSelect").value = "";
   document.getElementById("subjectName").value = "";
   document.getElementById("subjectDescription").value = "";
-  document.getElementById("topicSelect").value = "";
 
-  loadSubjects();
+  document.querySelector(".admin-form button").textContent = "Add Subject";
+
+  await loadSubjects();
 };
+
+/* ===========================
+   DELETE SUBJECT
+=========================== */
+
 window.deleteSubject = async function (id) {
   const ok = confirm("Delete subject?");
 
@@ -148,12 +183,16 @@ window.deleteSubject = async function (id) {
 
   if (error) {
     console.error(error);
-
+    alert("Unable to delete subject.");
     return;
   }
 
   loadSubjects();
 };
+
+/* ===========================
+   EDIT SUBJECT
+=========================== */
 
 window.editSubject = function (id, topicId, name, description) {
   editingSubjectId = id;
@@ -164,7 +203,7 @@ window.editSubject = function (id, topicId, name, description) {
 
   document.getElementById("subjectDescription").value = description;
 
-  document.querySelector(".admin-form button").innerText = "Update Subject";
+  document.querySelector(".admin-form button").textContent = "Update Subject";
 
   window.scrollTo({
     top: 0,
