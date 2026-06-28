@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Resources</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">📚 DELNET Admin</div>
+
+        <ul class="sidebar-menu">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="topics.html">Topics</a></li>
+          <li><a href="subjects.html">Subjects</a></li>
+          <li><a href="resources.html">Resources</a></li>
+        </ul>
+        <div class="sidebar-footer">
+          <a href="#" onclick="logout()" class="logout-link"> 🚪 Logout </a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <h1>Manage Resources</h1>
+
+        <div class="admin-form">
+          <select id="subjectSelect">
+            <option value="">Select Subject</option>
+          </select>
+
+          <input type="number" id="resourceYear" placeholder="Year" />
+
+          <input type="text" id="resourceTitle" placeholder="Title" />
+
+          <select id="resourceType">
+            <option value="pdf">PDF</option>
+            <option value="link">Link</option>
+          </select>
+
+          <input type="file" id="pdfFile" accept=".pdf" />
+
+          <input type="text" id="resourceUrl" placeholder="External URL" />
+
+          <button onclick="addResource()">Add Resource</button>
+        </div>
+
+        <div id="resourcesList"></div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/resources.js"></script>
+  </body>
+</html>

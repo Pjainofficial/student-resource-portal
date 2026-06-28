@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Digital Knowledge Library</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">📚 Digital Library</div>
+
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#topics">Topics</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+        <a class="admin-btn" href="student-login.html"> Logout </a>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>Digital Knowledge Library</h1>
+
+      <p>
+        Access academic resources, journals, books, PDFs, notes and learning
+        materials organized by subject and year.
+      </p>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="globalSearch"
+          placeholder="Search subjects, PDFs, links..."
+        />
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+    <section id="topics" class="section">
+      <div class="section-header">
+        <h2>Browse Topics</h2>
+      </div>
+
+      <div id="topicsGrid" class="topics-grid">
+        <div class="loading-card">Loading topics...</div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="section-header">
+        <h2>About Us</h2>
+      </div>
+
+      <div id="aboutSection" class="info-card">Loading...</div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="section-header">
+        <h2>Contact Us</h2>
+      </div>
+
+      <div id="contactSection" class="info-card">Loading...</div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">© 2026 Digital Knowledge Library</footer>
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- APP JS -->
+    <script src="js/config.js"></script>
+    <script src="js/student-guard.js"></script>
+    <script src="js/student.js"></script>
+  </body>
+</html>

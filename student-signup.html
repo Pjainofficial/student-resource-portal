@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Signup</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>📚 DELNET</h1>
+
+        <p>Create Account</p>
+
+        <input type="email" id="email" placeholder="Email Address" />
+
+        <input type="password" id="password" placeholder="Password" />
+
+        <button onclick="signupStudent()">Create Account</button>
+
+        <p>
+          Already have an account?
+          <a href="student-login.html"> Login </a>
+        </p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/student-auth.js"></script>
+  </body>
+</html>
