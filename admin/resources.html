@@ -29,20 +29,38 @@
         <h1>Manage Resources</h1>
 
         <div class="admin-form">
+          <!-- Topic -->
+
+          <select id="topicSelect">
+            <option value="">Select Topic</option>
+          </select>
+
+          <!-- Subject -->
+
           <select id="subjectSelect">
             <option value="">Select Subject</option>
           </select>
 
+          <!-- Year -->
+
           <input type="number" id="resourceYear" placeholder="Year" />
 
-          <input type="text" id="resourceTitle" placeholder="Title" />
+          <!-- Resource Title -->
+
+          <input type="text" id="resourceTitle" placeholder="Resource Title" />
+
+          <!-- Resource Type -->
 
           <select id="resourceType">
             <option value="pdf">PDF</option>
-            <option value="link">Link</option>
+            <option value="link">External Link</option>
           </select>
 
+          <!-- PDF -->
+
           <input type="file" id="pdfFile" accept=".pdf" />
+
+          <!-- External Link -->
 
           <input type="text" id="resourceUrl" placeholder="External URL" />
 

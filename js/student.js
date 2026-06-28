@@ -1,19 +1,19 @@
-/************************************************
+/*************************************************
  * STUDENT PORTAL
- ************************************************/
+ *************************************************/
 
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
-  loadAboutUs();
-  loadContactInfo();
 });
 
-/************************************************
+/*************************************************
  * LOAD TOPICS
- ************************************************/
+ *************************************************/
 
 async function loadTopics() {
   const topicsGrid = document.getElementById("topicsGrid");
+
+  if (!topicsGrid) return;
 
   topicsGrid.innerHTML = `
         <div class="loading-card">
@@ -25,7 +25,9 @@ async function loadTopics() {
     const { data, error } = await supabaseClient
       .from("topics")
       .select("*")
-      .order("display_order", { ascending: true });
+      .order("display_order", {
+        ascending: true,
+      });
 
     if (error) throw error;
 
@@ -35,6 +37,7 @@ async function loadTopics() {
                     No topics found.
                 </div>
             `;
+
       return;
     }
 
@@ -51,7 +54,7 @@ async function loadTopics() {
             `;
 
       card.addEventListener("click", () => {
-        openTopic(topic.id, topic.name);
+        openTopic(topic.id);
       });
 
       topicsGrid.appendChild(card);
@@ -67,116 +70,30 @@ async function loadTopics() {
   }
 }
 
-/************************************************
+/*************************************************
  * OPEN TOPIC
- ************************************************/
+ *************************************************/
 
 function openTopic(topicId) {
   window.location.href = `subjects.html?topic=${topicId}`;
 }
 
-/************************************************
- * LOAD ABOUT US
- ************************************************/
+/*************************************************
+ * GLOBAL SEARCH
+ *************************************************/
 
-async function loadAboutUs() {
-  const aboutSection = document.getElementById("aboutSection");
+const searchInput = document.getElementById("globalSearch");
 
-  try {
-    const { data, error } = await supabaseClient
-      .from("about_us")
-      .select("*")
-      .limit(1)
-      .single();
+if (searchInput) {
+  searchInput.addEventListener("input", function () {
+    const value = this.value.toLowerCase();
 
-    if (error) throw error;
+    const cards = document.querySelectorAll(".topic-card");
 
-    aboutSection.innerHTML = `
-            <h3>${data.title || ""}</h3>
+    cards.forEach((card) => {
+      const text = card.innerText.toLowerCase();
 
-            <br>
-
-            <p>${data.description || ""}</p>
-
-            <br>
-
-            <strong>Vision</strong>
-
-            <p>${data.vision || ""}</p>
-
-            <br>
-
-            <strong>Mission</strong>
-
-            <p>${data.mission || ""}</p>
-        `;
-  } catch (err) {
-    console.error(err);
-
-    aboutSection.innerHTML = "Unable to load About Us.";
-  }
-}
-
-/************************************************
- * LOAD CONTACT INFO
- ************************************************/
-
-async function loadContactInfo() {
-  const contactSection = document.getElementById("contactSection");
-
-  try {
-    const { data, error } = await supabaseClient
-      .from("contact_info")
-      .select("*")
-      .limit(1)
-      .single();
-
-    if (error) throw error;
-
-    contactSection.innerHTML = `
-            <p>
-                <strong>Organization:</strong>
-                ${data.organization_name || ""}
-            </p>
-
-            <br>
-
-            <p>
-                <strong>Address:</strong>
-                ${data.address || ""}
-            </p>
-
-            <br>
-
-            <p>
-                <strong>Email:</strong>
-                ${data.email || ""}
-            </p>
-
-            <br>
-
-            <p>
-                <strong>Phone:</strong>
-                ${data.phone || ""}
-            </p>
-
-            <br>
-
-            <p>
-                <strong>Website:</strong>
-                ${data.website || ""}
-            </p>
-
-            <br>
-
-            <p>
-                <strong>Working Hours:</strong>
-                ${data.working_hours || ""}
-            </p>
-        `;
-  } catch (err) {
-    console.error(err);
-
-    contactSection.innerHTML = "Unable to load Contact Information.";
-  }
+      card.style.display = text.includes(value) ? "block" : "none";
+    });
+  });
 }

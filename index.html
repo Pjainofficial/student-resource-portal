@@ -2,12 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Digital Knowledge Library</title>
+    <title>DELNET Digital Knowledge Library</title>
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <link
@@ -20,75 +22,208 @@
   </head>
 
   <body>
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <nav class="navbar">
-      <div class="logo">📚 Digital Library</div>
+      <div class="logo">DELNET</div>
 
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
+
         <li><a href="#topics">Topics</a></li>
+
         <li><a href="#about">About Us</a></li>
+
         <li><a href="#contact">Contact Us</a></li>
-        <a class="admin-btn" href="student-login.html"> Logout </a>
+
+        <li>
+          <a
+            href="javascript:void(0)"
+            class="admin-btn"
+            onclick="logoutStudent()"
+          >
+            Logout
+          </a>
+        </li>
       </ul>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- =========================
+         HERO
+    ========================== -->
+
     <section class="hero">
-      <h1>Digital Knowledge Library</h1>
+      <h1>DELNET Digital Knowledge Library</h1>
 
       <p>
-        Access academic resources, journals, books, PDFs, notes and learning
-        materials organized by subject and year.
+        Access medical books, journals, previous year papers, notes, PDFs and
+        academic resources organized by topic, subject and year.
       </p>
 
       <div class="search-box">
-        <input
-          type="text"
-          id="globalSearch"
-          placeholder="Search subjects, PDFs, links..."
-        />
+        <input type="text" id="globalSearch" placeholder="Search Topics..." />
       </div>
     </section>
 
-    <!-- TOPICS -->
+    <!-- =========================
+         TOPICS
+    ========================== -->
+
     <section id="topics" class="section">
       <div class="section-header">
         <h2>Browse Topics</h2>
       </div>
 
       <div id="topicsGrid" class="topics-grid">
-        <div class="loading-card">Loading topics...</div>
+        <div class="loading-card">Loading Topics...</div>
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
     <section id="about" class="section">
       <div class="section-header">
         <h2>About Us</h2>
       </div>
 
-      <div id="aboutSection" class="info-card">Loading...</div>
+      <div class="info-card">
+        <h3>About DELNET</h3>
+
+        <p>
+          DELNET (News & Literature House) is committed to providing literature
+          from leading international publishers across India. We support
+          students, educators, researchers, medical professionals and
+          institutions by delivering authentic academic resources and
+          exceptional customer service.
+        </p>
+
+        <br />
+
+        <h3>Our Mission</h3>
+
+        <p>
+          Our mission is to provide literature from international publishers
+          across India.
+        </p>
+
+        <br />
+
+        <h3>Our Aim</h3>
+
+        <p>
+          <em> "We Aim to provide unmatched services to our customers." </em>
+        </p>
+
+        <br />
+
+        <h3>Approved Member Of</h3>
+
+        <ul>
+          <li>Good Office Committee (GOC)</li>
+
+          <li>
+            Federation of Publishers & Booksellers Association of India (FPBAI)
+          </li>
+
+          <li>Rajasthan Publishers & Booksellers Association (RPBA)</li>
+        </ul>
+      </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
     <section id="contact" class="section">
       <div class="section-header">
         <h2>Contact Us</h2>
       </div>
 
-      <div id="contactSection" class="info-card">Loading...</div>
+      <div class="info-card">
+        <h3>News & Literature House</h3>
+
+        <p>
+          44-45, 1st Floor<br />
+
+          Kalawati Paliwal Market<br />
+
+          Gumanpura<br />
+
+          Kota – 324007<br />
+
+          Rajasthan, India
+        </p>
+
+        <br />
+
+        <h3>Contact Persons</h3>
+
+        <p>
+          <strong>Mr. Sanjay Jain</strong><br />
+
+          +91 9829038026
+        </p>
+
+        <br />
+
+        <p>
+          <strong>Mr. Love Vardhan</strong><br />
+
+          +91 9928347669
+        </p>
+
+        <br />
+
+        <p>
+          <strong>Phone:</strong>
+
+          0744-5121961
+        </p>
+
+        <p>
+          <strong>Fax:</strong>
+
+          0744-2392079
+        </p>
+
+        <p>
+          <strong>Email:</strong>
+
+          nlh@kappa.net.in
+        </p>
+
+        <p>
+          <strong>Alternate Email:</strong>
+
+          nlhkota@gmail.com
+        </p>
+      </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">© 2026 Digital Knowledge Library</footer>
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
-    <!-- SUPABASE -->
+    <footer class="footer">© 2026 DELNET Digital Knowledge Library</footer>
+
+    <!-- =========================
+         SUPABASE
+    ========================== -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- APP JS -->
+    <!-- JS -->
+
     <script src="js/config.js"></script>
+
+    <script src="js/student-auth.js"></script>
+
     <script src="js/student-guard.js"></script>
+
     <script src="js/student.js"></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+let editingSubjectId = null;
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
   loadSubjects();
@@ -5,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadTopics() {
   const select = document.getElementById("topicSelect");
+
+  select.innerHTML = `<option value="">Select Topic</option>`;
 
   const { data, error } = await supabaseClient
     .from("topics")
@@ -54,22 +57,33 @@ async function loadSubjects() {
     card.className = "list-card";
 
     card.innerHTML = `
-            <h3>${subject.name}</h3>
-
-            <p>
-                Topic:
-                ${subject.topics?.name || ""}
-            </p>
-
-            <br>
-
-            <button
-                class="delete-btn"
-                onclick="deleteSubject(${subject.id})"
-            >
-                Delete
-            </button>
-        `;
+    <h3>${subject.name}</h3>
+    
+    <p><strong>Topic:</strong> ${subject.topics?.name || "-"}</p>
+    
+    <p>${subject.description || "No description available."}</p>
+    
+    <div class="card-actions">
+    
+    <button
+    class="edit-btn"
+    onclick='editSubject(
+    ${subject.id},
+    ${subject.topic_id},
+    ${JSON.stringify(subject.name)},
+    ${JSON.stringify(subject.description || "")}
+    )'>
+    ✏ Edit
+    </button>
+    
+    <button
+    class="delete-btn"
+    onclick="deleteSubject(${subject.id})">
+    🗑 Delete
+    </button>
+    
+    </div>
+    `;
 
     container.appendChild(card);
   });
@@ -77,35 +91,54 @@ async function loadSubjects() {
 
 window.addSubject = async function () {
   const topicId = document.getElementById("topicSelect").value;
-
-  const subjectName = document.getElementById("subjectName").value;
+  const subjectName = document.getElementById("subjectName").value.trim();
+  const description = document
+    .getElementById("subjectDescription")
+    .value.trim();
 
   if (!topicId || !subjectName) {
-    alert("Fill all fields");
-
+    alert("Please fill all fields");
     return;
   }
 
-  const { error } = await supabaseClient.from("subjects").insert([
-    {
-      topic_id: topicId,
-      name: subjectName,
-    },
-  ]);
+  let error;
+
+  if (editingSubjectId) {
+    ({ error } = await supabaseClient
+      .from("subjects")
+      .update({
+        topic_id: topicId,
+        name: subjectName,
+        description: description,
+      })
+      .eq("id", editingSubjectId));
+  } else {
+    ({ error } = await supabaseClient.from("subjects").insert([
+      {
+        topic_id: topicId,
+        name: subjectName,
+        description: description,
+        display_order: 1,
+      },
+    ]));
+  }
 
   if (error) {
     console.error(error);
-
-    alert("Failed to add subject");
-
+    alert("Failed");
     return;
   }
 
+  editingSubjectId = null;
+
+  document.querySelector(".admin-form button").innerText = "Add Subject";
+
   document.getElementById("subjectName").value = "";
+  document.getElementById("subjectDescription").value = "";
+  document.getElementById("topicSelect").value = "";
 
   loadSubjects();
 };
-
 window.deleteSubject = async function (id) {
   const ok = confirm("Delete subject?");
 
@@ -120,4 +153,21 @@ window.deleteSubject = async function (id) {
   }
 
   loadSubjects();
+};
+
+window.editSubject = function (id, topicId, name, description) {
+  editingSubjectId = id;
+
+  document.getElementById("topicSelect").value = topicId;
+
+  document.getElementById("subjectName").value = name;
+
+  document.getElementById("subjectDescription").value = description;
+
+  document.querySelector(".admin-form button").innerText = "Update Subject";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 };

@@ -1,29 +1,86 @@
 document.addEventListener("DOMContentLoaded", () => {
-  loadSubjects();
+  loadTopics();
+
   loadResources();
+
+  const resourceType = document.getElementById("resourceType");
+
+  if (resourceType) {
+    resourceType.addEventListener("change", toggleResourceFields);
+
+    toggleResourceFields();
+  }
+
+  document
+    .getElementById("topicSelect")
+    .addEventListener("change", function () {
+      loadSubjects(this.value);
+    });
 });
 
-async function loadSubjects() {
+async function loadSubjects(topicId) {
+  console.log("Topic Selected:", topicId);
+
   const select = document.getElementById("subjectSelect");
+
+  select.innerHTML = `<option>Select Subject</option>`;
 
   const { data, error } = await supabaseClient
     .from("subjects")
     .select("*")
-    .order("name");
+    .eq("topic_id", Number(topicId));
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+  console.log("Subjects:", data);
+  console.log("Error:", error);
+
+  if (error) return;
 
   data.forEach((subject) => {
     const option = document.createElement("option");
 
     option.value = subject.id;
-
     option.textContent = subject.name;
 
     select.appendChild(option);
+  });
+}
+function toggleResourceFields() {
+  const type = document.getElementById("resourceType").value;
+
+  const pdfFile = document.getElementById("pdfFile");
+
+  const resourceUrl = document.getElementById("resourceUrl");
+
+  if (type === "pdf") {
+    pdfFile.style.display = "block";
+    resourceUrl.style.display = "none";
+  } else {
+    pdfFile.style.display = "none";
+    resourceUrl.style.display = "block";
+  }
+}
+async function loadTopics() {
+  const select = document.getElementById("topicSelect");
+
+  const { data, error } = await supabaseClient
+    .from("topics")
+    .select("*")
+    .order("display_order");
+
+  if (error) {
+    console.error(error);
+
+    return;
+  }
+
+  select.innerHTML = `<option value="">Select Topic</option>`;
+
+  data.forEach((topic) => {
+    select.innerHTML += `
+        <option value="${topic.id}">
+            ${topic.name}
+        </option>
+        `;
   });
 }
 
@@ -32,10 +89,13 @@ async function loadResources() {
 
   const { data, error } = await supabaseClient
     .from("resources")
-    .select("*")
-    .order("year", {
-      ascending: false,
-    });
+    .select(
+      `
+      *,
+      subjects(name)
+  `
+    )
+    .order("year", { ascending: false });
 
   if (error) {
     console.error(error);

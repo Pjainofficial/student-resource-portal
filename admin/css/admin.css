@@ -245,3 +245,55 @@
     padding:12px 20px;
     border-radius:8px;
 }
+.subject-desc{
+    margin-top:10px;
+    color:#666;
+    font-size:14px;
+    line-height:1.6;
+}
+.card-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+.card-actions{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+}
