@@ -24,7 +24,15 @@ async function loadTopics() {
   try {
     const { data, error } = await supabaseClient
       .from("topics")
-      .select("*")
+      .select(
+        `
+      *,
+      subjects(
+          id,
+          resources(id)
+      )
+  `
+      )
       .order("display_order", {
         ascending: true,
       });
@@ -44,18 +52,43 @@ async function loadTopics() {
     topicsGrid.innerHTML = "";
 
     data.forEach((topic) => {
+      const subjectCount = topic.subjects.length;
+
+      let resourceCount = 0;
+
+      topic.subjects.forEach((subject) => {
+        resourceCount += subject.resources.length;
+      });
+
       const card = document.createElement("div");
 
       card.className = "topic-card";
 
       card.innerHTML = `
-                <h3>${topic.name}</h3>
-                <p>${topic.description || ""}</p>
-            `;
+  
+          <div class="topic-icon">📚</div>
+  
+          <h3>${topic.name}</h3>
+  
+          <p>${topic.description || "No description available."}</p>
+  
+          <div class="topic-meta">
+  
+              <span>📖 ${subjectCount} Subjects</span>
+  
+              <span>📄 ${resourceCount} Resources</span>
+  
+          </div>
+  
+          <button class="explore-btn">
+  
+              Explore →
+  
+          </button>
+  
+      `;
 
-      card.addEventListener("click", () => {
-        openTopic(topic.id);
-      });
+      card.onclick = () => openTopic(topic.id);
 
       topicsGrid.appendChild(card);
     });

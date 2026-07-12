@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>DELNET Digital Knowledge Library</title>
+    <title>Kanta's Sparsh Knowledge Library</title>
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,7 @@
     ========================== -->
 
     <nav class="navbar">
-      <div class="logo">DELNET</div>
+      <div class="logo">Kanta's Sparsh</div>
 
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
@@ -55,16 +55,38 @@
     ========================== -->
 
     <section class="hero">
-      <h1>DELNET Digital Knowledge Library</h1>
+      <h1>📚 Kanta's Sparsh Knowledge Library</h1>
 
       <p>
-        Access medical books, journals, previous year papers, notes, PDFs and
-        academic resources organized by topic, subject and year.
+        Access thousands of medical books, journals, previous year papers,
+        lecture notes and academic resources organized by Topics, Subjects and
+        Years.
       </p>
 
       <div class="search-box">
-        <input type="text" id="globalSearch" placeholder="Search Topics..." />
+        <input
+          type="text"
+          id="globalSearch"
+          placeholder="🔍 Search Topics, Subjects or Resources..."
+        />
       </div>
+
+      <!-- <div class="hero-stats">
+        <div class="hero-stat">
+          <h2 id="topicCount">0</h2>
+          <span>Topics</span>
+        </div>
+
+        <div class="hero-stat">
+          <h2 id="subjectCount">0</h2>
+          <span>Subjects</span>
+        </div>
+
+        <div class="hero-stat">
+          <h2 id="resourceCount">0</h2>
+          <span>Resources</span>
+        </div>
+      </div> -->
     </section>
 
     <!-- =========================
@@ -73,7 +95,12 @@
 
     <section id="topics" class="section">
       <div class="section-header">
-        <h2>Browse Topics</h2>
+        <h2>📖 Explore Knowledge Areas</h2>
+
+        <p>
+          Browse academic topics and discover subjects, books, journals and
+          learning resources.
+        </p>
       </div>
 
       <div id="topicsGrid" class="topics-grid">
@@ -87,50 +114,45 @@
 
     <section id="about" class="section">
       <div class="section-header">
-        <h2>About Us</h2>
+        <h2>About Kanta's Sparsh</h2>
+        <p>Your trusted partner for academic excellence.</p>
       </div>
 
-      <div class="info-card">
-        <h3>About DELNET</h3>
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>📚 Who We Are</h3>
 
-        <p>
-          DELNET (News & Literature House) is committed to providing literature
-          from leading international publishers across India. We support
-          students, educators, researchers, medical professionals and
-          institutions by delivering authentic academic resources and
-          exceptional customer service.
-        </p>
+          <p>
+            Kanta's Sparsh (News & Literature House) has been serving
+            educational institutions, students and professionals by providing
+            literature from internationally renowned publishers across India.
+          </p>
+        </div>
 
-        <br />
+        <div class="about-card">
+          <h3>🎯 Our Mission</h3>
 
-        <h3>Our Mission</h3>
+          <p>
+            Deliver authentic academic resources with exceptional service to
+            empower learning and research.
+          </p>
+        </div>
 
-        <p>
-          Our mission is to provide literature from international publishers
-          across India.
-        </p>
+        <div class="about-card">
+          <h3>⭐ Why Kanta's Sparsh Academia?</h3>
 
-        <br />
+          <ul>
+            <li>International Publications</li>
 
-        <h3>Our Aim</h3>
+            <li>Medical Literature</li>
 
-        <p>
-          <em> "We Aim to provide unmatched services to our customers." </em>
-        </p>
+            <li>Trusted by Institutions</li>
 
-        <br />
+            <li>Research Support</li>
 
-        <h3>Approved Member Of</h3>
-
-        <ul>
-          <li>Good Office Committee (GOC)</li>
-
-          <li>
-            Federation of Publishers & Booksellers Association of India (FPBAI)
-          </li>
-
-          <li>Rajasthan Publishers & Booksellers Association (RPBA)</li>
-        </ul>
+            <li>Quality Customer Service</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -138,33 +160,28 @@
          CONTACT
     ========================== -->
 
-    <section id="contact" class="section">
-      <div class="section-header">
-        <h2>Contact Us</h2>
-      </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon">📍</div>
 
-      <div class="info-card">
-        <h3>News & Literature House</h3>
+        <h3>Address</h3>
 
         <p>
+          News & Literature House<br />
           44-45, 1st Floor<br />
-
           Kalawati Paliwal Market<br />
-
-          Gumanpura<br />
-
-          Kota – 324007<br />
-
+          Gumanpura, Kota - 324007<br />
           Rajasthan, India
         </p>
+      </div>
 
-        <br />
+      <div class="contact-card">
+        <div class="contact-icon">📞</div>
 
         <h3>Contact Persons</h3>
 
         <p>
           <strong>Mr. Sanjay Jain</strong><br />
-
           +91 9829038026
         </p>
 
@@ -172,43 +189,64 @@
 
         <p>
           <strong>Mr. Love Vardhan</strong><br />
-
           +91 9928347669
         </p>
 
         <br />
 
         <p>
-          <strong>Phone:</strong>
-
+          <strong>Office:</strong><br />
           0744-5121961
         </p>
 
         <p>
-          <strong>Fax:</strong>
-
+          <strong>Fax:</strong><br />
           0744-2392079
         </p>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-icon">✉️</div>
+
+        <h3>Email Us</h3>
 
         <p>
-          <strong>Email:</strong>
-
+          <strong>Primary</strong><br />
           nlh@kappa.net.in
         </p>
 
-        <p>
-          <strong>Alternate Email:</strong>
+        <br />
 
+        <p>
+          <strong>Alternate</strong><br />
           nlhkota@gmail.com
         </p>
+
+        <br />
+
+        <h3>🕒 Office Hours</h3>
+
+        <p>
+          Monday – Saturday<br />
+          10:00 AM – 7:00 PM
+        </p>
       </div>
-    </section>
+    </div>
 
     <!-- =========================
          FOOTER
     ========================== -->
 
-    <footer class="footer">© 2026 DELNET Digital Knowledge Library</footer>
+    <footer class="footer">
+      <h3>📚 Kanta's Sparsh Knowledge Library</h3>
+
+      <p>
+        Empowering students, educators and researchers with quality academic
+        resources.
+      </p>
+
+      <p>© 2026 Kanta's Sparsh | All Rights Reserved</p>
+    </footer>
 
     <!-- =========================
          SUPABASE
