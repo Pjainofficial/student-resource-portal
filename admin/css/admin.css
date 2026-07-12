@@ -1,3 +1,4 @@
+
 .admin-layout {
     display: flex;
     min-height: 100vh;
@@ -297,3 +298,105 @@
     background:#dc2626;
     color:white;
 }
+
+/* ===========================
+   MOBILE ADMIN
+=========================== */
+
+@media (max-width:768px){
+
+    .admin-layout{
+        display:block;
+    }
+    
+    .sidebar{
+        width:100%;
+        padding:18px;
+        position:relative;
+        height:auto;
+    }
+    
+    .sidebar-logo{
+        text-align:center;
+        margin-bottom:18px;
+    }
+    
+    .sidebar-menu{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+    
+    .sidebar-menu li{
+        margin:0;
+    }
+    
+    .sidebar-menu a{
+        display:block;
+        text-align:center;
+        background:#374151;
+        padding:12px;
+        border-radius:8px;
+    }
+    
+    .sidebar-footer{
+        margin-top:15px;
+        border:none;
+        padding:0;
+    }
+    
+    .logout-link{
+        background:#dc2626;
+        text-align:center;
+    }
+    
+    .main-content{
+        margin-left:0;
+        width:100%;
+        padding:18px;
+    }
+    
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+    
+    .quick-actions{
+        flex-direction:column;
+    }
+    
+    .action-btn{
+        width:100%;
+        text-align:center;
+    }
+    
+    .admin-form{
+        padding:18px;
+    }
+    
+    .admin-form input,
+    .admin-form textarea,
+    .admin-form select,
+    .admin-form button{
+        width:100%;
+    }
+    
+    .card-actions{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+    }
+    
+    .card-actions button{
+        width:100%;
+    }
+    
+    .list-card{
+        padding:18px;
+    }
+    
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+    
+    }
