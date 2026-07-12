@@ -2,35 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resources</title>
+
+    <title>Resources | DELNET</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
     <nav class="navbar">
-      <div class="logo">📚 Digital Library</div>
+      <div class="logo">DELNET</div>
 
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">🏠 Home</a></li>
+
+        <li><a href="javascript:history.back()">← Back</a></li>
       </ul>
     </nav>
 
+    <!-- PAGE HEADER -->
+
+    <section class="page-banner">
+      <h1 id="subjectTitle">Loading Subject...</h1>
+
+      <p id="subjectDescription">
+        Browse all books, journals, PDFs and academic resources available for
+        this subject.
+      </p>
+    </section>
+
     <section class="section">
-      <div class="section-header">
-        <h2 id="subjectTitle">Loading...</h2>
+      <div class="resource-toolbar">
+        <input
+          type="text"
+          id="searchResource"
+          placeholder="🔍 Search Resource..."
+          onkeyup="searchResources()"
+        />
+
+        <select id="yearFilter" onchange="filterResources()">
+          <option value="">All Years</option>
+        </select>
       </div>
 
       <div id="resourcesContainer">
-        <div class="loading-card">Loading resources...</div>
+        <div class="loading-card">Loading Resources...</div>
       </div>
     </section>
+
+    <footer class="footer">
+      <p>© 2026 DELNET Digital Knowledge Library</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="js/config.js"></script>
+
     <script src="js/student-guard.js"></script>
+
     <script src="js/resources.js"></script>
   </body>
 </html>
