@@ -4,30 +4,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadSubjects() {
   const params = new URLSearchParams(window.location.search);
-
   const topicId = params.get("topic");
 
-  console.log("Topic ID:", topicId);
-
   if (!topicId) {
-    document.getElementById("subjectsGrid").innerHTML = "Invalid Topic";
+    document.getElementById("subjectsGrid").innerHTML =
+      "<div class='loading-card'>Invalid Topic</div>";
     return;
   }
 
   try {
-    const topicResult = await supabaseClient
+    // Load Topic Details
+    const { data: topic } = await supabaseClient
       .from("topics")
       .select("*")
       .eq("id", topicId)
       .single();
 
-    if (topicResult.data) {
-      document.getElementById("topicTitle").innerText = topicResult.data.name;
+    if (topic) {
+      document.getElementById("topicTitle").innerText = topic.name;
+      document.getElementById("topicDescription").innerText =
+        topic.description ||
+        "Explore all available subjects and learning resources.";
     }
 
-    const { data, error } = await supabaseClient
+    // Load Subjects + Resources
+    const { data: subjects, error } = await supabaseClient
       .from("subjects")
-      .select("*")
+      .select(
+        `
+              *,
+              resources(
+                  id,
+                  year
+              )
+          `
+      )
       .eq("topic_id", topicId)
       .order("name");
 
@@ -35,26 +46,74 @@ async function loadSubjects() {
 
     const grid = document.getElementById("subjectsGrid");
 
-    if (!data || data.length === 0) {
+    grid.innerHTML = "";
+
+    if (!subjects.length) {
       grid.innerHTML = `
-                <div class="loading-card">
-                    No subjects found.
-                </div>
-            `;
+              <div class="loading-card">
+                  No subjects available.
+              </div>
+          `;
 
       return;
     }
 
-    grid.innerHTML = "";
+    subjects.forEach((subject) => {
+      const resourceCount = subject.resources ? subject.resources.length : 0;
 
-    data.forEach((subject) => {
+      const years = subject.resources
+        ? [...new Set(subject.resources.map((r) => r.year))]
+        : [];
+
       const card = document.createElement("div");
 
-      card.className = "topic-card";
+      card.className = "subject-card";
 
       card.innerHTML = `
-                <h3>${subject.name}</h3>
-            `;
+
+              <div class="subject-top">
+
+                  <div>
+
+                      <h2>${subject.name}</h2>
+
+                      <p class="subject-desc">
+
+                          ${subject.description || "No description available."}
+
+                      </p>
+
+                  </div>
+
+                  <div class="resource-count">
+
+                      ${resourceCount}
+
+                      <span>Resources</span>
+
+                  </div>
+
+              </div>
+
+              <div class="year-list">
+
+                  ${
+                    years.length
+                      ? years
+                          .map((y) => `<span class="year-badge">${y}</span>`)
+                          .join("")
+                      : "<span class='year-badge'>No Years</span>"
+                  }
+
+              </div>
+
+              <button class="explore-btn">
+
+                  Explore Resources →
+
+              </button>
+
+          `;
 
       card.onclick = () => {
         window.location.href = `resources.html?subject=${subject.id}`;
@@ -66,6 +125,6 @@ async function loadSubjects() {
     console.error(err);
 
     document.getElementById("subjectsGrid").innerHTML =
-      "Failed to load subjects.";
+      "<div class='loading-card'>Failed to load subjects.</div>";
   }
 }

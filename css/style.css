@@ -569,3 +569,297 @@ body{
             background:#084298;
             
             }
+
+            .subjects-grid{
+
+                display:grid;
+                
+                grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+                
+                gap:30px;
+                
+                }
+                
+                .subject-card{
+                
+                background:#fff;
+                
+                border-radius:18px;
+                
+                padding:28px;
+                
+                box-shadow:0 12px 30px rgba(0,0,0,.08);
+                
+                transition:.3s;
+                
+                cursor:pointer;
+                
+                }
+                
+                .subject-card:hover{
+                
+                transform:translateY(-8px);
+                
+                box-shadow:0 18px 40px rgba(0,0,0,.12);
+                
+                }
+                
+                .subject-top{
+                
+                display:flex;
+                
+                justify-content:space-between;
+                
+                gap:20px;
+                
+                }
+                
+                .subject-top h2{
+                
+                margin-bottom:10px;
+                
+                color:#153462;
+                
+                }
+                
+                .subject-desc{
+                
+                color:#666;
+                
+                line-height:1.7;
+                
+                margin-bottom:20px;
+                
+                }
+                
+                .resource-count{
+                
+                width:85px;
+                
+                height:85px;
+                
+                border-radius:50%;
+                
+                background:#eef5ff;
+                
+                display:flex;
+                
+                flex-direction:column;
+                
+                justify-content:center;
+                
+                align-items:center;
+                
+                font-size:28px;
+                
+                font-weight:700;
+                
+                color:#0d6efd;
+                
+                flex-shrink:0;
+                
+                }
+                
+                .resource-count span{
+                
+                font-size:12px;
+                
+                font-weight:500;
+                
+                color:#555;
+                
+                }
+                
+                .year-list{
+                
+                display:flex;
+                
+                gap:10px;
+                
+                flex-wrap:wrap;
+                
+                margin:25px 0;
+                
+                }
+                
+                .year-badge{
+                
+                padding:8px 15px;
+                
+                border-radius:25px;
+                
+                background:#f4f6fb;
+                
+                font-size:13px;
+                
+                font-weight:600;
+                
+                }
+                
+                .explore-btn{
+                
+                width:100%;
+                
+                padding:14px;
+                
+                border:none;
+                
+                border-radius:10px;
+                
+                background:#0d6efd;
+                
+                color:#fff;
+                
+                font-weight:600;
+                
+                cursor:pointer;
+                
+                transition:.3s;
+                
+                }
+                
+                .explore-btn:hover{
+                
+                background:#0b5ed7;
+                
+                }
+                
+                .page-banner{
+
+                    background:linear-gradient(135deg,#f8fbff,#eef5ff);
+                    
+                    padding:28px 40px;
+                    
+                    border-radius:18px;
+                    
+                    margin:30px auto;
+                    
+                    text-align:left;
+                    
+                    box-shadow:0 10px 25px rgba(0,0,0,.06);
+                    
+                    }
+                    
+                    .page-banner h1{
+                    
+                    font-size:34px;
+                    
+                    margin-bottom:10px;
+                    
+                    color:#153462;
+                    
+                    }
+                    
+                    .page-banner p{
+                    
+                    font-size:16px;
+                    
+                    line-height:1.7;
+                    
+                    color:#666;
+                    
+                    margin:0;
+                    
+                    max-width:900px;
+                    
+                    }
+                    .page-banner{
+
+                        background:linear-gradient(135deg,#eef5ff,#ffffff);
+                        
+                        padding:30px 40px;
+                        
+                        border-radius:20px;
+                        
+                        margin:35px auto;
+                        
+                        box-shadow:0 10px 30px rgba(0,0,0,.08);
+                        
+                        }
+                        
+                        .page-banner h1{
+                        
+                        font-size:34px;
+                        
+                        margin-bottom:10px;
+                        
+                        color:#153462;
+                        
+                        }
+                        
+                        .page-banner p{
+                        
+                        font-size:16px;
+                        
+                        color:#666;
+                        
+                        line-height:1.7;
+                        
+                        max-width:850px;
+                        
+                        }
+                        
+                        .resource-toolbar{
+                        
+                        display:flex;
+                        
+                        justify-content:space-between;
+                        
+                        align-items:center;
+                        
+                        gap:20px;
+                        
+                        margin-bottom:35px;
+                        
+                        flex-wrap:wrap;
+                        
+                        }
+                        
+                        .resource-toolbar input{
+                        
+                        flex:1;
+                        
+                        min-width:250px;
+                        
+                        padding:14px 18px;
+                        
+                        border-radius:10px;
+                        
+                        border:1px solid #ddd;
+                        
+                        font-size:15px;
+                        
+                        }
+                        
+                        .resource-toolbar select{
+                        
+                        padding:14px 18px;
+                        
+                        border-radius:10px;
+                        
+                        border:1px solid #ddd;
+                        
+                        font-size:15px;
+                        
+                        min-width:180px;
+                        
+                        }
+                        
+                        #resourcesContainer{
+                        
+                        display:grid;
+                        
+                        grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+                        
+                        gap:25px;
+                        
+                        }
+                        
+                        .resource-card{
+                        
+                        background:white;
+                        
+                        border-radius:18px;
+                        
+                        padding:25
+                        }
