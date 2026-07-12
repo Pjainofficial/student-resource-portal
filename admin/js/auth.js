@@ -7,7 +7,7 @@
 //     window.location.href = "login.html";
 //   }
 // });
-
+const ADMIN_EMAIL = "admin@delnet.com"; // replace with your actual admin email
 window.logout = async function () {
   const { error } = await supabaseClient.auth.signOut();
 
