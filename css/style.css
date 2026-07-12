@@ -985,3 +985,65 @@ body{
                                 }
                                 
                                 }
+
+                                @media (max-width:768px){
+
+                                    .navbar{
+                                        flex-direction:column;
+                                        gap:15px;
+                                        padding:18px;
+                                    }
+                                    
+                                    .logo{
+                                        font-size:24px;
+                                    }
+                                    
+                                    .nav-links{
+                                        display:flex;
+                                        justify-content:flex-start;
+                                        overflow-x:auto;
+                                        width:100%;
+                                        gap:18px;
+                                        white-space:nowrap;
+                                        padding-bottom:5px;
+                                    }
+                                    
+                                    .nav-links::-webkit-scrollbar{
+                                        display:none;
+                                    }
+                                    
+                                    .nav-links li{
+                                        flex:none;
+                                    }
+                                    
+                                    }
+
+                                    @media (max-width:768px){
+
+                                        .contact-grid{
+                                            grid-template-columns:1fr;
+                                            gap:20px;
+                                        }
+                                        
+                                        .contact-card{
+                                            width:100%;
+                                        }
+                                        
+                                        }
+                                        @media (max-width:768px){
+
+                                            .info-card{
+                                                padding:22px;
+                                            }
+                                            
+                                            .info-card h3{
+                                                font-size:20px;
+                                            }
+                                            
+                                            .info-card p,
+                                            .info-card li{
+                                                font-size:15px;
+                                                line-height:1.8;
+                                            }
+                                            
+                                            }
