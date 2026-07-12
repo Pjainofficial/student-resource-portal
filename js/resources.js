@@ -28,7 +28,13 @@ async function loadResources() {
       .single();
 
     if (subject) {
-      title.innerText = subject.name;
+      // title.innerText = subject.name;
+
+      document.getElementById("subjectTitle").innerText = subject.name;
+
+      document.getElementById("subjectDescription").innerText =
+        subject.description ||
+        "Explore books, journals, PDFs and academic resources available for this subject.";
     }
 
     // Resources
