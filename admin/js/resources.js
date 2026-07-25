@@ -50,15 +50,23 @@ function toggleResourceFields() {
   const type = document.getElementById("resourceType").value;
 
   const pdfFile = document.getElementById("pdfFile");
-
   const resourceUrl = document.getElementById("resourceUrl");
+
+  const uploadDate = document.getElementById("uploadDate");
 
   if (type === "pdf") {
     pdfFile.style.display = "block";
     resourceUrl.style.display = "none";
+
+    uploadDate.style.display = "block";
+    uploadDate.required = true;
   } else {
     pdfFile.style.display = "none";
     resourceUrl.style.display = "block";
+
+    uploadDate.style.display = "none";
+    uploadDate.required = false;
+    uploadDate.value = "";
   }
 }
 async function loadTopics() {
@@ -125,15 +133,22 @@ window.addResource = async function () {
   const subjectId = document.getElementById("subjectSelect")?.value;
   const year = document.getElementById("resourceYear")?.value;
   const category = document.getElementById("resourceCategory")?.value;
-  const uploadDate = document.getElementById("uploadDate").value;
+  const uploadDate =
+    type === "pdf" ? document.getElementById("uploadDate").value : null;
   const title = document.getElementById("resourceTitle")?.value;
   const type = document.getElementById("resourceType")?.value;
 
   let file_url = "";
   let cover_image = "";
 
-  if (!subjectId || !year || !category || !uploadDate || !title) {
-    alert("Please fill all fields.");
+  if (
+    !subjectId ||
+    !year ||
+    !category ||
+    !title ||
+    (type === "pdf" && !uploadDate)
+  ) {
+    alert("Please fill all required fields.");
     return;
   }
 

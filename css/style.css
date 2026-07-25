@@ -783,25 +783,6 @@ body{
                         box-shadow:0 18px 40px rgba(0,0,0,.12);
                         
                         }
-                        .resource-badge{
-
-                            display:inline-block;
-                            
-                            background:#eef4ff;
-                            
-                            color:#2563eb;
-                            
-                            padding:6px 14px;
-                            
-                            border-radius:50px;
-                            
-                            font-size:13px;
-                            
-                            font-weight:600;
-                            
-                            margin-bottom:12px;
-                            
-                            }
                             .resource-actions{
 
                                 margin-top:18px;
@@ -1159,3 +1140,114 @@ body{
                                             }
                                             
                                             }
+
+                                            /* ===========================
+   RESOURCE CARD ANIMATION
+=========================== */
+
+.resource-card{
+
+    opacity:0;
+
+    transform:translateY(35px);
+
+    animation:fadeUp .6s ease forwards;
+
+    transition:.35s ease;
+
+}
+
+.resource-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.12);
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+.resource-cover{
+
+    transition:.5s ease;
+
+}
+
+.resource-card:hover .resource-cover{
+
+    transform:scale(1.08);
+
+}
+.resource-badge{
+
+    display:inline-block;
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    background:linear-gradient(135deg,#2563eb,#0ea5e9);
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+.resource-btn{
+
+    transition:.3s;
+
+}
+
+.resource-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+
+}
+.year-heading{
+
+    margin:40px 0 20px;
+
+    padding-left:12px;
+
+    border-left:5px solid #2563eb;
+
+    font-size:28px;
+
+    color:#1f2937;
+
+}
+.upload-date{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:#6b7280;
+
+    font-size:13px;
+
+}

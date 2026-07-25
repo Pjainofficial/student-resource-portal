@@ -101,11 +101,10 @@ function renderResources(resources) {
 
   if (resources.length === 0) {
     container.innerHTML = `
-          <div class="loading-card">
-              No Resources Found
-          </div>
-      `;
-
+      <div class="loading-card">
+        No Resources Found
+      </div>
+    `;
     return;
   }
 
@@ -124,84 +123,89 @@ function renderResources(resources) {
     .forEach((year) => {
       const section = document.createElement("div");
 
-      section.innerHTML = `<h2 class="year-heading">${year}</h2>`;
+      const heading = document.createElement("h2");
+      heading.className = "year-heading";
+      heading.textContent = year;
 
-      grouped[year].forEach((resource) => {
-        section.innerHTML += `
+      section.appendChild(heading);
 
-              <div class="resource-card">
+      grouped[year].forEach((resource, index) => {
+        const card = document.createElement("div");
 
-                  ${
-                    resource.cover_image
-                      ? `<img class="resource-cover"
-                             src="${resource.cover_image}">`
-                      : `<div class="resource-cover placeholder">📚</div>`
-                  }
+        card.className = "resource-card";
 
-                  <div class="resource-content">
+        card.style.animationDelay = `${index * 120}ms`;
 
-                      <span class="resource-badge">
-                          ${resource.category || "Resource"}
-                      </span>
+        card.innerHTML = `
 
-                      <h3>${resource.title}</h3>
+        ${
+          resource.cover_image
+            ? `<img class="resource-cover"
+                    src="${resource.cover_image}">`
+            : `<div class="resource-cover placeholder">📚</div>`
+        }
 
-                      <p>
+        <div class="resource-content">
 
-                          ${resource.type.toUpperCase()}
+            <span class="resource-badge">
 
-                          •
+                ${resource.category || "Resource"}
 
-                          ${resource.year}
+            </span>
 
-                      </p>
+            <h3>${resource.title}</h3>
 
-                      <small>
+            <p>
 
-                          ${
-                            resource.upload_date
-                              ? new Date(
-                                  resource.upload_date
-                                ).toLocaleDateString()
-                              : ""
-                          }
+                ${resource.type.toUpperCase()} • ${resource.year}
 
-                      </small>
+            </p>
 
-                      <div class="resource-actions">
+            ${
+              resource.type === "pdf" && resource.upload_date
+                ? `
+                <small class="upload-date">
 
-                          ${
-                            resource.type === "pdf"
-                              ? `
-                              <a class="resource-btn"
-                                 href="viewer.html?pdf=${encodeURIComponent(
-                                   resource.file_url
-                                 )}">
-                                 👁 Read
-                              </a>
+                    📅 ${new Date(resource.upload_date).toLocaleDateString()}
 
-                              <a class="resource-btn"
-                                 target="_blank"
-                                 href="${resource.file_url}">
-                                 ⬇ Download
-                              </a>
-                              `
-                              : `
-                              <a class="resource-btn"
-                                 target="_blank"
-                                 href="${resource.file_url}">
-                                 🔗 Open
-                              </a>
-                              `
-                          }
+                </small>
+                `
+                : ""
+            }
 
-                      </div>
+            <div class="resource-actions">
 
-                  </div>
+                ${
+                  resource.type === "pdf"
+                    ? `
+                    <a class="resource-btn"
+                       href="viewer.html?pdf=${encodeURIComponent(
+                         resource.file_url
+                       )}">
+                        👁 Read
+                    </a>
 
-              </div>
+                    <a class="resource-btn"
+                       target="_blank"
+                       href="${resource.file_url}">
+                        ⬇ Download
+                    </a>
+                    `
+                    : `
+                    <a class="resource-btn"
+                       target="_blank"
+                       href="${resource.file_url}">
+                        🔗 Open
+                    </a>
+                    `
+                }
 
-              `;
+            </div>
+
+        </div>
+        `;
+
+        section.appendChild(card);
       });
 
       container.appendChild(section);
