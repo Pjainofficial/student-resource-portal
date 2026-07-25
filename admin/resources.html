@@ -81,13 +81,43 @@
 
         <hr />
 
-        <input
-          id="searchResource"
-          placeholder="🔍 Search Resource..."
-          onkeyup="searchResources()"
-        />
+        <div class="resource-toolbar">
+          <input
+            id="searchResource"
+            placeholder="🔍 Search title, subject..."
+            onkeyup="searchResources()"
+          />
+
+          <select id="filterCourse" onchange="filterResources()">
+            <option value="">All Courses</option>
+          </select>
+
+          <select id="filterSubject" onchange="filterResources()">
+            <option value="">All Subjects</option>
+          </select>
+
+          <select id="filterYear" onchange="filterResources()">
+            <option value="">All Years</option>
+          </select>
+
+          <select id="filterCategory" onchange="filterResources()">
+            <option value="">All Categories</option>
+          </select>
+
+          <select id="filterType" onchange="filterResources()">
+            <option value="">All Types</option>
+            <option value="pdf">PDF</option>
+            <option value="link">Link</option>
+          </select>
+        </div>
+
+        <div class="resource-summary">
+          <span id="resourceCount">0 Resources</span>
+        </div>
 
         <div id="resourcesList"></div>
+
+        <div id="pagination"></div>
       </main>
     </div>
 

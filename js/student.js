@@ -1,9 +1,12 @@
 /*************************************************
  * STUDENT PORTAL
  *************************************************/
-
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
+
+  // loadCounts();
+
+  loadHeroBooks();
 });
 
 /*************************************************
@@ -128,5 +131,35 @@ if (searchInput) {
 
       card.style.display = text.includes(value) ? "block" : "none";
     });
+  });
+}
+
+async function loadHeroBooks() {
+  const { data, error } = await supabaseClient
+    .from("resources")
+    .select("cover_image,title")
+    .not("cover_image", "is", null)
+    .order("upload_date", { ascending: false })
+    .limit(25);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const track = document.getElementById("booksTrack");
+
+  if (!track) return;
+
+  track.innerHTML = "";
+
+  data.forEach((book) => {
+    track.innerHTML += `
+          <img
+              src="${book.cover_image}"
+              alt="${book.title}"
+              title="${book.title}"
+              class="hero-book">
+      `;
   });
 }

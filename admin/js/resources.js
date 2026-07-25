@@ -1,5 +1,9 @@
 let editingResourceId = null;
 let allResources = [];
+let filteredResources = [];
+
+let currentPage = 1;
+const PAGE_SIZE = 15;
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
 
@@ -101,13 +105,17 @@ async function loadResources() {
     .from("resources")
     .select(
       `
-      *,
-      subjects (
-          id,
-          name,
-          topic_id
-      )
-  `
+    *,
+    subjects(
+        id,
+        name,
+        topic_id,
+        topics(
+            id,
+            name
+        )
+    )
+`
     )
     .order("year", { ascending: false });
 
@@ -118,8 +126,70 @@ async function loadResources() {
   }
 
   allResources = data;
+  populateCourseFilter();
+  populateSubjectFilter();
+  populateYearFilter();
+  populateCategoryFilter();
 
-  renderResources(data);
+  filteredResources = [...allResources];
+
+  document.getElementById(
+    "resourceCount"
+  ).innerText = `${filteredResources.length} Resources`;
+
+  renderPage();
+}
+function populateCourseFilter() {
+  const select = document.getElementById("filterCourse");
+  if (!select) return;
+
+  select.innerHTML = `<option value="">All Courses</option>`;
+
+  const courses = [
+    ...new Set(allResources.map((r) => r.subjects?.topics?.name)),
+  ]
+    .filter(Boolean)
+    .sort();
+
+  courses.forEach((course) => {
+    select.innerHTML += `<option value="${course}">${course}</option>`;
+  });
+}
+function renderPage() {
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+
+  renderResources(filteredResources.slice(start, end));
+
+  renderPagination();
+}
+function populateCategoryFilter() {
+  const select = document.getElementById("filterCategory");
+  if (!select) return;
+
+  select.innerHTML = `<option value="">All Categories</option>`;
+
+  const categories = [...new Set(allResources.map((r) => r.category))]
+    .filter(Boolean)
+    .sort();
+
+  categories.forEach((category) => {
+    select.innerHTML += `<option value="${category}">${category}</option>`;
+  });
+}
+function populateSubjectFilter() {
+  const select = document.getElementById("filterSubject");
+  if (!select) return;
+
+  select.innerHTML = `<option value="">All Subjects</option>`;
+
+  const subjects = [...new Set(allResources.map((r) => r.subjects?.name))]
+    .filter(Boolean)
+    .sort();
+
+  subjects.forEach((subject) => {
+    select.innerHTML += `<option value="${subject}">${subject}</option>`;
+  });
 }
 
 window.addResource = async function () {
@@ -129,15 +199,18 @@ window.addResource = async function () {
   console.log(document.getElementById("uploadDate"));
   console.log(document.getElementById("resourceTitle"));
   console.log(document.getElementById("resourceType"));
-
   const subjectId = document.getElementById("subjectSelect")?.value;
+
   const year = document.getElementById("resourceYear")?.value;
+
   const category = document.getElementById("resourceCategory")?.value;
-  const uploadDate =
-    type === "pdf" ? document.getElementById("uploadDate").value : null;
+
   const title = document.getElementById("resourceTitle")?.value;
+
   const type = document.getElementById("resourceType")?.value;
 
+  const uploadDate =
+    type === "pdf" ? document.getElementById("uploadDate")?.value : null;
   let file_url = "";
   let cover_image = "";
 
@@ -217,7 +290,7 @@ window.addResource = async function () {
           title,
           type,
           category,
-          upload_date: uploadDate,
+          upload_date: type === "pdf" ? uploadDate : null,
           cover_image,
           file_url,
         })
@@ -235,7 +308,7 @@ window.addResource = async function () {
             title,
             type,
             category,
-            upload_date: uploadDate,
+            upload_date: type === "pdf" ? uploadDate : null,
             cover_image,
             file_url,
           },
@@ -254,20 +327,23 @@ window.addResource = async function () {
 
     document.getElementById("resourceCategory").value = "";
 
-    document.getElementById("uploadDate").value = "";
-    document.getElementById("resourceUrl").value = "";
-
     document.getElementById("pdfFile").value = "";
     document.getElementById("coverImage").value = "";
 
     document.getElementById("topicSelect").value = "";
+
+    document.getElementById("uploadDate").style.display = "";
+
+    document.getElementById("resourceUrl").style.display = "none";
+
+    document.getElementById("pdfFile").style.display = "";
 
     document.getElementById("subjectSelect").innerHTML =
       "<option>Select Subject</option>";
 
     alert("Saved Successfully");
 
-    loadResources();
+    await loadResources();
   } catch (err) {
     console.error(err);
 
@@ -290,8 +366,23 @@ window.deleteResource = async function (id) {
     return;
   }
 
-  loadResources();
+  await loadResources();
 };
+function populateYearFilter() {
+  const select = document.getElementById("filterYear");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">All Years</option>`;
+
+  const years = [...new Set(allResources.map((r) => r.year))]
+    .filter(Boolean)
+    .sort((a, b) => b - a);
+
+  years.forEach((year) => {
+    select.innerHTML += `<option value="${year}">${year}</option>`;
+  });
+}
 function renderResources(data) {
   const container = document.getElementById("resourcesList");
 
@@ -356,23 +447,77 @@ function renderResources(data) {
     container.appendChild(card);
   });
 }
-window.searchResources = function () {
-  const value = document
-
-    .getElementById("searchResource")
-
-    .value.toLowerCase();
-
-  const filtered = allResources.filter(
-    (r) =>
-      r.title.toLowerCase().includes(value) ||
-      String(r.year).includes(value) ||
-      (r.category || "").toLowerCase().includes(value) ||
-      (r.subjects?.name || "").toLowerCase().includes(value)
-  );
-
-  renderResources(filtered);
+function searchResources() {
+  filterResources();
+}
+window.goToPage = function (page) {
+  currentPage = page;
+  renderPage();
 };
+
+function filterResources() {
+  const search =
+    document.getElementById("searchResource")?.value.toLowerCase().trim() || "";
+
+  const course = document.getElementById("filterCourse")?.value || "";
+
+  const subject = document.getElementById("filterSubject")?.value || "";
+
+  const type = document.getElementById("filterType")?.value || "";
+
+  const category = document.getElementById("filterCategory")?.value || "";
+
+  const year = document.getElementById("filterYear")?.value || "";
+
+  filteredResources = [...allResources];
+
+  if (search) {
+    filteredResources = filteredResources.filter(
+      (r) =>
+        (r.title || "").toLowerCase().includes(search) ||
+        (r.category || "").toLowerCase().includes(search) ||
+        (r.subjects?.name || "").toLowerCase().includes(search) ||
+        (r.subjects?.topics?.name || "").toLowerCase().includes(search) ||
+        String(r.year).includes(search)
+    );
+  }
+
+  if (course) {
+    filteredResources = filteredResources.filter(
+      (r) => r.subjects?.topics?.name === course
+    );
+  }
+
+  if (subject) {
+    filteredResources = filteredResources.filter(
+      (r) => r.subjects?.name === subject
+    );
+  }
+
+  if (type) {
+    filteredResources = filteredResources.filter((r) => r.type === type);
+  }
+
+  if (category) {
+    filteredResources = filteredResources.filter(
+      (r) => r.category === category
+    );
+  }
+
+  if (year) {
+    filteredResources = filteredResources.filter(
+      (r) => String(r.year) === year
+    );
+  }
+
+  currentPage = 1;
+
+  document.getElementById(
+    "resourceCount"
+  ).innerText = `${filteredResources.length} Resources`;
+
+  renderPage();
+}
 window.editResource = async function (id) {
   const resource = allResources.find((r) => r.id === id);
 
@@ -414,3 +559,65 @@ window.editResource = async function (id) {
     behavior: "smooth",
   });
 };
+function renderPagination() {
+  const pagination = document.getElementById("pagination");
+
+  if (!pagination) return;
+
+  pagination.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredResources.length / PAGE_SIZE);
+
+  if (totalPages <= 1) return;
+
+  // Previous
+  pagination.innerHTML += `
+      <button
+          ${currentPage === 1 ? "disabled" : ""}
+          onclick="goToPage(${currentPage - 1})">
+          ◀
+      </button>
+  `;
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+      pagination.innerHTML += `
+              <button
+                  class="${currentPage === i ? "active-page" : ""}"
+                  onclick="goToPage(${i})">
+                  ${i}
+              </button>
+          `;
+    } else if (i === currentPage - 3 || i === currentPage + 3) {
+      pagination.innerHTML += `<span>...</span>`;
+    }
+  }
+
+  // Next
+  pagination.innerHTML += `
+      <button
+          ${currentPage === totalPages ? "disabled" : ""}
+          onclick="goToPage(${currentPage + 1})">
+          ▶
+      </button>
+  `;
+}
+function populateCategoryFilter() {
+  const select = document.getElementById("filterCategory");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">All Categories</option>`;
+
+  const categories = [...new Set(allResources.map((r) => r.category))]
+    .filter(Boolean)
+    .sort();
+
+  categories.forEach((category) => {
+    select.innerHTML += `
+          <option value="${category}">
+              ${category}
+          </option>
+      `;
+  });
+}
