@@ -75,7 +75,7 @@ async function loadTopics() {
     return;
   }
 
-  select.innerHTML = `<option value="">Select Topic</option>`;
+  select.innerHTML = `<option value="">Select Course</option>`;
 
   data.forEach((topic) => {
     select.innerHTML += `
@@ -115,22 +115,46 @@ async function loadResources() {
 }
 
 window.addResource = async function () {
-  const subjectId = document.getElementById("subjectSelect").value;
+  console.log(document.getElementById("subjectSelect"));
+  console.log(document.getElementById("resourceYear"));
+  console.log(document.getElementById("resourceCategory"));
+  console.log(document.getElementById("uploadDate"));
+  console.log(document.getElementById("resourceTitle"));
+  console.log(document.getElementById("resourceType"));
 
-  const year = document.getElementById("resourceYear").value;
-
-  const title = document.getElementById("resourceTitle").value;
-
-  const type = document.getElementById("resourceType").value;
+  const subjectId = document.getElementById("subjectSelect")?.value;
+  const year = document.getElementById("resourceYear")?.value;
+  const category = document.getElementById("resourceCategory")?.value;
+  const uploadDate = document.getElementById("uploadDate").value;
+  const title = document.getElementById("resourceTitle")?.value;
+  const type = document.getElementById("resourceType")?.value;
 
   let file_url = "";
+  let cover_image = "";
 
-  if (!subjectId || !year || !title) {
-    alert("Fill all fields");
+  if (!subjectId || !year || !category || !uploadDate || !title) {
+    alert("Please fill all fields.");
     return;
   }
 
   try {
+    const cover = document.getElementById("coverImage").files[0];
+
+    if (cover) {
+      const coverName = Date.now() + "_" + cover.name;
+
+      const { error: coverError } = await supabaseClient.storage
+        .from("covers")
+        .upload(coverName, cover);
+
+      if (coverError) throw coverError;
+
+      const { data } = supabaseClient.storage
+        .from("covers")
+        .getPublicUrl(coverName);
+
+      cover_image = data.publicUrl;
+    }
     if (type === "pdf") {
       const file = document.getElementById("pdfFile").files[0];
 
@@ -174,13 +198,12 @@ window.addResource = async function () {
 
         .update({
           subject_id: subjectId,
-
           year,
-
           title,
-
           type,
-
+          category,
+          upload_date: uploadDate,
+          cover_image,
           file_url,
         })
 
@@ -193,13 +216,12 @@ window.addResource = async function () {
         .insert([
           {
             subject_id: subjectId,
-
             year,
-
             title,
-
             type,
-
+            category,
+            upload_date: uploadDate,
+            cover_image,
             file_url,
           },
         ]));
@@ -215,9 +237,13 @@ window.addResource = async function () {
 
     document.getElementById("resourceYear").value = "";
 
+    document.getElementById("resourceCategory").value = "";
+
+    document.getElementById("uploadDate").value = "";
     document.getElementById("resourceUrl").value = "";
 
     document.getElementById("pdfFile").value = "";
+    document.getElementById("coverImage").value = "";
 
     document.getElementById("topicSelect").value = "";
 
@@ -265,15 +291,28 @@ function renderResources(data) {
   data.forEach((resource) => {
     const card = document.createElement("div");
 
-    card.className = "list-card";
+    card.className = "list-card resource-card";
 
     card.innerHTML = `
+    ${
+      resource.cover_image
+        ? `<img src="${resource.cover_image}" class="resource-cover">`
+        : `<div class="resource-cover placeholder">📚</div>`
+    }
     
     <h3>${resource.title}</h3>
     
     <p><b>Subject:</b> ${resource.subjects?.name || ""}</p>
     
+    <p><b>Category:</b> ${resource.category || "-"}</p>
+
     <p><b>Year:</b> ${resource.year}</p>
+    
+    <p><b>Upload Date:</b> ${
+      resource.upload_date
+        ? new Date(resource.upload_date).toLocaleDateString()
+        : "-"
+    }</p>
     
     <p><b>Type:</b> ${resource.type.toUpperCase()}</p>
     
@@ -313,46 +352,50 @@ window.searchResources = function () {
     (r) =>
       r.title.toLowerCase().includes(value) ||
       String(r.year).includes(value) ||
-      r.subjects?.name?.toLowerCase().includes(value)
+      (r.category || "").toLowerCase().includes(value) ||
+      (r.subjects?.name || "").toLowerCase().includes(value)
   );
 
   renderResources(filtered);
 };
-window.editResource = async function(id){
+window.editResource = async function (id) {
+  const resource = allResources.find((r) => r.id === id);
 
-    const resource = allResources.find(r => r.id === id);
+  if (!resource) return;
 
-    if(!resource) return;
+  editingResourceId = id;
 
-    editingResourceId = id;
+  document.getElementById("resourceTitle").value = resource.title;
+  document.getElementById("resourceYear").value = resource.year;
+  document.getElementById("resourceType").value = resource.type;
 
-    document.getElementById("resourceTitle").value = resource.title;
-    document.getElementById("resourceYear").value = resource.year;
-    document.getElementById("resourceType").value = resource.type;
+  document.getElementById("resourceCategory").value = resource.category || "";
 
-    toggleResourceFields();
+  document.getElementById("uploadDate").value = resource.upload_date || "";
+  document.getElementById("resourceUrl").value = resource.file_url || "";
 
-    if(resource.type==="link"){
-        document.getElementById("resourceUrl").value=resource.file_url;
-    }
+  toggleResourceFields();
 
-    const {data} = await supabaseClient
-        .from("subjects")
-        .select("topic_id")
-        .eq("id",resource.subject_id)
-        .single();
+  if (resource.type === "link") {
+    document.getElementById("resourceUrl").value = resource.file_url;
+  }
 
-    document.getElementById("topicSelect").value=data.topic_id;
+  const { data } = await supabaseClient
+    .from("subjects")
+    .select("topic_id")
+    .eq("id", resource.subject_id)
+    .single();
 
-    await loadSubjects(data.topic_id);
+  document.getElementById("topicSelect").value = data.topic_id;
 
-    document.getElementById("subjectSelect").value=resource.subject_id;
+  await loadSubjects(data.topic_id);
 
-    document.getElementById("saveResourceBtn").innerText="Update Resource";
+  document.getElementById("subjectSelect").value = resource.subject_id;
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+  document.getElementById("saveResourceBtn").innerText = "Update Resource";
 
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 };

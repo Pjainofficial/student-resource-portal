@@ -41,7 +41,18 @@ async function loadResources() {
 
     const { data, error } = await supabaseClient
       .from("resources")
-      .select("*")
+      .select(
+        `
+      id,
+      title,
+      year,
+      type,
+      file_url,
+      category,
+      upload_date,
+      cover_image
+  `
+      )
       .eq("subject_id", subjectId)
       .order("year", {
         ascending: false,
@@ -86,6 +97,8 @@ function populateYearFilter() {
 function renderResources(resources) {
   const container = document.getElementById("resourcesContainer");
 
+  container.innerHTML = "";
+
   if (resources.length === 0) {
     container.innerHTML = `
           <div class="loading-card">
@@ -106,64 +119,83 @@ function renderResources(resources) {
     grouped[resource.year].push(resource);
   });
 
-  container.innerHTML = "";
-
   Object.keys(grouped)
     .sort((a, b) => b - a)
     .forEach((year) => {
       const section = document.createElement("div");
 
-      section.innerHTML = `<h2>${year}</h2>`;
+      section.innerHTML = `<h2 class="year-heading">${year}</h2>`;
 
       grouped[year].forEach((resource) => {
         section.innerHTML += `
 
               <div class="resource-card">
 
-                  <div class="resource-left">
+                  ${
+                    resource.cover_image
+                      ? `<img class="resource-cover"
+                             src="${resource.cover_image}">`
+                      : `<div class="resource-cover placeholder">📚</div>`
+                  }
 
-                      <span class="resource-icon">
+                  <div class="resource-content">
 
-                          ${resource.type === "pdf" ? "📄" : "🔗"}
-
+                      <span class="resource-badge">
+                          ${resource.category || "Resource"}
                       </span>
 
-                      <div>
+                      <h3>${resource.title}</h3>
 
-                          <h3>${resource.title}</h3>
+                      <p>
 
-                          <small>${resource.type.toUpperCase()}</small>
+                          ${resource.type.toUpperCase()}
 
-                      </div>
+                          •
 
-                  </div>
+                          ${resource.year}
 
-                  <div class="resource-actions">
+                      </p>
 
-                      ${
-                        resource.type === "pdf"
-                          ? `
+                      <small>
+
+                          ${
+                            resource.upload_date
+                              ? new Date(
+                                  resource.upload_date
+                                ).toLocaleDateString()
+                              : ""
+                          }
+
+                      </small>
+
+                      <div class="resource-actions">
+
+                          ${
+                            resource.type === "pdf"
+                              ? `
                               <a class="resource-btn"
                                  href="viewer.html?pdf=${encodeURIComponent(
                                    resource.file_url
                                  )}">
-                                 View
+                                 👁 Read
                               </a>
 
                               <a class="resource-btn"
-                                 href="${resource.file_url}"
-                                 target="_blank">
-                                 Download
+                                 target="_blank"
+                                 href="${resource.file_url}">
+                                 ⬇ Download
                               </a>
                               `
-                          : `
+                              : `
                               <a class="resource-btn"
-                                 href="${resource.file_url}"
-                                 target="_blank">
-                                 Open Link
+                                 target="_blank"
+                                 href="${resource.file_url}">
+                                 🔗 Open
                               </a>
                               `
-                      }
+                          }
+
+                      </div>
 
                   </div>
 
@@ -187,18 +219,48 @@ function applyFilters() {
 
   const year = document.getElementById("yearFilter").value;
 
-  let filtered = allResources;
+  const sort = document.getElementById("sortFilter").value;
+
+  let filtered = [...allResources];
 
   if (search) {
     filtered = filtered.filter(
       (r) =>
         r.title.toLowerCase().includes(search) ||
-        r.type.toLowerCase().includes(search)
+        (r.category || "").toLowerCase().includes(search) ||
+        r.type.toLowerCase().includes(search) ||
+        String(r.year).includes(search)
     );
   }
 
   if (year) {
     filtered = filtered.filter((r) => String(r.year) === year);
+  }
+
+  switch (sort) {
+    case "latest":
+      filtered.sort(
+        (a, b) => new Date(b.upload_date) - new Date(a.upload_date)
+      );
+
+      break;
+
+    case "oldest":
+      filtered.sort(
+        (a, b) => new Date(a.upload_date) - new Date(b.upload_date)
+      );
+
+      break;
+
+    case "az":
+      filtered.sort((a, b) => a.title.localeCompare(b.title));
+
+      break;
+
+    case "za":
+      filtered.sort((a, b) => b.title.localeCompare(a.title));
+
+      break;
   }
 
   renderResources(filtered);

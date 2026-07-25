@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadTopics() {
   const select = document.getElementById("topicSelect");
 
-  select.innerHTML = `<option value="">Select Topic</option>`;
+  select.innerHTML = `<option value="">Select Course</option>`;
 
   const { data, error } = await supabaseClient
     .from("topics")

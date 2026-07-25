@@ -192,6 +192,15 @@ h1{
 .admin-form button:hover{
     background:#1d4ed8;
 }
+.resource-card{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+    }
+    
+    .resource-card img{
+    flex-shrink:0;
+    }
 
 /* ===========================
    CARDS
@@ -420,6 +429,23 @@ h1{
 }
 
 }
+
+.resource-cover{
+    width:90px;
+    height:120px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:15px;
+    box-shadow:0 6px 15px rgba(0,0,0,.15);
+    }
+    
+    .placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    background:#f3f4f6;
+    }
 
 /* ===========================
    LOGIN MOBILE VIEW

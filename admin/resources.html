@@ -16,7 +16,7 @@
 
         <ul class="sidebar-menu">
           <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="topics.html">Topics</a></li>
+          <li><a href="topics.html">Course</a></li>
           <li><a href="subjects.html">Subjects</a></li>
           <li><a href="resources.html">Resources</a></li>
         </ul>
@@ -29,7 +29,7 @@
         <h1>Manage Resources</h1>
         <div class="admin-form">
           <select id="topicSelect">
-            <option value="">Select Topic</option>
+            <option value="">Select Course</option>
           </select>
 
           <select id="subjectSelect">
@@ -39,13 +39,33 @@
           <input type="number" id="resourceYear" placeholder="Year" />
 
           <input type="text" id="resourceTitle" placeholder="Resource Title" />
+          <select id="resourceCategory">
+            <option value="">Select Category</option>
+            <option value="Book">📘 Book</option>
+            <option value="Journal">📑 Journal</option>
+            <option value="Research Paper">📄 Research Paper</option>
+          </select>
 
+          <input type="date" id="uploadDate" />
+          <label>Cover Image</label>
+
+          <input
+            type="file"
+            id="coverImage"
+            placeholder="Cover page"
+            accept="image/*"
+          />
           <select id="resourceType">
             <option value="pdf">PDF</option>
             <option value="link">External Link</option>
           </select>
 
-          <input type="file" id="pdfFile" accept=".pdf" />
+          <input
+            type="file"
+            placeholder="Upload resource"
+            id="pdfFile"
+            accept=".pdf"
+          />
 
           <input
             type="url"
