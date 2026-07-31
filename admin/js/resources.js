@@ -205,6 +205,7 @@ window.addResource = async function () {
   const year = document.getElementById("resourceYear")?.value;
 
   const category = document.getElementById("resourceCategory")?.value;
+  const origin = document.getElementById("resourceOrigin")?.value;
 
   const title = document.getElementById("resourceTitle")?.value;
 
@@ -219,6 +220,7 @@ window.addResource = async function () {
     !subjectId ||
     !year ||
     !category ||
+    !origin ||
     !title ||
     (type === "pdf" && !uploadDate)
   ) {
@@ -291,6 +293,7 @@ window.addResource = async function () {
           title,
           type,
           category,
+          origin,
           upload_date: type === "pdf" ? uploadDate : null,
           cover_image,
           file_url,
@@ -309,6 +312,7 @@ window.addResource = async function () {
             title,
             type,
             category,
+            origin,
             upload_date: type === "pdf" ? uploadDate : null,
             cover_image,
             file_url,
@@ -330,7 +334,7 @@ window.addResource = async function () {
 
     document.getElementById("pdfFile").value = "";
     document.getElementById("coverImage").value = "";
-
+    document.getElementById("resourceOrigin").value = "Indian";
     document.getElementById("topicSelect").value = "";
 
     document.getElementById("uploadDate").style.display = "";
@@ -529,6 +533,8 @@ window.editResource = async function (id) {
   document.getElementById("resourceTitle").value = resource.title;
   document.getElementById("resourceYear").value = resource.year;
   document.getElementById("resourceType").value = resource.type;
+
+  document.getElementById("resourceOrigin").value = resource.origin || "Indian";
 
   document.getElementById("resourceCategory").value = resource.category || "";
 
