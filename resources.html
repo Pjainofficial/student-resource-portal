@@ -45,23 +45,39 @@
 
     <section class="section">
       <div class="resource-toolbar">
-        <select id="yearFilter" onchange="filterResources()">
-          <option value="">All Years</option>
-        </select>
-      </div>
-      <div class="toolbar">
         <input
           id="searchResource"
-          placeholder="🔍 Search Resources..."
-          onkeyup="filterResources()"
+          placeholder="🔍 Search by title, category, year..."
+          onkeyup="applyFilters()"
         />
+
+        <select id="yearFilter" onchange="applyFilters()">
+          <option value="">📅 All Years</option>
+        </select>
+
+        <select id="categoryFilter" onchange="applyFilters()">
+          <option value="">📚 All Categories</option>
+        </select>
+
+        <select id="typeFilter" onchange="applyFilters()">
+          <option value="">📄 All Types</option>
+          <option value="pdf">PDF</option>
+          <option value="link">Link</option>
+        </select>
+
         <select id="sortFilter" onchange="applyFilters()">
-          <option value="latest">Latest Upload</option>
-          <option value="oldest">Oldest Upload</option>
+          <option value="latest">Newest First</option>
+          <option value="oldest">Oldest First</option>
           <option value="az">Title A-Z</option>
           <option value="za">Title Z-A</option>
         </select>
       </div>
+
+      <div class="resource-summary">
+        <span id="resourceCount">0 Resources</span>
+      </div>
+
+      <!-- THIS WAS MISSING -->
       <div id="resourcesContainer">
         <div class="loading-card">Loading Resources...</div>
       </div>

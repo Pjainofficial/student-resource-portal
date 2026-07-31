@@ -105,19 +105,20 @@ async function loadResources() {
     .from("resources")
     .select(
       `
-    *,
-    subjects(
-        id,
-        name,
-        topic_id,
-        topics(
-            id,
-            name
-        )
+      *,
+      subjects(
+          id,
+          name,
+          topic_id,
+          topics(
+              id,
+              name
+          )
+      )
+  `
     )
-`
-    )
-    .order("year", { ascending: false });
+    .order("year", { ascending: false })
+    .range(0, 5000);
 
   if (error) {
     console.error(error);

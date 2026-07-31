@@ -63,8 +63,9 @@ async function loadResources() {
     allResources = data;
 
     populateYearFilter();
+    populateCategoryFilter();
 
-    renderResources(data);
+    applyFilters();
 
     return;
   } catch (err) {
@@ -93,7 +94,24 @@ function populateYearFilter() {
     select.innerHTML += `<option value="${year}">${year}</option>`;
   });
 }
+function populateCategoryFilter() {
+  const select = document.getElementById("categoryFilter");
 
+  if (!select) return;
+
+  select.innerHTML = `<option value="">📚 All Categories</option>`;
+
+  const categories = [...new Set(allResources.map((r) => r.category))]
+    .filter(Boolean)
+    .sort();
+
+  categories.forEach((category) => {
+    select.innerHTML += `
+      <option value="${category}">
+          ${category}
+      </option>`;
+  });
+}
 function renderResources(resources) {
   const container = document.getElementById("resourcesContainer");
 
@@ -219,11 +237,17 @@ function filterResources() {
 }
 
 function applyFilters() {
-  const search = document.getElementById("searchResource").value.toLowerCase();
+  const search =
+    document.getElementById("searchResource")?.value?.toLowerCase()?.trim() ||
+    "";
 
-  const year = document.getElementById("yearFilter").value;
+  const year = document.getElementById("yearFilter")?.value || "";
 
-  const sort = document.getElementById("sortFilter").value;
+  const category = document.getElementById("categoryFilter")?.value || "";
+
+  const type = document.getElementById("typeFilter")?.value || "";
+
+  const sort = document.getElementById("sortFilter")?.value || "latest";
 
   let filtered = [...allResources];
 
@@ -241,30 +265,40 @@ function applyFilters() {
     filtered = filtered.filter((r) => String(r.year) === year);
   }
 
+  if (category) {
+    filtered = filtered.filter((r) => r.category === category);
+  }
+
+  if (type) {
+    filtered = filtered.filter((r) => r.type === type);
+  }
+
   switch (sort) {
     case "latest":
       filtered.sort(
         (a, b) => new Date(b.upload_date) - new Date(a.upload_date)
       );
-
       break;
 
     case "oldest":
       filtered.sort(
         (a, b) => new Date(a.upload_date) - new Date(b.upload_date)
       );
-
       break;
 
     case "az":
       filtered.sort((a, b) => a.title.localeCompare(b.title));
-
       break;
 
     case "za":
       filtered.sort((a, b) => b.title.localeCompare(a.title));
-
       break;
+  }
+
+  const counter = document.getElementById("resourceCount");
+
+  if (counter) {
+    counter.innerText = `${filtered.length} Resources`;
   }
 
   renderResources(filtered);

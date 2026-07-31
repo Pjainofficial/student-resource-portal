@@ -29,9 +29,22 @@
     </section>
 
     <section class="section">
+      <div class="subject-toolbar">
+        <input
+          type="text"
+          id="searchSubject"
+          placeholder="🔍 Search subjects..."
+          onkeyup="filterSubjects()"
+        />
+
+        <span id="subjectCount">0 Subjects</span>
+      </div>
+
       <div id="subjectsGrid" class="subjects-grid">
         <div class="loading-card">Loading Subjects...</div>
       </div>
+
+      <div id="pagination"></div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

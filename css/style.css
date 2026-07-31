@@ -1777,3 +1777,157 @@ body{
                                     z-index:100;
                                 
                                 }
+
+                                .resource-toolbar{
+                                    display:flex;
+                                    flex-wrap:wrap;
+                                    gap:15px;
+                                    margin-bottom:20px;
+                                }
+                                
+                                .resource-toolbar input{
+                                    flex:2;
+                                    min-width:260px;
+                                }
+                                
+                                .resource-toolbar select{
+                                    min-width:170px;
+                                }
+                                
+                                .resource-summary{
+                                    margin-bottom:20px;
+                                    font-weight:600;
+                                    color:#2563eb;
+                                    font-size:15px;
+                                }
+                                .subject-toolbar{
+
+                                    display:flex;
+                                    
+                                    align-items:center;
+                                    
+                                    gap:20px;
+                                    
+                                    margin-bottom:30px;
+                                    
+                                    }
+                                    
+                                    .subject-toolbar input{
+                                    
+                                    flex:1;
+                                    
+                                    padding:16px;
+                                    
+                                    border-radius:12px;
+                                    
+                                    border:1px solid #ddd;
+                                    
+                                    font-size:16px;
+                                    
+                                    }
+                                    
+                                    .subject-card{
+                                    
+                                    display:flex;
+                                    
+                                    align-items:center;
+                                    
+                                    gap:20px;
+                                    
+                                    padding:24px;
+                                    
+                                    cursor:pointer;
+                                    
+                                    transition:.3s;
+                                    
+                                    }
+                                    
+                                    .subject-card:hover{
+                                    
+                                    transform:translateY(-5px);
+                                    
+                                    box-shadow:0 10px 30px rgba(0,0,0,.08);
+                                    
+                                    }
+                                    
+                                    .subject-icon{
+                                    
+                                    width:70px;
+                                    
+                                    height:70px;
+                                    
+                                    background:#eef4ff;
+                                    
+                                    border-radius:18px;
+                                    
+                                    display:flex;
+                                    
+                                    align-items:center;
+                                    
+                                    justify-content:center;
+                                    
+                                    font-size:32px;
+                                    
+                                    }
+                                    
+                                    .subject-content{
+                                    
+                                    flex:1;
+                                    
+                                    }
+                                    
+                                    .subject-meta{
+                                    
+                                    display:flex;
+                                    
+                                    gap:20px;
+                                    
+                                    margin-top:10px;
+                                    
+                                    color:#666;
+                                    
+                                    font-size:14px;
+                                    
+                                    }
+                                    
+                                    .subject-arrow{
+                                    
+                                    font-size:30px;
+                                    
+                                    color:#2962ff;
+                                    
+                                    font-weight:600;
+                                    
+                                    }
+                                    
+                                    #pagination{
+                                    
+                                    display:flex;
+                                    
+                                    justify-content:center;
+                                    
+                                    gap:10px;
+                                    
+                                    margin-top:40px;
+                                    
+                                    }
+                                    
+                                    #pagination button{
+                                    
+                                    padding:10px 16px;
+                                    
+                                    border:none;
+                                    
+                                    border-radius:10px;
+                                    
+                                    cursor:pointer;
+                                    
+                                    }
+                                    
+                                    .active-page{
+                                    
+                                    background:#2962ff;
+                                    
+                                    color:white;
+                                    
+                                    }
