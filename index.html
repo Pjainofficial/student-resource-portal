@@ -2,14 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Kanta's Sparsh Knowledge Library</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <link
@@ -17,26 +14,19 @@
       rel="stylesheet"
     />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
   </head>
 
   <body>
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-
     <nav class="navbar">
       <div class="logo">Kanta's Sparsh</div>
 
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
-
-        <li><a href="#topics">Topics</a></li>
-
-        <li><a href="#about">About Us</a></li>
-
-        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="#topics">Courses</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
 
         <li>
           <a
@@ -50,208 +40,237 @@
       </ul>
     </nav>
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <!-- HERO -->
 
     <section class="hero">
-      <div class="hero-bg"></div>
-
       <div class="hero-content">
-        <span class="hero-tag"> ✨ Kanta's Medical Digital Library </span>
+        <span class="hero-tag"> 📚 India's Digital Medical Library </span>
 
         <h1>
-          Discover
-
-          <span>Knowledge.</span>
+          Knowledge Starts Here.
+          <br />
+          <span>Learn Without Limits.</span>
         </h1>
 
         <p>
-          Browse thousands of medical books, journals, research papers and
-          learning resources beautifully organised.
+          Browse thousands of Medical Books, Journals, Research Papers and
+          Previous Year Question Papers.
         </p>
 
-        <div class="search-box">
+        <div class="hero-search">
           <input
             id="globalSearch"
-            type="text"
-            placeholder="Search books, journals, subjects..."
+            placeholder="🔍 Search Courses..."
+            onkeydown="if(event.key==='Enter') globalSearch()"
           />
+          <button onclick="globalSearch()">Search</button>
         </div>
-      </div>
-      <div class="hero-books">
-        <div id="booksTrack" class="books-track">
-          <div class="loading-books">Loading Books...</div>
+
+        <div class="hero-buttons">
+          <a href="#topics" class="primary-btn"> Browse Courses </a>
+
+          <a href="#about" class="secondary-btn"> Learn More </a>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-         TOPICS
-    ========================== -->
+    <!-- STATS -->
 
-    <section id="topics" class="section">
-      <div class="section-header">
-        <h2>📖 Explore Knowledge Areas</h2>
-
-        <p>
-          Browse academic topics and discover subjects, books, journals and
-          learning resources.
-        </p>
+    <section id="stats" class="stats-section">
+      <div class="stat-card">
+        <h2 id="resourceCounter">0</h2>
+        <p>Resources</p>
       </div>
 
-      <div id="topicsGrid" class="topics-grid">
-        <div class="loading-card">Loading Topics...</div>
+      <div class="stat-card">
+        <h2 id="subjectCounter">0</h2>
+        <p>Subjects</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="topicCounter">0</h2>
+        <p>Courses</p>
+      </div>
+
+      <div class="stat-card">
+        <h2>24×7</h2>
+        <p>Availability</p>
       </div>
     </section>
 
-    <!-- =========================
-         ABOUT
-    ========================== -->
+    <!-- FEATURES -->
 
-    <section id="about" class="section">
+    <section class="section">
       <div class="section-header">
-        <h2>About Kanta's Sparsh</h2>
-        <p>Your trusted partner for academic excellence.</p>
+        <h2>Why Students Love Kanta's Sparsh</h2>
+
+        <p>Everything you need for medical learning in one place.</p>
       </div>
 
       <div class="about-grid">
         <div class="about-card">
-          <h3>📚 Who We Are</h3>
+          <h3>📘 Books</h3>
+
+          <p>Latest editions from trusted publishers.</p>
+        </div>
+
+        <div class="about-card">
+          <h3>📄 Research Papers</h3>
+
+          <p>Quality publications and academic journals.</p>
+        </div>
+
+        <div class="about-card">
+          <h3>📝 Previous Papers</h3>
+
+          <p>Practice with previous year examinations.</p>
+        </div>
+
+        <div class="about-card">
+          <h3>☁ Digital Access</h3>
+
+          <p>Access anytime from laptop, mobile or tablet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+
+    <section id="topics" class="section">
+      <div class="section-header">
+        <h2>Explore Courses</h2>
+
+        <p>Choose your academic course and continue learning.</p>
+      </div>
+
+      <div id="topicsGrid" class="topics-grid">
+        <div class="loading-card">Loading Courses...</div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about" class="section">
+      <div class="section-header">
+        <h2>About Kanta's Sparsh</h2>
+
+        <p>Trusted academic partner since years.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>Who We Are</h3>
 
           <p>
-            Kanta's Sparsh (News & Literature House) has been serving
-            educational institutions, students and professionals by providing
-            literature from internationally renowned publishers across India.
+            Kanta's Sparsh (News & Literature House) supplies international
+            academic publications, journals and medical literature across India.
           </p>
         </div>
 
         <div class="about-card">
-          <h3>🎯 Our Mission</h3>
+          <h3>Our Mission</h3>
 
           <p>
-            Deliver authentic academic resources with exceptional service to
-            empower learning and research.
+            Provide quality educational resources to students, researchers and
+            institutions.
           </p>
         </div>
 
         <div class="about-card">
-          <h3>⭐ Why Kanta's Sparsh Academia?</h3>
+          <h3>Why Choose Us?</h3>
 
           <ul>
             <li>International Publications</li>
 
             <li>Medical Literature</li>
 
-            <li>Trusted by Institutions</li>
-
             <li>Research Support</li>
 
-            <li>Quality Customer Service</li>
+            <li>Trusted by Institutions</li>
+
+            <li>Excellent Customer Service</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-         CONTACT
-    ========================== -->
+    <!-- CONTACT -->
 
-    <div class="contact-grid">
-      <div class="contact-card">
-        <div class="contact-icon">📍</div>
-
-        <h3>Address</h3>
-
-        <p>
-          News & Literature House<br />
-          44-45, 1st Floor<br />
-          Kalawati Paliwal Market<br />
-          Gumanpura, Kota - 324007<br />
-          Rajasthan, India
-        </p>
+    <section id="contact" class="section">
+      <div class="section-header">
+        <h2>Contact Us</h2>
       </div>
 
-      <div class="contact-card">
-        <div class="contact-icon">📞</div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
 
-        <h3>Contact Persons</h3>
+          <h3>Address</h3>
 
-        <p>
-          <strong>Mr. Sanjay Jain</strong><br />
-          +91 9829038026
-        </p>
+          <p>
+            News & Literature House
 
-        <br />
+            <br />
 
-        <p>
-          <strong>Mr. Love Vardhan</strong><br />
-          +91 9928347669
-        </p>
+            44-45 First Floor
 
-        <br />
+            <br />
 
-        <p>
-          <strong>Office:</strong><br />
-          0744-5121961
-        </p>
+            Kalawati Paliwal Market
 
-        <p>
-          <strong>Fax:</strong><br />
-          0744-2392079
-        </p>
+            <br />
+
+            Gumanpura, Kota
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+
+          <h3>Call Us</h3>
+
+          <p>
+            Mr. Sanjay Jain
+
+            <br />
+
+            +91 9829038026
+
+            <br /><br />
+
+            Mr. Love Vardhan
+
+            <br />
+
+            +91 9928347669
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">✉</div>
+
+          <h3>Email</h3>
+
+          <p>
+            nlhkota@gmail.com
+
+            <br /><br />
+
+            nlh@kappa.net.in
+          </p>
+        </div>
       </div>
-
-      <div class="contact-card">
-        <div class="contact-icon">✉️</div>
-
-        <h3>Email Us</h3>
-
-        <p>
-          <strong>Primary</strong><br />
-          nlh@kappa.net.in
-        </p>
-
-        <br />
-
-        <p>
-          <strong>Alternate</strong><br />
-          nlhkota@gmail.com
-        </p>
-
-        <br />
-
-        <h3>🕒 Office Hours</h3>
-
-        <p>
-          Monday – Saturday<br />
-          10:00 AM – 7:00 PM
-        </p>
-      </div>
-    </div>
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
+    </section>
 
     <footer class="footer">
-      <h3>📚 Kanta's Sparsh Knowledge Library</h3>
+      <h3>Kanta's Sparsh Knowledge Library</h3>
 
-      <p>
-        Empowering students, educators and researchers with quality academic
-        resources.
-      </p>
+      <p>Empowering Students & Researchers</p>
 
-      <p>© 2026 Kanta's Sparsh | All Rights Reserved</p>
+      <p>© 2026 All Rights Reserved</p>
     </footer>
 
-    <!-- =========================
-         SUPABASE
-    ========================== -->
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- JS -->
 
     <script src="js/config.js"></script>
 

@@ -1,18 +1,44 @@
 /*************************************************
  * STUDENT PORTAL
  *************************************************/
+
+let allTopics = [];
 document.addEventListener("DOMContentLoaded", () => {
   loadTopics();
-
-  // loadCounts();
-
+  loadCounts();
   loadHeroBooks();
+
+  const input = document.getElementById("globalSearch");
+
+  if (input) {
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        globalSearch();
+      }
+    });
+  }
 });
 
 /*************************************************
  * LOAD TOPICS
  *************************************************/
+async function loadCounts() {
+  const { count: resourceCount } = await supabaseClient
+    .from("resources")
+    .select("*", { count: "exact", head: true });
 
+  const { count: subjectCount } = await supabaseClient
+    .from("subjects")
+    .select("*", { count: "exact", head: true });
+
+  const { count: topicCount } = await supabaseClient
+    .from("topics")
+    .select("*", { count: "exact", head: true });
+
+  document.getElementById("resourceCounter").innerText = resourceCount || 0;
+  document.getElementById("subjectCounter").innerText = subjectCount || 0;
+  document.getElementById("topicCounter").innerText = topicCount || 0;
+}
 async function loadTopics() {
   const topicsGrid = document.getElementById("topicsGrid");
 
@@ -41,6 +67,7 @@ async function loadTopics() {
       });
 
     if (error) throw error;
+    allTopics = data;
 
     if (!data || data.length === 0) {
       topicsGrid.innerHTML = `
@@ -52,49 +79,7 @@ async function loadTopics() {
       return;
     }
 
-    topicsGrid.innerHTML = "";
-
-    data.forEach((topic) => {
-      const subjectCount = topic.subjects.length;
-
-      let resourceCount = 0;
-
-      topic.subjects.forEach((subject) => {
-        resourceCount += subject.resources.length;
-      });
-
-      const card = document.createElement("div");
-
-      card.className = "topic-card";
-
-      card.innerHTML = `
-  
-          <div class="topic-icon">📚</div>
-  
-          <h3>${topic.name}</h3>
-  
-          <p>${topic.description || "No description available."}</p>
-  
-          <div class="topic-meta">
-  
-              <span>📖 ${subjectCount} Subjects</span>
-  
-              <span>📄 ${resourceCount} Resources</span>
-  
-          </div>
-  
-          <button class="explore-btn">
-  
-              Explore →
-  
-          </button>
-  
-      `;
-
-      card.onclick = () => openTopic(topic.id);
-
-      topicsGrid.appendChild(card);
-    });
+    renderTopics(data);
   } catch (err) {
     console.error(err);
 
@@ -105,7 +90,53 @@ async function loadTopics() {
         `;
   }
 }
+function renderTopics(topics) {
+  const topicsGrid = document.getElementById("topicsGrid");
 
+  topicsGrid.innerHTML = "";
+
+  if (!topics || topics.length === 0) {
+    topicsGrid.innerHTML = `
+      <div class="loading-card">
+        No topics found.
+      </div>
+    `;
+    return;
+  }
+
+  topics.forEach((topic) => {
+    const subjectCount = topic.subjects?.length || 0;
+
+    let resourceCount = 0;
+    topic.subjects?.forEach((subject) => {
+      resourceCount += subject.resources?.length || 0;
+    });
+
+    const card = document.createElement("div");
+    card.className = "topic-card";
+
+    card.innerHTML = `
+      <div class="topic-icon">📚</div>
+
+      <h3>${topic.name}</h3>
+
+      <p>${topic.description || "No description available."}</p>
+
+      <div class="topic-meta">
+          <span>📖 ${subjectCount} Subjects</span>
+          <span>📄 ${resourceCount} Resources</span>
+      </div>
+
+      <button class="explore-btn">
+          Explore →
+      </button>
+    `;
+
+    card.onclick = () => openTopic(topic.id);
+
+    topicsGrid.appendChild(card);
+  });
+}
 /*************************************************
  * OPEN TOPIC
  *************************************************/
@@ -117,22 +148,6 @@ function openTopic(topicId) {
 /*************************************************
  * GLOBAL SEARCH
  *************************************************/
-
-const searchInput = document.getElementById("globalSearch");
-
-if (searchInput) {
-  searchInput.addEventListener("input", function () {
-    const value = this.value.toLowerCase();
-
-    const cards = document.querySelectorAll(".topic-card");
-
-    cards.forEach((card) => {
-      const text = card.innerText.toLowerCase();
-
-      card.style.display = text.includes(value) ? "block" : "none";
-    });
-  });
-}
 
 async function loadHeroBooks() {
   const { data, error } = await supabaseClient
@@ -163,3 +178,37 @@ async function loadHeroBooks() {
       `;
   });
 }
+
+window.globalSearch = function () {
+  const search = document
+    .getElementById("globalSearch")
+    .value.toLowerCase()
+    .trim();
+
+  if (search === "") {
+    renderTopics(allTopics);
+
+    document.getElementById("topics").scrollIntoView({
+      behavior: "smooth",
+    });
+
+    return;
+  }
+
+  const filtered = allTopics.filter(
+    (topic) =>
+      topic.name.toLowerCase().includes(search) ||
+      (topic.description || "").toLowerCase().includes(search)
+  );
+
+  renderTopics(filtered);
+
+  // Wait until cards are rendered
+  setTimeout(() => {
+    document.getElementById("topics").scrollIntoView({
+      behavior: "smooth",
+
+      block: "start",
+    });
+  }, 100);
+};
