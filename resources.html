@@ -45,35 +45,22 @@
 
     <section class="section">
       <div class="resource-toolbar">
-        <input
+
+        <div class="resource-toolbar">
+          <input
           id="searchResource"
           placeholder="🔍 Search by title, category, year..."
           onkeyup="applyFilters()"
         />
-
-        <select id="yearFilter" onchange="applyFilters()">
-          <option value="">📅 All Years</option>
-        </select>
-
-        <select id="categoryFilter" onchange="applyFilters()">
-          <option value="">📚 All Categories</option>
-        </select>
-
-        <div class="resource-toolbar">
-
-          <input
-            id="searchResource"
-            placeholder="🔍 Search by title, category, year..."
-            onkeyup="applyFilters()"
-          />
-      
           <select id="yearFilter" onchange="applyFilters()">
             <option value="">📅 All Years</option>
           </select>
-      
+  
           <select id="categoryFilter" onchange="applyFilters()">
             <option value="">📚 All Categories</option>
           </select>
+
+        
       
           <!-- NEW -->
           <select id="originFilter" onchange="applyFilters()">
