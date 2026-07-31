@@ -49,6 +49,7 @@ async function loadResources() {
       type,
       file_url,
       category,
+      origin,
       upload_date,
       cover_image
   `
@@ -165,11 +166,21 @@ function renderResources(resources) {
 
         <div class="resource-content">
 
-            <span class="resource-badge">
+        <div class="resource-tags">
 
-                ${resource.category || "Resource"}
-
-            </span>
+        <span class="resource-badge">
+            ${resource.category || "Resource"}
+        </span>
+    
+        <span class="origin-badge ${
+          resource.origin === "Foreign" ? "foreign" : "indian"
+        }">
+    
+            ${resource.origin === "Foreign" ? "🌍 Foreign" : "Indian"}
+    
+        </span>
+    
+    </div>
 
             <h3>${resource.title}</h3>
 
@@ -250,7 +261,11 @@ function applyFilters() {
   const sort = document.getElementById("sortFilter")?.value || "latest";
 
   let filtered = [...allResources];
+  const origin = document.getElementById("originFilter").value;
 
+  if (origin) {
+    filtered = filtered.filter((r) => r.origin === origin);
+  }
   if (search) {
     filtered = filtered.filter(
       (r) =>

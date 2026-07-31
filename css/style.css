@@ -1931,3 +1931,26 @@ body{
                                     color:white;
                                     
                                     }
+                                    .resource-tags{
+                                        display:flex;
+                                        gap:8px;
+                                        margin-bottom:12px;
+                                        flex-wrap:wrap;
+                                    }
+                                    
+                                    .origin-badge{
+                                        padding:4px 12px;
+                                        border-radius:30px;
+                                        font-size:12px;
+                                        font-weight:600;
+                                    }
+                                    
+                                    .origin-badge.indian{
+                                        background:#ecfdf5;
+                                        color:#059669;
+                                    }
+                                    
+                                    .origin-badge.foreign{
+                                        background:#eff6ff;
+                                        color:#2563eb;
+                                    }
