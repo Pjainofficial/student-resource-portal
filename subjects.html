@@ -3,19 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Subjects</title>
 
+    <title>Subjects | Kanta's Sparsh</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
+    <!-- NAVBAR -->
+
     <nav class="navbar">
-      <div class="logo">📚 Kanta's Sparsh Library</div>
+      <div class="logo">Kanta's Sparsh</div>
 
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li>
+          <a href="index.html">🏠 Home</a>
+        </li>
+
+        <li>
+          <a href="javascript:history.back()">← Back</a>
+        </li>
       </ul>
     </nav>
+
+    <!-- PAGE HEADER -->
 
     <section class="page-banner">
       <div class="page-banner-content">
@@ -28,16 +49,26 @@
       </div>
     </section>
 
+    <!-- SUBJECTS -->
+
     <section class="section">
       <div class="subject-toolbar">
         <input
           type="text"
           id="searchSubject"
-          placeholder="🔍 Search subjects..."
+          placeholder="🔍 Search Subjects..."
           onkeyup="filterSubjects()"
         />
 
-        <span id="subjectCount">0 Subjects</span>
+        <select id="subjectDropdown" onchange="filterByDropdown()">
+          <option value="">📚 Browse Subjects</option>
+        </select>
+
+        <span class="subject-total">
+          <strong id="subjectCount"> 0 </strong>
+
+          Subjects
+        </span>
       </div>
 
       <div id="subjectsGrid" class="subjects-grid">
@@ -47,9 +78,18 @@
       <div id="pagination"></div>
     </section>
 
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <p>© 2026 Kanta's Sparsh Digital Knowledge Library</p>
+    </footer>
+
+    <!-- SUPABASE -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="js/config.js"></script>
+
     <script src="js/student-guard.js"></script>
 
     <script src="js/subjects.js"></script>

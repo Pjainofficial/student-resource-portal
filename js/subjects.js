@@ -67,6 +67,8 @@ async function loadSubjects() {
     allSubjects = subjects;
     filteredSubjects = [...subjects];
 
+    populateSubjectDropdown();
+
     renderPage();
   } catch (err) {
     console.error(err);
@@ -86,6 +88,23 @@ function filterSubjects() {
       subject.name.toLowerCase().includes(search) ||
       (subject.description || "").toLowerCase().includes(search)
   );
+
+  document.getElementById("subjectDropdown").value = "";
+
+  currentPage = 1;
+
+  renderPage();
+}
+function filterByDropdown() {
+  const id = document.getElementById("subjectDropdown").value;
+
+  if (!id) {
+    filteredSubjects = [...allSubjects];
+  } else {
+    filteredSubjects = allSubjects.filter((s) => s.id == id);
+  }
+
+  document.getElementById("searchSubject").value = "";
 
   currentPage = 1;
 
@@ -223,4 +242,17 @@ function goPage(page) {
   currentPage = page;
 
   renderPage();
+}
+function populateSubjectDropdown() {
+  const dropdown = document.getElementById("subjectDropdown");
+
+  dropdown.innerHTML = `<option value="">📚 Browse Subjects</option>`;
+
+  allSubjects.forEach((subject) => {
+    dropdown.innerHTML += `
+          <option value="${subject.id}">
+              ${subject.name}
+          </option>
+      `;
+  });
 }
