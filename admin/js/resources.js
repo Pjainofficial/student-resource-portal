@@ -293,7 +293,7 @@ window.addResource = async function () {
           title,
           type,
           category,
-          origin,
+          origin: document.getElementById("resourceOrigin").value,
           upload_date: type === "pdf" ? uploadDate : null,
           cover_image,
           file_url,
@@ -312,7 +312,7 @@ window.addResource = async function () {
             title,
             type,
             category,
-            origin,
+            origin: document.getElementById("resourceOrigin").value,
             upload_date: type === "pdf" ? uploadDate : null,
             cover_image,
             file_url,
@@ -628,3 +628,618 @@ function populateCategoryFilter() {
       `;
   });
 }
+
+/* =========================================================
+   EXCEL BULK IMPORT
+========================================================= */
+
+let excelRows = [];
+let validExcelRows = [];
+let invalidExcelRows = [];
+
+/* =========================================================
+   DOWNLOAD EXCEL TEMPLATE
+========================================================= */
+
+window.downloadExcelTemplate = function () {
+  const templateData = [
+    {
+      Subject: "Anatomy",
+      Year: 2026,
+      Category: "Indian",
+      Title: "Sample Anatomy Resource",
+      Type: "link",
+      URL: "https://example.com",
+    },
+    {
+      Subject: "Physiology",
+      Year: 2026,
+      Category: "Foreign",
+      Title: "Sample Physiology Resource",
+      Type: "link",
+      URL: "https://example.com",
+    },
+  ];
+
+  const worksheet = XLSX.utils.json_to_sheet(templateData);
+
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Resources");
+
+  XLSX.writeFile(workbook, "Kantas_Sparsh_Resource_Template.xlsx");
+};
+
+/* =========================================================
+   PREVIEW EXCEL
+========================================================= */
+
+window.previewExcel = async function () {
+  const fileInput = document.getElementById("excelFile");
+
+  const file = fileInput?.files?.[0];
+
+  if (!file) {
+    alert("Please select an Excel file.");
+
+    return;
+  }
+
+  try {
+    const buffer = await file.arrayBuffer();
+
+    const workbook = XLSX.read(buffer, {
+      type: "array",
+    });
+
+    const sheetName = workbook.SheetNames[0];
+
+    const worksheet = workbook.Sheets[sheetName];
+
+    const rows = XLSX.utils.sheet_to_json(worksheet, {
+      defval: "",
+    });
+
+    if (!rows.length) {
+      alert("Excel file is empty.");
+
+      return;
+    }
+
+    excelRows = rows;
+
+    await validateExcelRows();
+  } catch (error) {
+    console.error(error);
+
+    alert("Unable to read Excel file.");
+  }
+};
+
+/* =========================================================
+   VALIDATE EXCEL
+========================================================= */
+
+/* =========================================================
+   VALIDATE EXCEL
+========================================================= */
+function createResourceKey(resource) {
+  return [
+    resource.subject_id,
+    resource.year,
+    String(resource.title || "")
+      .trim()
+      .toLowerCase(),
+    String(resource.type || "")
+      .trim()
+      .toLowerCase(),
+    String(resource.file_url || "")
+      .trim()
+      .toLowerCase(),
+  ].join("|");
+}
+
+async function validateExcelRows() {
+  validExcelRows = [];
+  invalidExcelRows = [];
+
+  const requiredColumns = [
+    "Subject",
+    "Year",
+    "Category",
+    "Title",
+    "Origin",
+    "Type",
+    "URL",
+  ];
+
+  const firstRow = excelRows[0];
+
+  const missingColumns = requiredColumns.filter(
+    (column) => !Object.prototype.hasOwnProperty.call(firstRow, column)
+  );
+
+  if (missingColumns.length) {
+    alert("Missing Excel columns: " + missingColumns.join(", "));
+    return;
+  }
+
+  // Load subjects
+  const { data: subjects, error } = await supabaseClient
+    .from("subjects")
+    .select("id,name");
+
+  if (error) {
+    console.error(error);
+    alert("Unable to load subjects from database.");
+    return;
+  }
+
+  // Create subject lookup
+  const subjectMap = {};
+
+  subjects.forEach((subject) => {
+    subjectMap[String(subject.name).trim().toLowerCase()] = subject.id;
+  });
+
+  // Load existing resources
+  const { data: existingResources, error: resourceError } = await supabaseClient
+    .from("resources")
+    .select("subject_id, year, title, type, file_url");
+
+  if (resourceError) {
+    console.error(resourceError);
+    alert("Unable to check existing resources.");
+    return;
+  }
+
+  // Create existing-resource keys
+  const existingKeys = new Set();
+
+  existingResources.forEach((resource) => {
+    existingKeys.add(createResourceKey(resource));
+  });
+
+  // Track duplicates inside THIS Excel file too
+  const excelKeys = new Set();
+
+  excelRows.forEach((row, index) => {
+    const rowNumber = index + 2;
+
+    const errors = [];
+
+    const subjectName = String(row.Subject || "").trim();
+
+    const year = Number(row.Year);
+
+    const category = String(row.Category || "").trim();
+
+    const title = String(row.Title || "").trim();
+
+    const origin = String(row.Origin || "").trim();
+
+    const type = String(row.Type || "")
+      .trim()
+      .toLowerCase();
+
+    const url = String(row.URL || "").trim();
+
+    const subjectId = subjectMap[subjectName.toLowerCase()];
+
+    // Subject
+    if (!subjectName) {
+      errors.push("Subject is required");
+    } else if (!subjectId) {
+      errors.push(`Subject "${subjectName}" not found`);
+    }
+
+    // Year
+    if (!year || year < 1900 || year > 2100) {
+      errors.push("Invalid year");
+    }
+
+    // Category
+    if (!["Book", "Journal", "Research Paper"].includes(category)) {
+      errors.push("Category must be Book, Journal or Research Paper");
+    }
+
+    // Title
+    if (!title) {
+      errors.push("Title is required");
+    }
+
+    // Origin
+    if (!["Indian", "Foreign"].includes(origin)) {
+      errors.push("Origin must be Indian or Foreign");
+    }
+
+    // Type
+    if (!["link", "pdf"].includes(type)) {
+      errors.push("Type must be link or pdf");
+    }
+
+    // URL
+    if (!url) {
+      errors.push("URL is required");
+    }
+
+    if (errors.length) {
+      invalidExcelRows.push({
+        rowNumber,
+        errors,
+      });
+
+      return;
+    }
+
+    const resource = {
+      subject_id: subjectId,
+      year,
+      title,
+      type,
+      file_url: url,
+    };
+
+    const key = createResourceKey(resource);
+
+    // Duplicate already in database
+    if (existingKeys.has(key)) {
+      invalidExcelRows.push({
+        rowNumber,
+        errors: ["Resource already exists"],
+      });
+
+      return;
+    }
+
+    // Duplicate inside same Excel
+    if (excelKeys.has(key)) {
+      invalidExcelRows.push({
+        rowNumber,
+        errors: ["Duplicate resource in this Excel file"],
+      });
+
+      return;
+    }
+
+    excelKeys.add(key);
+
+    validExcelRows.push({
+      ...resource,
+      category,
+      origin,
+      file_url: url,
+    });
+  });
+
+  renderExcelPreview();
+}
+
+/* =========================================================
+   RENDER EXCEL PREVIEW
+========================================================= */
+
+function renderExcelPreview() {
+  const summary = document.getElementById("excelSummary");
+
+  const preview = document.getElementById("excelPreview");
+
+  const actions = document.getElementById("excelImportActions");
+
+  summary.innerHTML = `
+
+    <div class="excel-summary-box">
+
+      <span>
+        📄 Total Rows:
+        <strong>${excelRows.length}</strong>
+      </span>
+
+      <span class="success-text">
+        ✅ Valid:
+        <strong>${validExcelRows.length}</strong>
+      </span>
+
+      <span class="error-text">
+        ❌ Invalid:
+        <strong>${invalidExcelRows.length}</strong>
+      </span>
+
+    </div>
+
+  `;
+
+  let html = `
+
+    <div class="excel-table-wrapper">
+
+      <table class="excel-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Row</th>
+            <th>Subject</th>
+            <th>Year</th>
+            <th>Category</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Status</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+  `;
+
+  excelRows.forEach((row, index) => {
+    const rowNumber = index + 2;
+
+    const invalid = invalidExcelRows.find(
+      (item) => item.rowNumber === rowNumber
+    );
+
+    if (invalid) {
+      html += `
+
+        <tr class="excel-invalid">
+
+          <td>${rowNumber}</td>
+
+          <td>${row.Subject || "-"}</td>
+
+          <td>${row.Year || "-"}</td>
+
+          <td>${row.Category || "-"}</td>
+
+          <td>${row.Title || "-"}</td>
+
+          <td>${row.Type || "-"}</td>
+
+          <td>
+            ❌ ${invalid.errors.join(", ")}
+          </td>
+
+        </tr>
+
+      `;
+    } else {
+      html += `
+
+        <tr class="excel-valid">
+
+          <td>${rowNumber}</td>
+
+          <td>${row.Subject}</td>
+
+          <td>${row.Year}</td>
+
+          <td>${row.Category}</td>
+
+          <td>${row.Title}</td>
+
+          <td>${row.Type}</td>
+
+          <td>
+            ✅ Valid
+          </td>
+
+        </tr>
+
+      `;
+    }
+  });
+
+  html += `
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+  preview.innerHTML = html;
+
+  if (validExcelRows.length > 0) {
+    actions.style.display = "block";
+  } else {
+    actions.style.display = "none";
+  }
+}
+
+/* =========================================================
+   IMPORT VALID RESOURCES
+========================================================= */
+
+/* =========================================================
+   IMPORT VALID RESOURCES - DUPLICATE SAFE
+========================================================= */
+
+window.importExcelResources = async function () {
+  if (!validExcelRows.length) {
+    alert("There are no valid rows to import.");
+    return;
+  }
+
+  const confirmImport = confirm(
+    `Import ${validExcelRows.length} valid resources?`
+  );
+
+  if (!confirmImport) return;
+
+  try {
+    /* =====================================================
+       1. GET EXISTING RESOURCES
+       Duplicate = SAME SUBJECT + SAME URL
+    ===================================================== */
+
+    const { data: existingResources, error: existingError } =
+      await supabaseClient.from("resources").select("subject_id, file_url");
+
+    if (existingError) {
+      throw existingError;
+    }
+
+    /* =====================================================
+       2. CREATE EXISTING RESOURCE KEYS
+    ===================================================== */
+
+    const existingKeys = new Set();
+
+    (existingResources || []).forEach((resource) => {
+      const key = `${resource.subject_id}|${(resource.file_url || "")
+        .trim()
+        .toLowerCase()}`;
+
+      existingKeys.add(key);
+    });
+
+    /* =====================================================
+       3. CHECK EXCEL ROWS
+    ===================================================== */
+
+    const excelKeys = new Set();
+
+    const resourcesToInsert = [];
+
+    let skippedDuplicates = 0;
+
+    validExcelRows.forEach((row) => {
+      const subjectId = row.subject_id;
+
+      const fileUrl = (row.file_url || "").trim();
+
+      /* =================================================
+         DUPLICATE KEY
+
+         SAME SUBJECT + SAME URL
+
+         Example:
+
+         10|https://example.com/book
+      ================================================= */
+
+      const key = `${subjectId}|${fileUrl.toLowerCase()}`;
+
+      /* =================================================
+         ALREADY EXISTS IN DATABASE
+      ================================================= */
+
+      if (existingKeys.has(key)) {
+        skippedDuplicates++;
+
+        return;
+      }
+
+      /* =================================================
+         DUPLICATE INSIDE SAME EXCEL FILE
+      ================================================= */
+
+      if (excelKeys.has(key)) {
+        skippedDuplicates++;
+
+        return;
+      }
+
+      /* =================================================
+         MARK AS SEEN
+      ================================================= */
+
+      excelKeys.add(key);
+
+      /* =================================================
+         ADD RESOURCE
+      ================================================= */
+
+      resourcesToInsert.push({
+        subject_id: row.subject_id,
+
+        year: row.year,
+
+        title: row.title,
+
+        type: row.type,
+
+        category: row.category,
+
+        origin: row.origin,
+
+        file_url: row.file_url,
+
+        upload_date: null,
+
+        cover_image: null,
+      });
+    });
+
+    /* =====================================================
+       4. NOTHING NEW
+    ===================================================== */
+
+    if (resourcesToInsert.length === 0) {
+      alert(
+        `No new resources to import.\n\n` +
+          `⏭️ ${skippedDuplicates} duplicate resource(s) skipped.`
+      );
+
+      return;
+    }
+
+    /* =====================================================
+       5. INSERT NEW RESOURCES
+    ===================================================== */
+
+    const { error: insertError } = await supabaseClient
+      .from("resources")
+      .insert(resourcesToInsert);
+
+    if (insertError) {
+      throw insertError;
+    }
+
+    /* =====================================================
+       6. SUCCESS
+    ===================================================== */
+
+    alert(
+      `Import completed successfully!\n\n` +
+        `✅ Imported: ${resourcesToInsert.length}\n` +
+        `⏭️ Duplicates skipped: ${skippedDuplicates}`
+    );
+
+    /* =====================================================
+       7. RESET EXCEL IMPORT
+    ===================================================== */
+
+    document.getElementById("excelFile").value = "";
+
+    document.getElementById("excelSummary").innerHTML = "";
+
+    document.getElementById("excelPreview").innerHTML = "";
+
+    document.getElementById("excelImportActions").style.display = "none";
+
+    excelRows = [];
+
+    validExcelRows = [];
+
+    invalidExcelRows = [];
+
+    /* =====================================================
+       8. REFRESH ADMIN RESOURCE LIST
+    ===================================================== */
+
+    if (typeof loadResources === "function") {
+      await loadResources();
+    }
+  } catch (error) {
+    console.error("EXCEL IMPORT ERROR:", error);
+
+    alert("Import failed: " + error.message);
+  }
+};

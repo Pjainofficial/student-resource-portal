@@ -43,8 +43,12 @@
             <option value="">Select Category</option>
             <option value="Book">📘 Book</option>
             <option value="Journal">📑 Journal</option>
-            <option value="Research Paper">📄 Research Paper</option>
           </select>
+          <!-- <select id="filterOrigin" onchange="filterResources()">
+            <option value="">All Origins</option>
+            <option value="Indian">🇮🇳 Indian</option>
+            <option value="Foreign">🌍 Foreign</option>
+          </select> -->
 
           <input type="date" id="uploadDate" />
           <label>Cover Image(optional)</label>
@@ -83,6 +87,55 @@
             placeholder="https://..."
             style="display: none"
           />
+
+          <!-- ================================
+     BULK EXCEL IMPORT
+================================ -->
+
+          <div class="bulk-import-card">
+            <div class="bulk-import-header">
+              <div>
+                <h2>📊 Bulk Import Resources</h2>
+                <p>Upload an Excel file to add multiple resources at once.</p>
+              </div>
+
+              <button
+                type="button"
+                class="secondary-btn"
+                onclick="downloadExcelTemplate()"
+              >
+                ⬇ Download Excel Template
+              </button>
+            </div>
+
+            <div class="bulk-import-upload">
+              <label for="excelFile"> 📁 Select Excel File </label>
+
+              <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" />
+
+              <button
+                type="button"
+                class="primary-btn"
+                onclick="previewExcel()"
+              >
+                🔍 Preview Excel
+              </button>
+            </div>
+
+            <div id="excelSummary" class="excel-summary"></div>
+
+            <div id="excelPreview" class="excel-preview"></div>
+
+            <div id="excelImportActions" style="display: none">
+              <button
+                type="button"
+                class="primary-btn"
+                onclick="importExcelResources()"
+              >
+                ✅ Import All Valid Resources
+              </button>
+            </div>
+          </div>
 
           <button id="saveResourceBtn" onclick="addResource()">
             Add Resource
@@ -132,7 +185,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="../js/config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/resources.js"></script>
