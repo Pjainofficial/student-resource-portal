@@ -1,25 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Student Login</title>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>College Portal Login</title>
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/auth.css" />
   </head>
+
   <body>
     <div class="auth-container">
       <div class="auth-card">
-        <h1>📚 E-Gyan</h1>
+        <!-- COLLEGE LOGO -->
+        <img
+          id="loginCollegeLogo"
+          src=""
+          alt="College Logo"
+          style="
+            display: none;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin: 0 auto 15px;
+          "
+        />
 
-        <p>Student Login</p>
+        <!-- COLLEGE NAME -->
+        <h1 id="loginCollegeName">College Portal</h1>
 
-        <input type="email" id="email" placeholder="Email Address" />
+        <!-- PORTAL TITLE -->
+        <p id="loginPortalTitle">Secure Digital Library</p>
 
-        <input type="password" id="password" placeholder="Password" />
+        <!-- USERNAME -->
+        <input
+          type="text"
+          id="username"
+          placeholder="College Username"
+          autocomplete="username"
+        />
 
-        <button onclick="loginStudent()">Login</button>
+        <!-- PASSWORD -->
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="current-password"
+        />
 
-        <p>Contact administrator for account access.</p>
+        <!-- LOGIN -->
+        <button onclick="loginStudent()">Login to Portal</button>
+
+        <p>Use the credentials provided by your administrator.</p>
 
         <p>
           <a href="admin/login.html"> Admin Login </a>
@@ -27,8 +61,13 @@
       </div>
     </div>
 
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CONFIG -->
     <script src="js/config.js"></script>
+
+    <!-- STUDENT AUTH -->
     <script src="js/student-auth.js"></script>
   </body>
 </html>

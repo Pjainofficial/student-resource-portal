@@ -241,3 +241,100 @@
     }
     
     }
+    /* =========================================================
+   COLLEGE BRANDING
+========================================================= */
+
+.college-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.college-brand img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  background: white;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.college-brand h2 {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   DYNAMIC COLLEGE HERO
+========================================================= */
+
+.college-dynamic-hero {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.college-dynamic-hero .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.college-dynamic-hero .hero-content {
+  position: relative;
+  z-index: 2;
+}
+/* =========================================================
+   COLLEGE DYNAMIC BRANDING
+========================================================= */
+
+.college-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.college-brand img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+
+/* =========================================================
+   DYNAMIC COLLEGE HERO
+========================================================= */
+
+.college-dynamic-hero {
+  position: relative;
+
+  background-size: cover;
+  background-position: center;
+
+  min-height: 500px;
+}
+
+
+.college-dynamic-hero .hero-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  z-index: 1;
+}
+
+
+.college-dynamic-hero .hero-content {
+  position: relative;
+
+  z-index: 2;
+}

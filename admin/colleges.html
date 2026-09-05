@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Colleges | Kanta's Sparsh</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">📚 Kanta's Sparsh</div>
+
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.html"> 📊 Dashboard </a>
+          </li>
+
+          <li>
+            <a href="colleges.html" class="active"> 🏫 Colleges </a>
+          </li>
+
+          <li>
+            <a href="topics.html"> 📚 Topics </a>
+          </li>
+
+          <li>
+            <a href="subjects.html"> 📖 Subjects </a>
+          </li>
+
+          <li>
+            <a href="resources.html"> 📄 Resources </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <a href="#" onclick="logout()" class="logout-link"> 🚪 Logout </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <h1>Manage Colleges</h1>
+
+        <p>
+          Add and manage college portals using the Kanta's Sparsh digital
+          knowledge library.
+        </p>
+
+        <!-- ADD / EDIT COLLEGE -->
+        <div class="admin-form">
+            <h2>🏫 Add College</h2>
+          
+            <input
+              type="text"
+              id="collegeName"
+              placeholder="College Name"
+            />
+          
+            <input
+              type="text"
+              id="collegeTitle"
+              placeholder="Portal Title"
+            />
+          
+            <input
+              type="text"
+              id="collegeUsername"
+              placeholder="College Username"
+            />
+          
+            <input
+              type="password"
+              id="collegePassword"
+              placeholder="College Password"
+            />
+          
+            <label>College Logo</label>
+            <input
+              type="file"
+              id="collegeLogo"
+              accept="image/*"
+            />
+          
+            <label>Front / Cover Image</label>
+            <input
+              type="file"
+              id="collegeCover"
+              accept="image/*"
+            />
+          
+            <div class="form-group">
+              <label>Status</label>
+          
+              <select id="collegeStatus">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          
+            <button id="saveCollegeBtn" onclick="addCollege()">
+              + Add College
+            </button>
+          </div>
+
+        <hr />
+
+        <!-- EXISTING COLLEGES -->
+        <div class="resource-summary">
+          <h2>🏫 Existing Colleges</h2>
+
+          <span id="collegeCount"> 0 Colleges </span>
+        </div>
+
+        <div id="collegesList" class="topics-grid">
+          <div class="loading-card">Loading Colleges...</div>
+        </div>
+      </main>
+    </div>
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CONFIG -->
+    <script src="../js/config.js"></script>
+
+    <!-- ADMIN AUTH -->
+    <script src="js/auth.js"></script>
+
+    <!-- COLLEGE MANAGEMENT -->
+    <script src="js/colleges.js"></script>
+  </body>
+</html>

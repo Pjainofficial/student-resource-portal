@@ -20,7 +20,11 @@
 
   <body>
     <nav class="navbar">
-      <div class="logo">E-Gyan</div>
+      <div class="logo college-brand">
+        <img id="collegeLogo" src="" alt="College Logo" style="display: none" />
+
+        <span id="collegeHeader"> E-Gyan </span>
+      </div>
 
       <ul class="nav-links">
         <li><a href="#">Home</a></li>
@@ -42,8 +46,35 @@
 
     <!-- HERO -->
 
-    <section class="hero">
+    <section class="hero" id="collegeHero">
+      <div class="hero-overlay"></div>
+
       <div class="hero-content">
+        <span class="hero-tag"> 📚 Digital Knowledge Library </span>
+
+        <h1>
+          Welcome to
+          <br />
+
+          <span id="collegeName"> E-Gyan </span>
+        </h1>
+
+        <p>Access Books, Journals and Academic Resources Anytime, Anywhere.</p>
+
+        <div class="hero-search">
+          <input id="globalSearch" placeholder="🔍 Search Courses..." />
+
+          <button onclick="globalSearch()">Search</button>
+        </div>
+
+        <div class="hero-buttons">
+          <a href="#topics" class="secondary-btn"> Browse Courses </a>
+
+          <a href="#about" class="secondary-btn"> Learn More </a>
+        </div>
+      </div>
+    </section>
+    <!-- <div class="hero-content">
         <span class="hero-tag"> 📚 India's Digital Medical Library </span>
 
         <h1>
@@ -52,10 +83,7 @@
           <span>Learn Without Limits.</span>
         </h1>
 
-        <p>
-          Browse thousands of Medical Books, Journals, Research Papers and
-          Previous Year Question Papers.
-        </p>
+        <p>Browse thousands of Medical Books, Journals.</p>
 
         <div class="hero-search">
           <input
@@ -72,7 +100,7 @@
           <a href="#about" class="secondary-btn"> Learn More </a>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- STATS -->
 
@@ -114,7 +142,7 @@
           <p>Latest editions from trusted publishers.</p>
         </div>
 
-        <div class="about-card">
+        <!-- <div class="about-card">
           <h3>📄 Research Papers</h3>
 
           <p>Quality publications and academic journals.</p>
@@ -124,7 +152,7 @@
           <h3>📝 Previous Papers</h3>
 
           <p>Practice with previous year examinations.</p>
-        </div>
+        </div> -->
 
         <div class="about-card">
           <h3>☁ Digital Access</h3>
@@ -162,8 +190,8 @@
           <h3>Who We Are</h3>
 
           <p>
-            E-Gyan (News & Literature House) supplies international
-            academic publications, journals and medical literature across India.
+            E-Gyan (News & Literature House) supplies international academic
+            publications, journals and medical literature across India.
           </p>
         </div>
 
@@ -184,7 +212,7 @@
 
             <li>Medical Literature</li>
 
-            <li>Research Support</li>
+            <!-- <li>Research Support</li> -->
 
             <li>Trusted by Institutions</li>
 
@@ -267,7 +295,7 @@
 
       <p>Empowering Students & Researchers</p>
 
-      <p>© 2026 All Rights Reserved</p>
+      <p>©All Rights Reserved</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

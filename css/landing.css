@@ -1,0 +1,672 @@
+/* =========================================================
+   LANDING PAGE
+========================================================= */
+
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: #1f2937;
+    background: #ffffff;
+  }
+  
+  
+  /* =========================================================
+     NAVBAR
+  ========================================================= */
+  
+  .landing-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  
+    width: 100%;
+  
+    min-height: 76px;
+  
+    padding: 12px 6%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    background: rgba(255, 255, 255, 0.96);
+  
+    backdrop-filter: blur(10px);
+  
+    border-bottom: 1px solid #eeeeee;
+  }
+  
+  
+  /* BRAND */
+  
+  .landing-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  
+    min-width: 0;
+  }
+  
+  .landing-logo {
+    width: 52px;
+    height: 52px;
+  
+    object-fit: contain;
+  
+    border-radius: 10px;
+  
+    display: none;
+  }
+  
+  .brand-text {
+    display: flex;
+    align-items: center;
+  }
+  
+  .brand-text span {
+    font-size: 18px;
+    font-weight: 700;
+  
+    color: #1f2937;
+  }
+  
+  
+  /* NAV LINKS */
+  
+  .landing-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  
+  .landing-nav-links a {
+    text-decoration: none;
+  
+    color: #4b5563;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+    transition: 0.25s;
+  }
+  
+  .landing-nav-links a:hover {
+    color: #2563eb;
+  }
+  
+  .login-nav-btn {
+    padding: 10px 20px;
+  
+    color: #ffffff !important;
+  
+    background: #2563eb;
+  
+    border-radius: 8px;
+  }
+  
+  .login-nav-btn:hover {
+    background: #1d4ed8;
+  }
+  
+  
+  /* =========================================================
+     HERO
+  ========================================================= */
+  
+  .landing-hero {
+    position: relative;
+  
+    min-height: 650px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background-image:
+      linear-gradient(
+        rgba(15, 23, 42, 0.55),
+        rgba(15, 23, 42, 0.7)
+      );
+  
+    background-size: cover;
+    background-position: center;
+  
+    overflow: hidden;
+  }
+  
+  
+  /* DARK OVERLAY */
+  
+  .hero-overlay {
+    position: absolute;
+  
+    inset: 0;
+  
+    background:
+      linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.75),
+        rgba(30, 64, 175, 0.35)
+      );
+  }
+  
+  
+  /* HERO CONTENT */
+  
+  .landing-hero-content {
+    position: relative;
+  
+    z-index: 2;
+  
+    max-width: 900px;
+  
+    padding: 70px 25px;
+  
+    text-align: center;
+  
+    color: white;
+  }
+  
+  
+  /* LOGO */
+  
+  .hero-college-logo-wrapper {
+    margin-bottom: 20px;
+  }
+  
+  .hero-college-logo {
+    width: 90px;
+    height: 90px;
+  
+    object-fit: contain;
+  
+    background: white;
+  
+    padding: 8px;
+  
+    border-radius: 50%;
+  
+    display: none;
+  
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  /* SMALL TEXT */
+  
+  .hero-small-text {
+    margin: 0 0 12px;
+  
+    font-size: 13px;
+  
+    font-weight: 600;
+  
+    letter-spacing: 3px;
+  
+    opacity: 0.9;
+  }
+  
+  
+  /* TITLE */
+  
+  #portalTitle {
+    margin: 0;
+  
+    font-size: clamp(36px, 6vw, 68px);
+  
+    line-height: 1.12;
+  
+    font-weight: 700;
+  
+    color: white;
+  }
+  
+  
+  /* COLLEGE NAME */
+  
+  .hero-college-name {
+    margin: 18px 0 0;
+  
+    font-size: 21px;
+  
+    font-weight: 500;
+  
+    opacity: 0.95;
+  }
+  
+  
+  /* DESCRIPTION */
+  
+  .hero-description {
+    max-width: 650px;
+  
+    margin: 22px auto 35px;
+  
+    font-size: 16px;
+  
+    line-height: 1.8;
+  
+    opacity: 0.9;
+  }
+  
+  
+  /* BUTTON */
+  
+  .explore-btn-main {
+    display: inline-flex;
+  
+    align-items: center;
+  
+    gap: 12px;
+  
+    padding: 14px 28px;
+  
+    background: white;
+  
+    color: #1d4ed8;
+  
+    text-decoration: none;
+  
+    border-radius: 10px;
+  
+    font-size: 15px;
+  
+    font-weight: 600;
+  
+    transition: all 0.25s;
+  }
+  
+  .explore-btn-main:hover {
+    transform: translateY(-3px);
+  
+    box-shadow:
+      0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+  
+  .explore-btn-main span {
+    font-size: 20px;
+  }
+  
+  
+  /* =========================================================
+     SECTIONS
+  ========================================================= */
+  
+  .landing-section {
+    padding: 90px 6%;
+  }
+  
+  .landing-section-header {
+    max-width: 750px;
+  
+    margin: 0 auto 50px;
+  
+    text-align: center;
+  }
+  
+  .section-tag {
+    display: inline-block;
+  
+    margin-bottom: 12px;
+  
+    font-size: 12px;
+  
+    font-weight: 700;
+  
+    letter-spacing: 2px;
+  
+    color: #2563eb;
+  }
+  
+  .landing-section-header h2 {
+    margin: 0 0 15px;
+  
+    font-size: 34px;
+  
+    color: #111827;
+  }
+  
+  .landing-section-header p {
+    margin: 0;
+  
+    color: #6b7280;
+  
+    line-height: 1.7;
+  }
+  
+  
+  /* =========================================================
+     FEATURES
+  ========================================================= */
+  
+  .landing-feature-grid {
+    max-width: 1100px;
+  
+    margin: auto;
+  
+    display: grid;
+  
+    grid-template-columns:
+      repeat(3, 1fr);
+  
+    gap: 25px;
+  }
+  
+  .landing-feature-card {
+    padding: 35px 30px;
+  
+    text-align: center;
+  
+    background: #ffffff;
+  
+    border: 1px solid #e5e7eb;
+  
+    border-radius: 16px;
+  
+    transition: 0.25s;
+  }
+  
+  .landing-feature-card:hover {
+    transform: translateY(-6px);
+  
+    box-shadow:
+      0 15px 40px rgba(0, 0, 0, 0.08);
+  }
+  
+  .feature-icon {
+    width: 65px;
+    height: 65px;
+  
+    margin: 0 auto 20px;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 30px;
+  
+    background: #eff6ff;
+  
+    border-radius: 50%;
+  }
+  
+  .landing-feature-card h3 {
+    margin: 0 0 12px;
+  
+    font-size: 19px;
+  }
+  
+  .landing-feature-card p {
+    margin: 0;
+  
+    color: #6b7280;
+  
+    line-height: 1.7;
+  
+    font-size: 14px;
+  }
+  
+  
+  /* =========================================================
+     HOW IT WORKS
+  ========================================================= */
+  
+  .landing-how-section {
+    padding: 90px 6%;
+  
+    background: #f8fafc;
+  }
+  
+  .steps-grid {
+    max-width: 1050px;
+  
+    margin: auto;
+  
+    display: grid;
+  
+    grid-template-columns:
+      repeat(3, 1fr);
+  
+    gap: 30px;
+  }
+  
+  .step-card {
+    position: relative;
+  
+    padding: 30px;
+  
+    background: white;
+  
+    border-radius: 16px;
+  
+    border: 1px solid #e5e7eb;
+  }
+  
+  .step-number {
+    margin-bottom: 18px;
+  
+    font-size: 14px;
+  
+    font-weight: 700;
+  
+    color: #2563eb;
+  }
+  
+  .step-card h3 {
+    margin: 0 0 10px;
+  
+    font-size: 20px;
+  }
+  
+  .step-card p {
+    margin: 0;
+  
+    color: #6b7280;
+  
+    line-height: 1.7;
+  
+    font-size: 14px;
+  }
+  
+  
+  /* =========================================================
+     CONTACT
+  ========================================================= */
+  
+  .contact-section {
+    background: white;
+  }
+  
+  .contact-card-landing {
+    max-width: 1100px;
+  
+    margin: auto;
+  
+    display: grid;
+  
+    grid-template-columns:
+      repeat(3, 1fr);
+  
+    gap: 25px;
+  }
+  
+  .contact-item {
+    display: flex;
+  
+    gap: 18px;
+  
+    padding: 28px;
+  
+    border: 1px solid #e5e7eb;
+  
+    border-radius: 14px;
+  }
+  
+  .contact-icon {
+    width: 48px;
+    height: 48px;
+  
+    flex-shrink: 0;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 22px;
+  
+    background: #eff6ff;
+  
+    border-radius: 10px;
+  }
+  
+  .contact-item h3 {
+    margin: 0 0 8px;
+  
+    font-size: 17px;
+  }
+  
+  .contact-item p {
+    margin: 0 0 12px;
+  
+    color: #6b7280;
+  
+    font-size: 13px;
+  
+    line-height: 1.7;
+  }
+  
+  
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+  
+  .landing-footer {
+    padding: 45px 20px;
+  
+    text-align: center;
+  
+    background: #111827;
+  
+    color: white;
+  }
+  
+  .footer-logo {
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 10px;
+  
+    margin-bottom: 12px;
+  }
+  
+  .footer-logo img {
+    width: 38px;
+    height: 38px;
+  
+    object-fit: contain;
+  
+    border-radius: 7px;
+  
+    display: none;
+  }
+  
+  .footer-logo span {
+    font-size: 18px;
+  
+    font-weight: 600;
+  }
+  
+  .landing-footer p {
+    margin: 7px 0;
+  
+    color: #d1d5db;
+  
+    font-size: 13px;
+  }
+  
+  .landing-footer .copyright {
+    margin-top: 18px;
+  
+    color: #9ca3af;
+  }
+  
+  
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+  
+  @media (max-width: 768px) {
+  
+    .landing-navbar {
+      padding: 12px 20px;
+    }
+  
+    .landing-nav-links {
+      gap: 10px;
+    }
+  
+    .landing-nav-links a:not(.login-nav-btn) {
+      display: none;
+    }
+  
+    .landing-logo {
+      width: 45px;
+      height: 45px;
+    }
+  
+    .landing-hero {
+      min-height: 580px;
+    }
+  
+    .landing-hero-content {
+      padding: 50px 20px;
+    }
+  
+    .hero-college-logo {
+      width: 75px;
+      height: 75px;
+    }
+  
+    .hero-small-text {
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+  
+    #portalTitle {
+      font-size: 38px;
+    }
+  
+    .hero-college-name {
+      font-size: 17px;
+    }
+  
+    .hero-description {
+      font-size: 14px;
+    }
+  
+    .landing-section {
+      padding: 65px 20px;
+    }
+  
+    .landing-section-header h2 {
+      font-size: 28px;
+    }
+  
+    .landing-feature-grid,
+    .steps-grid,
+    .contact-card-landing {
+      grid-template-columns: 1fr;
+    }
+  
+    .contact-item {
+      padding: 22px;
+    }
+  }

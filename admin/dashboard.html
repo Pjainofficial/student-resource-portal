@@ -2,63 +2,109 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Admin Dashboard | Kanta's Sparsh</title>
+
+    <!-- Main CSS -->
     <link rel="stylesheet" href="../css/style.css" />
+
+    <!-- Admin CSS -->
     <link rel="stylesheet" href="css/admin.css" />
   </head>
 
   <body>
     <div class="admin-layout">
-      <!-- Sidebar -->
+      <!-- =========================
+         SIDEBAR
+    ========================== -->
+
       <aside class="sidebar">
-        <div class="sidebar-logo">📚 E-Gyan Admin</div>
+        <div class="sidebar-logo">📚 Kanta's Sparsh</div>
 
         <ul class="sidebar-menu">
           <li>
-            <a href="dashboard.html"> Dashboard </a>
+            <a href="dashboard.html" class="active"> 📊 Dashboard </a>
           </li>
 
           <li>
-            <a href="topics.html"> Topics </a>
+            <a href="colleges.html"> 🏫 Colleges </a>
           </li>
 
           <li>
-            <a href="subjects.html"> Subjects </a>
+            <a href="topics.html"> 📚 Topics </a>
           </li>
 
           <li>
-            <a href="resources.html"> Resources </a>
+            <a href="subjects.html"> 📖 Subjects </a>
+          </li>
+
+          <li>
+            <a href="resources.html"> 📄 Resources </a>
           </li>
         </ul>
+
+        <!-- Logout -->
         <div class="sidebar-footer">
-          <a href="#" onclick="logout()" class="logout-link"> 🚪 Logout </a>
+          <a href="#" onclick="logout(); return false;" class="logout-link">
+            🚪 Logout
+          </a>
         </div>
       </aside>
 
-      <!-- Main -->
+      <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
       <main class="main-content">
         <h1>Dashboard</h1>
 
+        <p>Welcome to the Kanta's Sparsh admin panel.</p>
+
+        <!-- =========================
+           STATISTICS
+      ========================== -->
+
         <div class="stats-grid">
+          <!-- Topics -->
           <div class="stat-card">
             <h2 id="topicCount">0</h2>
+
             <p>Topics</p>
           </div>
 
+          <!-- Subjects -->
           <div class="stat-card">
             <h2 id="subjectCount">0</h2>
+
             <p>Subjects</p>
           </div>
 
+          <!-- Resources -->
           <div class="stat-card">
             <h2 id="resourceCount">0</h2>
+
             <p>Resources</p>
+          </div>
+
+          <!-- Colleges -->
+          <div class="stat-card">
+            <h2 id="collegeCount">0</h2>
+
+            <p>Colleges</p>
           </div>
         </div>
 
+        <!-- =========================
+           QUICK ACTIONS
+      ========================== -->
+
+        <h2>Quick Actions</h2>
+
         <div class="quick-actions">
+          <a href="colleges.html" class="action-btn"> 🏫 Manage Colleges </a>
+
           <a href="topics.html" class="action-btn"> + Add Topic </a>
 
           <a href="subjects.html" class="action-btn"> + Add Subject </a>
@@ -68,10 +114,20 @@
       </main>
     </div>
 
+    <!-- =========================
+       SCRIPTS
+  ========================== -->
+
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <!-- Supabase Configuration -->
     <script src="../js/config.js"></script>
+
+    <!-- Admin Authentication -->
     <script src="js/auth.js"></script>
+
+    <!-- Dashboard -->
     <script src="js/dashboard.js"></script>
   </body>
 </html>
