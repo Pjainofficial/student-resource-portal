@@ -17,87 +17,60 @@
     />
 
     <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="stylesheet" href="css/resources.css" />
   </head>
 
   <body>
+    <!-- NAVBAR -->
+
     <nav class="navbar">
-      <div class="logo">E-Gyan</div>
+      <div class="logo" id="collegeHeader">E-Gyan</div>
 
       <ul class="nav-links">
-        <li><a href="index.html">🏠 Home</a></li>
+        <li>
+          <a href="index.html"> 🏠 Home </a>
+        </li>
 
-        <li><a href="javascript:history.back()">← Back</a></li>
+        <li>
+          <a href="javascript:history.back()"> ← Back </a>
+        </li>
       </ul>
     </nav>
 
-    <!-- PAGE HEADER -->
+    <!-- SUBJECT HEADER -->
 
-    <section class="page-banner">
-      <div class="page-banner-content">
-        <h1 id="subjectTitle">Loading Subject...</h1>
+    <section class="resource-banner">
+      <div class="resource-banner-content">
+        <span class="banner-label"> 📖 Subject Resources </span>
 
-        <p id="subjectDescription">
-          Explore books, journals, lecture notes, previous year papers and
-          learning resources organized by year.
-        </p>
+        <h1 id="subjectTitle">Loading...</h1>
+
+        <div class="subject-description-wrapper">
+          <p id="subjectDescription">Loading subject description...</p>
+
+          <button
+            id="subjectDescriptionBtn"
+            class="subject-description-btn"
+            type="button"
+            onclick="toggleSubjectDescription()"
+            style="display: none"
+          >
+            Show more ↓
+          </button>
+        </div>
       </div>
     </section>
+
+    <!-- RESOURCES -->
 
     <section class="section">
-      <div class="resource-toolbar">
-
-        <div class="resource-toolbar">
-          <input
-          id="searchResource"
-          placeholder="🔍 Search by title, category, year..."
-          onkeyup="applyFilters()"
-        />
-          <select id="yearFilter" onchange="applyFilters()">
-            <option value="">📅 All Years</option>
-          </select>
-  
-          <select id="categoryFilter" onchange="applyFilters()">
-            <option value="">📚 All Categories</option>
-          </select>
-
-        
-      
-          <!-- NEW -->
-          <select id="originFilter" onchange="applyFilters()">
-            <option value="">🌍 All Origin</option>
-            <option value="Indian">Indian</option>
-            <option value="Foreign">🌎 Foreign</option>
-          </select>
-      
-          <select id="typeFilter" onchange="applyFilters()">
-            <option value="">📄 All Types</option>
-            <option value="pdf">PDF</option>
-            <option value="link">Link</option>
-          </select>
-      
-          <select id="sortFilter" onchange="applyFilters()">
-            <option value="latest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="az">Title A-Z</option>
-            <option value="za">Title Z-A</option>
-          </select>
-      
-      
-      </div>
-
-      <div class="resource-summary">
-        <span id="resourceCount">0 Resources</span>
-      </div>
-
-      <!-- THIS WAS MISSING -->
-      <div id="resourcesContainer">
-        <div class="loading-card">Loading Resources...</div>
+      <div id="resourcesContainer" class="resources-container">
+        <div class="loading-card">Loading resources...</div>
       </div>
     </section>
 
-    <footer class="footer">
-      <p>© E-Gyan Digital Knowledge Library</p>
-    </footer>
+    <!-- SCRIPTS -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 

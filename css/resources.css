@@ -1,0 +1,487 @@
+/* =========================================================
+   RESOURCES PAGE
+========================================================= */
+
+body {
+    margin: 0;
+  
+    font-family: "Poppins", sans-serif;
+  
+    background: #f6f7fb;
+  
+    color: #202437;
+  }
+  
+  
+  /* =========================================================
+     NAVBAR
+  ========================================================= */
+  
+  .navbar {
+    height: 72px;
+  
+    padding: 0 7%;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    justify-content: space-between;
+  
+    background: white;
+  
+    border-bottom: 1px solid #eceef4;
+  
+    position: sticky;
+  
+    top: 0;
+  
+    z-index: 100;
+  }
+  
+  
+  .logo {
+    font-size: 23px;
+  
+    font-weight: 700;
+  
+    color: #332b76;
+  }
+  
+  
+  .nav-links {
+    display: flex;
+  
+    gap: 25px;
+  
+    list-style: none;
+  
+    margin: 0;
+  
+    padding: 0;
+  }
+  
+  
+  .nav-links a {
+    color: #4d5366;
+  
+    text-decoration: none;
+  
+    font-size: 14px;
+  
+    font-weight: 500;
+  }
+  
+  
+  .nav-links a:hover {
+    color: #5b4bdb;
+  }
+  
+  
+  /* =========================================================
+     BANNER
+  ========================================================= */
+  
+  .resource-banner {
+    padding: 55px 7%;
+  
+    background:
+      radial-gradient(
+        circle at 85% 20%,
+        rgba(111, 91, 231, 0.16),
+        transparent 32%
+      ),
+      linear-gradient(
+        135deg,
+        #f5f3ff,
+        #eef1ff
+      );
+  
+    border-bottom: 1px solid #e5e7f0;
+  }
+  
+  
+  .resource-banner-content {
+    max-width: 900px;
+  }
+  
+  
+  .banner-label {
+    display: inline-flex;
+  
+    padding: 8px 14px;
+  
+    margin-bottom: 15px;
+  
+    border-radius: 50px;
+  
+    background: rgba(91, 75, 219, 0.08);
+  
+    color: #5546bd;
+  
+    font-size: 12px;
+  
+    font-weight: 600;
+  }
+  
+  
+  .resource-banner h1 {
+    margin: 0 0 15px;
+  
+    color: #171a2b;
+  
+    font-size: clamp(36px, 5vw, 56px);
+  
+    line-height: 1.12;
+  
+    letter-spacing: -1.5px;
+  }
+  
+  
+  .subject-description-wrapper {
+    max-width: 820px;
+  }
+  
+  
+  #subjectDescription {
+    margin: 0;
+  
+    color: #60677a;
+  
+    font-size: 15px;
+  
+    line-height: 1.8;
+  }
+  
+  
+  #subjectDescription.collapsed {
+    display: -webkit-box;
+  
+    -webkit-box-orient: vertical;
+  
+    -webkit-line-clamp: 3;
+  
+    overflow: hidden;
+  }
+  
+  
+  #subjectDescription.expanded {
+    display: block;
+  
+    overflow: visible;
+  }
+  
+  
+  .subject-description-btn {
+    margin-top: 8px;
+  
+    padding: 0;
+  
+    border: none;
+  
+    background: transparent;
+  
+    color: #5b4bdb;
+  
+    font-family: inherit;
+  
+    font-size: 13px;
+  
+    font-weight: 600;
+  
+    cursor: pointer;
+  }
+  
+  
+  /* =========================================================
+     CONTENT
+  ========================================================= */
+  
+  .section {
+    width: min(1100px, 86%);
+  
+    margin: auto;
+  
+    padding: 50px 0 80px;
+  }
+  
+  
+  .resources-container {
+    display: flex;
+  
+    flex-direction: column;
+  
+    gap: 35px;
+  }
+  
+  
+  /* =========================================================
+     YEAR
+  ========================================================= */
+  
+  .year-section {
+    display: flex;
+  
+    flex-direction: column;
+  
+    gap: 13px;
+  }
+  
+  
+  .year-heading {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 10px;
+  
+    margin-bottom: 5px;
+  
+    color: #252a3d;
+  
+    font-size: 20px;
+  
+    font-weight: 650;
+  }
+  
+  
+  .year-heading span {
+    width: 38px;
+  
+    height: 38px;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    justify-content: center;
+  
+    border-radius: 11px;
+  
+    background: #eeebff;
+  }
+  
+  
+  /* =========================================================
+     RESOURCE CARD
+  ========================================================= */
+  
+  .resource-card {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 18px;
+  
+    padding: 19px 21px;
+  
+    background: white;
+  
+    border: 1px solid #e7e9f1;
+  
+    border-radius: 17px;
+  
+    box-shadow:
+      0 6px 20px rgba(30, 35, 70, 0.045);
+  
+    transition: 0.25s;
+  }
+  
+  
+  .resource-card:hover {
+    transform: translateY(-3px);
+  
+    border-color:
+      rgba(91, 75, 219, 0.2);
+  
+    box-shadow:
+      0 14px 30px rgba(30, 35, 70, 0.08);
+  }
+  
+  
+  .resource-icon {
+    width: 48px;
+  
+    height: 48px;
+  
+    flex-shrink: 0;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    justify-content: center;
+  
+    border-radius: 13px;
+  
+    background: #f2f0ff;
+  
+    font-size: 22px;
+  }
+  
+  
+  .resource-info {
+    flex: 1;
+  
+    min-width: 0;
+  }
+  
+  
+  .resource-info h3 {
+    margin: 0 0 8px;
+  
+    color: #25293b;
+  
+    font-size: 15px;
+  
+    font-weight: 600;
+  
+    line-height: 1.45;
+  }
+  
+  
+  .resource-meta {
+    display: flex;
+  
+    flex-wrap: wrap;
+  
+    gap: 7px;
+  }
+  
+  
+  .resource-meta span {
+    padding: 5px 9px;
+  
+    border-radius: 7px;
+  
+    background: #f7f8fc;
+  
+    color: #747a8c;
+  
+    font-size: 10.5px;
+  }
+  
+  
+  .resource-btn {
+    flex-shrink: 0;
+  
+    padding: 10px 15px;
+  
+    border-radius: 10px;
+  
+    background: #5b4bdb;
+  
+    color: white;
+  
+    text-decoration: none;
+  
+    font-size: 12px;
+  
+    font-weight: 600;
+  
+    transition: 0.25s;
+  }
+  
+  
+  .resource-btn:hover {
+    background: #4435b8;
+  
+    transform: translateX(2px);
+  }
+  
+  
+  /* =========================================================
+     EMPTY
+  ========================================================= */
+  
+  .empty-resource {
+    padding: 60px 25px;
+  
+    text-align: center;
+  
+    background: white;
+  
+    border-radius: 20px;
+  
+    border: 1px solid #e7e9f1;
+  }
+  
+  
+  .empty-icon {
+    font-size: 42px;
+  
+    margin-bottom: 12px;
+  }
+  
+  
+  .empty-resource h3 {
+    margin: 0 0 7px;
+  
+    color: #25293b;
+  }
+  
+  
+  .empty-resource p {
+    margin: 0;
+  
+    color: #777d8e;
+  
+    font-size: 13px;
+  }
+  
+  
+  .loading-card {
+    padding: 60px;
+  
+    text-align: center;
+  
+    background: white;
+  
+    border-radius: 18px;
+  
+    color: #70778a;
+  }
+  
+  
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+  
+  @media (max-width: 650px) {
+  
+    .navbar {
+      padding: 0 5%;
+    }
+  
+  
+    .nav-links li:first-child {
+      display: none;
+    }
+  
+  
+    .resource-banner {
+      padding: 45px 5%;
+    }
+  
+  
+    .section {
+      width: 90%;
+    }
+  
+  
+    .resource-card {
+      align-items: flex-start;
+  
+      flex-wrap: wrap;
+    }
+  
+  
+    .resource-info {
+      width: calc(100% - 70px);
+    }
+  
+  
+    .resource-btn {
+      margin-left: 66px;
+    }
+  }

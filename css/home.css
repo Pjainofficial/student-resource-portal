@@ -1,340 +1,1873 @@
-.hero {
-    min-height: 85vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 70px 20px;
-    background: linear-gradient(135deg,#f5f8ff,#eef5ff,#ffffff);
-  }
-  
-  .hero-content{
-    max-width:850px;
-  }
-  
-  .hero-tag{
-    display:inline-block;
-    padding:10px 22px;
-    background:#fff;
-    color:#2563eb;
-    border-radius:30px;
-    font-size:14px;
-    font-weight:600;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-  }
-  
-  .hero h1{
-    margin-top:25px;
-    font-size:58px;
-    font-weight:700;
-    line-height:1.2;
-  }
-  
-  .hero h1 span{
-    color:#2563eb;
-  }
-  
-  .hero p{
-    margin:25px auto;
-    max-width:700px;
-    color:#666;
-    font-size:18px;
-    line-height:1.8;
-  }
-  .hero-search{
-    display:flex;
-    justify-content:center;
-    margin:40px auto;
-    max-width:750px;
-    gap:15px;
-  }
-  
-  .hero-search input{
-    flex:1;
-    padding:18px 22px;
-    border-radius:50px;
-    border:1px solid #ddd;
-    font-size:16px;
-    outline:none;
-    transition:.3s;
-  }
-  
-  .hero-search input:focus{
-    border-color:#2563eb;
-    box-shadow:0 0 0 5px rgba(37,99,235,.15);
-  }
-  
-  .hero-search button{
-    border:none;
-    background:#2563eb;
-    color:#fff;
-    padding:0 35px;
-    border-radius:50px;
-    cursor:pointer;
-    font-weight:600;
-    transition:.3s;
-  }
-  
-  .hero-search button:hover{
-    background:#1d4ed8;
-  }
-  .hero-buttons{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
-  }
-  
-  .primary-btn,
-  .secondary-btn{
-    padding:16px 34px;
-    border-radius:40px;
-    text-decoration:none;
-    font-weight:600;
-    transition:.3s;
-  }
-  
-  .primary-btn{
-    background:#2563eb;
-    color:#fff;
-  }
-  
-  .primary-btn:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 25px rgba(37,99,235,.35);
-  }
-  
-  .secondary-btn{
-    border:2px solid #2563eb;
-    color:#2563eb;
-  }
-  
-  .secondary-btn:hover{
-    background:#2563eb;
-    color:#fff;
-  }.stats-section{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-    max-width:1200px;
-    margin:70px auto;
-    padding:0 20px;
-  }
-  
-  .stat-card{
-    background:#fff;
-    border-radius:18px;
-    padding:35px;
-    text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
-  }
-  
-  .stat-card:hover{
-    transform:translateY(-8px);
-  }
-  
-  .stat-card h2{
-    color:#2563eb;
-    font-size:40px;
-  }
-  
-  .stat-card p{
-    color:#777;
-    margin-top:10px;
-  }.topics-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:30px;
-  }
-  
-  .topic-card{
-    background:#fff;
-    border-radius:18px;
-    padding:30px;
-    box-shadow:0 8px 30px rgba(0,0,0,.08);
-    transition:.35s;
-    cursor:pointer;
-  }
-  
-  .topic-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 20px 40px rgba(37,99,235,.18);
-  }.about-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:30px;
-  }
-  
-  .about-card{
-    background:#fff;
-    padding:35px;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-  }
-  
-  .about-card h3{
-    margin-bottom:15px;
-    color:#2563eb;
-  }
-  
-  .about-card p,
-  .about-card li{
-    color:#666;
-    line-height:1.8;
-  }.contact-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
-    max-width:1200px;
-    margin:70px auto;
-    padding:0 20px;
-  }
-  
-  .contact-card{
-    background:#fff;
-    border-radius:20px;
-    padding:35px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
-  }
-  
-  .contact-card:hover{
-    transform:translateY(-8px);
-  }
-  
-  .contact-icon{
-    font-size:40px;
-    margin-bottom:20px;
-  }.footer{
-    margin-top:80px;
-    background:#1f2937;
-    color:#fff;
-    text-align:center;
-    padding:50px 20px;
-  }
-  
-  .footer h3{
-    margin-bottom:15px;
-  }
-  
-  .footer p{
-    color:#d1d5db;
-    line-height:1.8;
-  }@media(max-width:768px){
-
-    .hero h1{
-      font-size:38px;
-    }
-    
-    .hero-search{
-      flex-direction:column;
-    }
-    
-    .hero-search button{
-      width:100%;
-      padding:16px;
-    }
-    
-    .hero-buttons{
-      flex-direction:column;
-    }
-    
-    }
-    /* =========================================================
-   COLLEGE BRANDING
+/* =========================================================
+   E-GYAN HOME / DIGITAL LIBRARY
+   Clean Academic UI
 ========================================================= */
+
+:root {
+  --primary: #24476b;
+  --primary-dark: #193650;
+  --accent: #3d6f9f;
+  --accent-light: #edf4fa;
+
+  --text-dark: #172235;
+  --text: #59697c;
+  --text-light: #7b8796;
+
+  --background: #f6f8fb;
+  --white: #ffffff;
+  --border: #e3e8ee;
+
+  --shadow-sm: 0 5px 18px rgba(30, 50, 75, 0.06);
+  --shadow-md: 0 12px 30px rgba(30, 50, 75, 0.10);
+
+  --radius: 16px;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+  background: var(--background);
+  color: var(--text-dark);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+  height: 76px;
+
+  padding: 0 4.5%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e9edf2;
+
+  box-shadow: 0 2px 12px rgba(20, 35, 55, 0.04);
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+/* College logo + name */
 
 .college-brand {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
+
+  gap: 12px;
+
+  margin: 0;
+
+  min-width: 0;
 }
+
 
 .college-brand img {
-  width: 70px;
-  height: 70px;
+  width: 46px;
+  height: 46px;
+
   object-fit: contain;
-  background: white;
-  border-radius: 12px;
-  padding: 8px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+  background: #ffffff;
+
+  border-radius: 10px;
+
+  padding: 4px;
+
+  border: 1px solid #edf0f4;
+
+  box-shadow: 0 4px 12px rgba(20, 35, 55, 0.08);
 }
 
-.college-brand h2 {
-  color: white;
-  font-size: 24px;
+
+#collegeHeader {
+  color: var(--text-dark);
+
+  font-size: 20px;
+
   font-weight: 600;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
 
-/* =========================================================
-   DYNAMIC COLLEGE HERO
-========================================================= */
+/* Navbar links */
 
-.college-dynamic-hero {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-}
-
-.college-dynamic-hero .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.48);
-}
-
-.college-dynamic-hero .hero-content {
-  position: relative;
-  z-index: 2;
-}
-/* =========================================================
-   COLLEGE DYNAMIC BRANDING
-========================================================= */
-
-.college-brand {
+.nav-links {
   display: flex;
   align-items: center;
-  gap: 10px;
+
+  gap: 28px;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
 }
 
-.college-brand img {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  border-radius: 6px;
+
+.nav-links a {
+  color: var(--text-dark);
+
+  text-decoration: none;
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  transition: 0.2s ease;
+}
+
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+
+/* Logout */
+
+.nav-links .admin-btn {
+  padding: 9px 18px;
+
+  border: 1px solid #d7e0e8;
+
+  border-radius: 9px;
+
+  color: var(--primary);
+
+  background: #ffffff;
+}
+
+
+.nav-links .admin-btn:hover {
+  background: var(--accent-light);
+
+  border-color: #c8d7e5;
 }
 
 
 /* =========================================================
-   DYNAMIC COLLEGE HERO
+   HERO
 ========================================================= */
 
-.college-dynamic-hero {
+.hero {
   position: relative;
 
+  min-height: 570px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 80px 20px;
+
+  overflow: hidden;
+
+  /*
+     Default image.
+     student.js can replace this with college cover.
+  */
+  background:
+    linear-gradient(
+      rgba(20, 38, 58, 0.68),
+      rgba(20, 38, 58, 0.76)
+    ),
+    url("https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=2000&q=85");
+
   background-size: cover;
+
   background-position: center;
 
-  min-height: 500px;
+  background-repeat: no-repeat;
 }
 
 
-.college-dynamic-hero .hero-overlay {
+/* Overlay */
+
+.hero-overlay {
   position: absolute;
 
   inset: 0;
 
-  background: rgba(0, 0, 0, 0.45);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 31, 48, 0.70),
+      rgba(25, 48, 72, 0.48)
+    );
 
   z-index: 1;
 }
 
 
+/* Hero content */
+
+.hero-content {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(900px, 92%);
+
+  margin: auto;
+}
+
+
+/* Hero tag */
+
+.hero-tag {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 10px 20px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  color: var(--primary);
+
+  border-radius: 30px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+
+/* Hero heading */
+
+.hero h1 {
+  margin: 24px 0 0;
+
+  color: #ffffff;
+
+  font-size: clamp(42px, 6vw, 64px);
+
+  font-weight: 700;
+
+  line-height: 1.12;
+
+  letter-spacing: -1px;
+}
+
+
+.hero h1 span {
+  color: #dce9f5;
+}
+
+
+/* Hero paragraph */
+
+.hero p {
+  max-width: 700px;
+
+  margin: 22px auto 30px;
+
+  color: rgba(255, 255, 255, 0.88);
+
+  font-size: 17px;
+
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.hero-search {
+  width: min(720px, 100%);
+
+  margin: 30px auto;
+
+  display: flex;
+
+  gap: 10px;
+}
+
+
+.hero-search input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 56px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: var(--text-dark);
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+
+.hero-search input:focus {
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.25),
+    0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+.hero-search button {
+  height: 56px;
+
+  padding: 0 28px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.hero-search button:hover {
+  background: var(--primary-dark);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.hero-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin-top: 18px;
+}
+
+
+.primary-btn,
+.secondary-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 150px;
+
+  padding: 12px 24px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+
+.primary-btn {
+  background: var(--primary);
+
+  color: #ffffff;
+
+  border: 1px solid var(--primary);
+}
+
+
+.primary-btn:hover {
+  background: var(--primary-dark);
+
+  transform: translateY(-2px);
+}
+
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+
+.secondary-btn:hover {
+  background: #ffffff;
+
+  color: var(--primary);
+
+  border-color: #ffffff;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-section {
+  width: min(1200px, 90%);
+
+  margin: -40px auto 0;
+
+  padding: 0;
+
+  position: relative;
+
+  z-index: 10;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px;
+}
+
+
+.stat-card {
+  min-height: 120px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  padding: 25px;
+
+  box-shadow: var(--shadow-md);
+
+  transition: 0.25s ease;
+}
+
+
+.stat-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 16px 35px rgba(30, 50, 75, 0.12);
+}
+
+
+.stat-card h2 {
+  margin: 0;
+
+  color: var(--primary);
+
+  font-size: 30px;
+
+  font-weight: 700;
+}
+
+
+.stat-card p {
+  margin: 6px 0 0;
+
+  color: var(--text-light);
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+  width: min(1350px, 92%);
+
+  margin: 0 auto;
+
+  padding: 90px 0 20px;
+}
+
+
+.section-header {
+  max-width: 760px;
+
+  margin: 0 auto 42px;
+
+  text-align: center;
+}
+
+
+.section-header h2 {
+  margin: 0 0 10px;
+
+  color: var(--text-dark);
+
+  font-size: clamp(28px, 4vw, 38px);
+
+  line-height: 1.2;
+
+  font-weight: 650;
+}
+
+
+.section-header p {
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   COURSES / TOPICS
+========================================================= */
+
+
+/*
+   THIS IS THE IMPORTANT PART.
+
+   3 columns on desktop instead of 4.
+*/
+
+.topics-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 26px;
+
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   TOPIC CARD
+========================================================= */
+
+.topic-card {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  background: #ffffff;
+
+  border: 1px solid var(--border);
+
+  border-radius: 17px;
+
+  padding: 28px;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+
+.topic-card:hover {
+  transform: translateY(-4px);
+
+  border-color: #ccd9e5;
+
+  box-shadow: var(--shadow-md);
+}
+
+
+/* Course title */
+
+.topic-card h3 {
+  margin: 0 0 14px;
+
+  color: var(--primary);
+
+  font-size: 20px;
+
+  font-weight: 650;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   COURSE DESCRIPTION
+========================================================= */
+
+.topic-card p {
+  color: var(--text);
+
+  font-size: 14px;
+
+  line-height: 1.75;
+
+  margin: 0;
+
+  /*
+     Don't let a huge description destroy
+     the entire page.
+  */
+
+  overflow-wrap: break-word;
+
+  word-break: normal;
+}
+
+
+/*
+   If your JS uses .topic-description
+*/
+
+.topic-card .topic-description {
+  margin-bottom: 20px;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  line-height: 1.75;
+
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 8;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TOPIC META / RESOURCE COUNT
+========================================================= */
+
+
+/*
+   These selectors cover the different class names
+   commonly used by your generated cards.
+*/
+
+.topic-card .topic-meta,
+.topic-card .topic-stats,
+.topic-card .card-stats {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: auto;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+
+.topic-card .topic-meta span,
+.topic-card .topic-stats span,
+.topic-card .card-stats span {
+  color: var(--accent);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+
+/*
+   This handles buttons and links generated
+   inside topic cards.
+*/
+
+.topic-card .explore-btn,
+.topic-card .explore-button {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-top: 18px;
+
+  padding: 12px 18px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.topic-card .explore-btn:hover,
+.topic-card .explore-button:hover {
+  background: var(--primary-dark);
+
+  transform: translateY(-1px);
+}
+
+
+/* Generic button fallback */
+
+.topic-card button {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 12px 18px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.topic-card button:hover {
+  background: var(--primary-dark);
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+}
+
+
+.about-card {
+  background: #ffffff;
+
+  padding: 30px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow-sm);
+
+  transition: 0.25s ease;
+}
+
+
+.about-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow: var(--shadow-md);
+}
+
+
+.about-card h3 {
+  margin: 0 0 12px;
+
+  color: var(--primary);
+
+  font-size: 18px;
+}
+
+
+.about-card p,
+.about-card li {
+  color: var(--text);
+
+  font-size: 14px;
+
+  line-height: 1.8;
+}
+
+
+.about-card ul {
+  padding-left: 20px;
+
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-grid {
+  width: min(1200px, 100%);
+
+  margin: 50px auto;
+
+  padding: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+}
+
+
+.contact-card {
+  background: #ffffff;
+
+  padding: 30px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 17px;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: 0.25s ease;
+}
+
+
+.contact-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: var(--shadow-md);
+}
+
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 12px;
+
+  background: var(--accent-light);
+
+  font-size: 22px;
+}
+
+
+.contact-card h3 {
+  margin: 0 0 10px;
+
+  color: var(--text-dark);
+
+  font-size: 18px;
+}
+
+
+.contact-card p {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+  margin-top: 90px;
+
+  padding: 45px 20px;
+
+  background: var(--primary);
+
+  color: rgba(255, 255, 255, 0.75);
+
+  text-align: center;
+}
+
+
+.footer h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 20px;
+}
+
+
+.footer p {
+  margin: 6px 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   REMOVE OLD DYNAMIC HERO CONFLICTS
+========================================================= */
+
+.college-dynamic-hero {
+  position: relative;
+
+  min-height: 570px;
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+}
+
+
+.college-dynamic-hero .hero-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  background: rgba(15, 30, 48, 0.55);
+}
+
+
 .college-dynamic-hero .hero-content {
   position: relative;
 
   z-index: 2;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .topics-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .stats-section {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .nav-links {
+    gap: 18px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .navbar {
+    height: auto;
+
+    min-height: 70px;
+
+    padding: 12px 5%;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+  }
+
+
+  #collegeHeader {
+    max-width: 190px;
+
+    font-size: 17px;
+  }
+
+
+  .nav-links {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+  }
+
+
+  .nav-links a {
+    font-size: 13px;
+  }
+
+
+  .hero {
+    min-height: 540px;
+
+    padding: 65px 15px;
+  }
+
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+
+  .hero p {
+    font-size: 15px;
+  }
+
+
+  .hero-search {
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+
+  .hero-search button {
+    width: 100%;
+
+    height: 52px;
+  }
+
+
+  .hero-buttons {
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+
+  .primary-btn,
+  .secondary-btn {
+    width: 220px;
+  }
+
+
+  .stats-section {
+    width: 90%;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    margin-top: -30px;
+  }
+
+
+  .stat-card {
+    min-height: 105px;
+  }
+
+
+  .section {
+    width: 90%;
+
+    padding-top: 70px;
+  }
+
+
+  /* One course per row */
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .topic-card {
+    padding: 23px;
+  }
+
+
+  .topic-card h3 {
+    font-size: 19px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+
+  .hero-tag {
+    font-size: 12px;
+
+    padding: 8px 14px;
+  }
+
+
+  .topic-card {
+    padding: 20px;
+  }
+
+}
+/* =========================================================
+   TOPIC / COURSE CARDS
+========================================================= */
+
+.topic-card {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-height: 330px;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #e7e9f1;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 8px 28px rgba(30, 35, 70, 0.055);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+.topic-card:hover {
+  transform: translateY(-7px);
+
+  border-color:
+    rgba(91, 75, 219, 0.25);
+
+  box-shadow:
+    0 20px 45px rgba(38, 43, 90, 0.12);
+}
+
+
+.topic-content {
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.topic-content h3 {
+  margin: 18px 0 12px;
+
+  color: #22263a;
+
+  font-size: 21px;
+
+  line-height: 1.35;
+}
+
+
+/* NORMAL HORIZONTAL DESCRIPTION */
+
+.topic-description {
+  width: 100%;
+}
+
+
+.topic-description-text {
+  margin: 0;
+
+  color: #70778a;
+
+  font-size: 13.5px;
+
+  line-height: 1.8;
+
+  word-break: normal;
+
+  overflow-wrap: break-word;
+}
+
+
+.topic-description-text.collapsed {
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
+}
+
+
+.topic-description-text.expanded {
+  display: block;
+
+  overflow: visible;
+}
+
+
+/* SHOW MORE */
+
+.topic-show-more {
+  margin-top: 7px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #5b4bdb;
+
+  font-family: inherit;
+
+  font-size: 12.5px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.topic-show-more:hover {
+  text-decoration: underline;
+
+  color: #4435b8;
+}
+
+
+/* META */
+
+.topic-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: auto;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f5;
+}
+
+
+.topic-meta span {
+  padding: 7px 11px;
+
+  border-radius: 8px;
+
+  background: #f7f8fc;
+
+  color: #676d80;
+
+  font-size: 11.5px;
+}
+
+
+/* EXPLORE */
+
+.explore-btn {
+  margin-top: 18px;
+
+  align-self: flex-start;
+
+  padding: 10px 16px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #f0eeff;
+
+  color: #5546bd;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+
+.topic-card:hover .explore-btn {
+  background: #5b4bdb;
+
+  color: white;
+}
+/* =========================================================
+   PREMIUM SHARP HERO
+========================================================= */
+
+.hero,
+.college-dynamic-hero {
+  position: relative;
+
+  min-height: 78vh;
+
+  background-size: cover !important;
+
+  background-position: center !important;
+
+  background-repeat: no-repeat !important;
+
+  filter: none !important;
+
+  overflow: hidden;
+
+  isolation: isolate;
+}
+
+
+/* DON'T BLUR THE PHOTO */
+
+.hero::before,
+.college-dynamic-hero::before {
+  filter: none !important;
+
+  backdrop-filter: none !important;
+}
+
+
+/* elegant overlay */
+
+.hero::after,
+.college-dynamic-hero::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 12, 30, 0.86) 0%,
+      rgba(10, 12, 30, 0.65) 38%,
+      rgba(10, 12, 30, 0.28) 75%,
+      rgba(10, 12, 30, 0.15) 100%
+    );
+
+  pointer-events: none;
+}
+
+
+.hero-content {
+  position: relative;
+
+  z-index: 3;
+}
+
+
+/* hero heading */
+
+.hero h1 {
+  color: white !important;
+
+  text-shadow:
+    0 4px 22px rgba(0, 0, 0, 0.28);
+}
+
+
+/* hero description */
+
+.hero p {
+  color:
+    rgba(255, 255, 255, 0.86) !important;
+}
+.topic-description,
+.topic-description-text {
+  width: 100% !important;
+
+  max-width: 100% !important;
+
+  word-break: normal !important;
+
+  overflow-wrap: break-word !important;
+
+  white-space: normal !important;
+}
+.subject-description,
+.description-text {
+  width: 100% !important;
+
+  max-width: 100% !important;
+
+  word-break: normal !important;
+
+  overflow-wrap: break-word !important;
+
+  white-space: normal !important;
+}
+/* =========================================================
+   COURSE DESCRIPTION
+========================================================= */
+
+.topic-description {
+  width: 100%;
+  min-width: 0;
+}
+
+.topic-description-text {
+  margin: 0;
+
+  width: 100%;
+  max-width: 100%;
+
+  color: #70778a;
+
+  font-size: 13.5px;
+  line-height: 1.75;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+
+/* COLLAPSED */
+
+.topic-description-text.collapsed {
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
+}
+
+
+/* EXPANDED */
+
+.topic-description-text.expanded {
+  display: block;
+
+  overflow: visible;
+}
+
+
+/* SAME STYLE AS SUBJECTS */
+
+.topic-show-more {
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-top: 5px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #5b4bdb;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+
+.topic-show-more:hover {
+  color: #4435b8;
+
+  text-decoration: underline;
+}
+/* =========================================================
+   FRONT PAGE - STAT COUNTERS
+========================================================= */
+
+.stats-section,
+.stats-container,
+.stats-grid {
+  position: relative;
+  z-index: 5;
+}
+
+
+/* Individual count tile */
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Big number */
+
+.stat-card .stat-number,
+.stat-card .count,
+.stat-card [id="topicCount"],
+.stat-card [id="subjectCount"],
+.stat-card [id="resourceCount"] {
+  display: block;
+  min-height: 46px;
+
+  color: #182033 !important;
+
+  font-size: 34px !important;
+  font-weight: 700 !important;
+
+  line-height: 1.2;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+
+/* =========================================================
+   COURSE DESCRIPTION
+========================================================= */
+
+.topic-description {
+  width: 100%;
+  min-width: 0;
+  margin-top: 8px;
+}
+
+
+.topic-description-text {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  color: #697386;
+
+  font-size: 13.5px;
+  font-weight: 400;
+
+  line-height: 1.7;
+
+  white-space: normal;
+
+  word-break: normal;
+  overflow-wrap: break-word;
+
+  transition: max-height 0.25s ease;
+}
+
+
+/* Collapsed */
+
+.topic-description-text.collapsed {
+
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
+}
+
+
+/* Expanded */
+
+.topic-description-text.expanded {
+
+  display: block;
+
+  overflow: visible;
+}
+
+
+/* =========================================================
+   SMALL MORE / LESS
+========================================================= */
+
+.topic-show-more {
+
+  display: inline-flex;
+  align-items: center;
+
+  margin-top: 4px;
+  padding: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+
+  color: #5b4bdb;
+
+  font-family: inherit;
+
+  font-size: 11.5px;
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.topic-show-more:hover {
+
+  color: #4435b8;
+
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   COURSE CARD CONTENT
+========================================================= */
+
+.topic-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.topic-content h3 {
+
+  margin-bottom: 0;
+
+  color: #182033;
+
+  font-size: 19px;
+  font-weight: 650;
+
+  line-height: 1.35;
+}
+
+
+/* Keep metadata at bottom */
+
+.topic-meta {
+
+  margin-top: auto;
+
+  padding-top: 16px;
+}
+
+
+/* Explore button */
+
+.explore-btn {
+
+  margin-top: 15px;
+}
+
+
+/* =========================================================
+   CRISP HERO IMAGE
+========================================================= */
+
+#collegeHero {
+
+  filter: none !important;
+
+  background-size: cover !important;
+
+  background-position: center !important;
+
+  background-repeat: no-repeat !important;
+}
+
+
+/* Remove any blur */
+
+#collegeHero::before,
+#collegeHero::after {
+
+  backdrop-filter: none !important;
+
+  -webkit-backdrop-filter: none !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .stat-card .stat-number,
+  .stat-card .count,
+  .stat-card [id="topicCount"],
+  .stat-card [id="subjectCount"],
+  .stat-card [id="resourceCount"] {
+
+    font-size: 28px !important;
+
+  }
+
+
+  .topic-content h3 {
+
+    font-size: 17px;
+
+  }
+
+
+  .topic-description-text {
+
+    font-size: 13px;
+
+    line-height: 1.65;
+
+  }
+
 }

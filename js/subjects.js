@@ -2,81 +2,165 @@ let allSubjects = [];
 let filteredSubjects = [];
 
 let currentPage = 1;
+
 const PAGE_SIZE = 12;
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   loadSubjects();
 });
 
+/* =========================================================
+   LOAD SUBJECTS
+========================================================= */
+
 async function loadSubjects() {
   const params = new URLSearchParams(window.location.search);
+
   const topicId = params.get("topic");
 
   if (!topicId) {
-    document.getElementById("subjectsGrid").innerHTML =
-      "<div class='loading-card'>Invalid Topic</div>";
+    document.getElementById("subjectsGrid").innerHTML = `
+      <div class="loading-card">
+        Invalid Topic
+      </div>
+    `;
+
     return;
   }
 
   try {
-    // Load Topic Details
-    const { data: topic } = await supabaseClient
+    /* -----------------------------------------
+       LOAD TOPIC
+    ----------------------------------------- */
+
+    const { data: topic, error: topicError } = await supabaseClient
+
       .from("topics")
+
       .select("*")
+
       .eq("id", topicId)
+
       .single();
+
+    if (topicError) {
+      throw topicError;
+    }
 
     if (topic) {
       document.getElementById("topicTitle").innerText = topic.name;
-      document.getElementById("topicDescription").innerText =
+
+      const description =
         topic.description ||
-        "Explore all available subjects and learning resources.";
+        "Explore subjects and learning resources available under this topic.";
+
+      const descriptionElement = document.getElementById("topicDescription");
+
+      const descriptionButton = document.getElementById("topicDescriptionBtn");
+
+      descriptionElement.innerText = description;
+
+      /*
+       * Show more only for long descriptions
+       */
+
+      if (description.length > 180) {
+        descriptionElement.classList.add("collapsed");
+
+        descriptionButton.style.display = "inline-flex";
+
+        descriptionButton.innerText = "Show more ↓";
+      } else {
+        descriptionElement.classList.remove("collapsed");
+
+        descriptionButton.style.display = "none";
+      }
+
+      /*
+       * Browser title
+       */
+
+      document.title = `${topic.name} | E-Gyan`;
     }
 
-    // Load Subjects + Resources
+    /* -----------------------------------------
+       LOAD SUBJECTS
+    ----------------------------------------- */
+
     const { data: subjects, error } = await supabaseClient
+
       .from("subjects")
+
       .select(
         `
-              *,
-              resources(
-                  id,
-                  year
-              )
-          `
+        *,
+        resources(
+          id,
+          year
+        )
+      `
       )
+
       .eq("topic_id", topicId)
+
       .order("name");
 
-    if (error) throw error;
-
-    const grid = document.getElementById("subjectsGrid");
-
-    grid.innerHTML = "";
-
-    if (!subjects.length) {
-      grid.innerHTML = `
-              <div class="loading-card">
-                  No subjects available.
-              </div>
-          `;
-
-      return;
+    if (error) {
+      throw error;
     }
 
-    allSubjects = subjects;
-    filteredSubjects = [...subjects];
+    allSubjects = subjects || [];
+
+    filteredSubjects = [...allSubjects];
 
     populateSubjectDropdown();
 
     renderPage();
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error("SUBJECT LOAD ERROR:", error);
 
-    document.getElementById("subjectsGrid").innerHTML =
-      "<div class='loading-card'>Failed to load subjects.</div>";
+    document.getElementById("subjectsGrid").innerHTML = `
+      <div class="loading-card">
+        Failed to load subjects.
+      </div>
+    `;
   }
 }
+
+/* =========================================================
+   TOPIC DESCRIPTION SHOW MORE
+========================================================= */
+
+function toggleTopicDescription() {
+  const description = document.getElementById("topicDescription");
+
+  const button = document.getElementById("topicDescriptionBtn");
+
+  const expanded = description.classList.contains("expanded");
+
+  if (expanded) {
+    description.classList.remove("expanded");
+
+    description.classList.add("collapsed");
+
+    button.innerText = "Show more ↓";
+  } else {
+    description.classList.remove("collapsed");
+
+    description.classList.add("expanded");
+
+    button.innerText = "Show less ↑";
+  }
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
 function filterSubjects() {
   const search = document
     .getElementById("searchSubject")
@@ -85,7 +169,7 @@ function filterSubjects() {
 
   filteredSubjects = allSubjects.filter(
     (subject) =>
-      subject.name.toLowerCase().includes(search) ||
+      (subject.name || "").toLowerCase().includes(search) ||
       (subject.description || "").toLowerCase().includes(search)
   );
 
@@ -95,13 +179,20 @@ function filterSubjects() {
 
   renderPage();
 }
+
+/* =========================================================
+   DROPDOWN FILTER
+========================================================= */
+
 function filterByDropdown() {
   const id = document.getElementById("subjectDropdown").value;
 
   if (!id) {
     filteredSubjects = [...allSubjects];
   } else {
-    filteredSubjects = allSubjects.filter((s) => s.id == id);
+    filteredSubjects = allSubjects.filter(
+      (subject) => String(subject.id) === String(id)
+    );
   }
 
   document.getElementById("searchSubject").value = "";
@@ -110,29 +201,38 @@ function filterByDropdown() {
 
   renderPage();
 }
+
+/* =========================================================
+   RENDER PAGE
+========================================================= */
+
 function renderPage() {
-  document.getElementById(
-    "subjectCount"
-  ).innerText = `${filteredSubjects.length} Subjects`;
+  document.getElementById("subjectCount").innerText = filteredSubjects.length;
 
   const start = (currentPage - 1) * PAGE_SIZE;
 
-  renderSubjects(filteredSubjects.slice(start, start + PAGE_SIZE));
+  const pageSubjects = filteredSubjects.slice(start, start + PAGE_SIZE);
+
+  renderSubjects(pageSubjects);
 
   renderPagination();
 }
+
+/* =========================================================
+   RENDER SUBJECT CARDS
+========================================================= */
+
 function renderSubjects(subjects) {
   const grid = document.getElementById("subjectsGrid");
 
   grid.innerHTML = "";
 
-  if (subjects.length === 0) {
+  if (!subjects.length) {
     grid.innerHTML = `
       <div class="loading-card">
-
-          🔍 No Subject Found
-
-      </div>`;
+        🔍 No Subject Found
+      </div>
+    `;
 
     return;
   }
@@ -141,8 +241,12 @@ function renderSubjects(subjects) {
     const resourceCount = subject.resources?.length || 0;
 
     const years = subject.resources
-      ? [...new Set(subject.resources.map((r) => r.year))]
+      ? [...new Set(subject.resources.map((r) => r.year).filter(Boolean))]
       : [];
+
+    const description =
+      subject.description ||
+      "Explore learning resources, study material and academic content for this subject.";
 
     const card = document.createElement("div");
 
@@ -150,109 +254,200 @@ function renderSubjects(subjects) {
 
     card.innerHTML = `
 
-      <div class="subject-icon">
+      <div class="subject-top">
 
+        <div class="subject-icon">
           📚
+        </div>
+
+        <div class="subject-arrow">
+          →
+        </div>
 
       </div>
+
 
       <div class="subject-content">
 
-          <h2>${subject.name}</h2>
+        <h2>
+          ${escapeHtml(subject.name)}
+        </h2>
 
-          <p>
 
-          ${subject.description || "Medical learning resources"}
+        <div class="subject-description">
 
+          <p class="description-text">
+            ${escapeHtml(description)}
           </p>
 
-          <div class="subject-meta">
+          ${
+            description.length > 150
+              ? `
+                <button
+                  class="show-more-btn"
+                  type="button"
+                >
+                  Show more ↓
+                </button>
+              `
+              : ""
+          }
 
-              <span>📄 ${resourceCount} Resources</span>
+        </div>
 
-              <span>📅 ${years.length} Years</span>
 
-          </div>
+        <div class="subject-meta">
+
+          <span>
+            📄 ${resourceCount}
+            ${resourceCount === 1 ? "Resource" : "Resources"}
+          </span>
+
+          <span>
+            📅 ${years.length}
+            ${years.length === 1 ? "Year" : "Years"}
+          </span>
+
+        </div>
 
       </div>
+    `;
 
-      <div class="subject-arrow">
+    /* -----------------------------------------
+       CARD CLICK
+    ----------------------------------------- */
 
-          →
+    card.addEventListener("click", (event) => {
+      if (event.target.closest(".show-more-btn")) {
+        return;
+      }
 
-      </div>
-
-      `;
-
-    card.onclick = () => {
       window.location.href = `resources.html?subject=${subject.id}`;
-    };
+    });
+
+    /* -----------------------------------------
+       SHOW MORE
+    ----------------------------------------- */
+
+    const button = card.querySelector(".show-more-btn");
+
+    const descriptionText = card.querySelector(".description-text");
+
+    if (button) {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const expanded = descriptionText.classList.contains("expanded");
+
+        if (expanded) {
+          descriptionText.classList.remove("expanded");
+
+          descriptionText.classList.add("collapsed");
+
+          button.innerText = "Show more ↓";
+        } else {
+          descriptionText.classList.remove("collapsed");
+
+          descriptionText.classList.add("expanded");
+
+          button.innerText = "Show less ↑";
+        }
+      });
+    }
 
     grid.appendChild(card);
   });
 }
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
 function renderPagination() {
   const pagination = document.getElementById("pagination");
 
   pagination.innerHTML = "";
 
-  const total = Math.ceil(filteredSubjects.length / PAGE_SIZE);
+  const totalPages = Math.ceil(filteredSubjects.length / PAGE_SIZE);
 
-  if (total <= 1) return;
+  if (totalPages <= 1) {
+    return;
+  }
 
   pagination.innerHTML += `
-  <button
-  ${currentPage == 1 ? "disabled" : ""}
-  onclick="goPage(${currentPage - 1})">
-
-  ◀
-
-  </button>
+    <button
+      ${currentPage === 1 ? "disabled" : ""}
+      onclick="goPage(${currentPage - 1})"
+    >
+      ◀
+    </button>
   `;
 
-  for (let i = 1; i <= total; i++) {
-    if (i == 1 || i == total || Math.abs(i - currentPage) <= 2) {
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
       pagination.innerHTML += `
-
-          <button
-
-          class="${currentPage == i ? "active-page" : ""}"
-
-          onclick="goPage(${i})">
-
+        <button
+          class="${currentPage === i ? "active-page" : ""}"
+          onclick="goPage(${i})"
+        >
           ${i}
-
-          </button>
-
-          `;
+        </button>
+      `;
     }
   }
 
   pagination.innerHTML += `
-  <button
-  ${currentPage == total ? "disabled" : ""}
-  onclick="goPage(${currentPage + 1})">
-
-  ▶
-
-  </button>
+    <button
+      ${currentPage === totalPages ? "disabled" : ""}
+      onclick="goPage(${currentPage + 1})"
+    >
+      ▶
+    </button>
   `;
 }
+
 function goPage(page) {
   currentPage = page;
 
   renderPage();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 }
+
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
 function populateSubjectDropdown() {
   const dropdown = document.getElementById("subjectDropdown");
 
-  dropdown.innerHTML = `<option value="">📚 Browse Subjects</option>`;
+  dropdown.innerHTML = `
+    <option value="">
+      📚 Browse Subjects
+    </option>
+  `;
 
   allSubjects.forEach((subject) => {
     dropdown.innerHTML += `
-          <option value="${subject.id}">
-              ${subject.name}
-          </option>
+        <option value="${subject.id}">
+          ${escapeHtml(subject.name)}
+        </option>
       `;
   });
+}
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

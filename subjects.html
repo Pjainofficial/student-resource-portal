@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Subjects | E-Gyan</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -15,15 +15,14 @@
       rel="stylesheet"
     />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/subjects.css" />
   </head>
 
   <body>
     <!-- NAVBAR -->
-
     <nav class="navbar">
-      <div class="logo">E-Gyan</div>
+      <div class="logo" id="collegeHeader">E-Gyan</div>
 
       <ul class="nav-links">
         <li>
@@ -36,21 +35,30 @@
       </ul>
     </nav>
 
-    <!-- PAGE HEADER -->
-
+    <!-- TOPIC HEADER -->
     <section class="page-banner">
       <div class="page-banner-content">
+        <span class="banner-label"> 📚 Digital Knowledge Library </span>
+
         <h1 id="topicTitle">Loading...</h1>
 
-        <p id="topicDescription">
-          Browse all subjects available under this medical topic and continue
-          your learning journey.
-        </p>
+        <div class="topic-description-wrapper">
+          <p id="topicDescription">Loading topic description...</p>
+
+          <button
+            id="topicDescriptionBtn"
+            class="topic-description-btn"
+            type="button"
+            onclick="toggleTopicDescription()"
+            style="display: none"
+          >
+            Show more ↓
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- SUBJECTS -->
-
     <section class="section">
       <div class="subject-toolbar">
         <input
@@ -65,8 +73,7 @@
         </select>
 
         <span class="subject-total">
-          <strong id="subjectCount"> 0 </strong>
-
+          <strong id="subjectCount">0</strong>
           Subjects
         </span>
       </div>
@@ -79,13 +86,11 @@
     </section>
 
     <!-- FOOTER -->
-
     <footer class="footer">
-      <p>©E-Gyan Digital Knowledge Library</p>
+      <p>© 2026 E-Gyan Digital Knowledge Library</p>
     </footer>
 
-    <!-- SUPABASE -->
-
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="js/config.js"></script>

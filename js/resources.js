@@ -1,320 +1,296 @@
-let allResources = [];
-document.addEventListener("DOMContentLoaded", () => {
-  loadResources();
-});
+let currentSubject = null;
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", loadResources);
 
 async function loadResources() {
   const params = new URLSearchParams(window.location.search);
 
   const subjectId = params.get("subject");
 
-  const container = document.getElementById("resourcesContainer");
-
-  const title = document.getElementById("subjectTitle");
-
   if (!subjectId) {
-    container.innerHTML = "<div class='loading-card'>Invalid Subject</div>";
+    document.getElementById("resourcesContainer").innerHTML = `
+      <div class="loading-card">
+        Invalid Subject
+      </div>
+    `;
 
     return;
   }
 
   try {
-    // Subject Name
+    /* -----------------------------------------
+       SUBJECT
+    ----------------------------------------- */
 
-    const { data: subject } = await supabaseClient
+    const { data: subject, error: subjectError } = await supabaseClient
+
       .from("subjects")
-      .select("*")
-      .eq("id", subjectId)
-      .single();
 
-    if (subject) {
-      // title.innerText = subject.name;
-
-      document.getElementById("subjectTitle").innerText = subject.name;
-
-      document.getElementById("subjectDescription").innerText =
-        subject.description ||
-        "Explore books, journals, PDFs and academic resources available for this subject.";
-    }
-
-    // Resources
-
-    const { data, error } = await supabaseClient
-      .from("resources")
       .select(
         `
-      id,
-      title,
-      year,
-      type,
-      file_url,
-      category,
-      origin,
-      upload_date,
-      cover_image
-  `
+        id,
+        name,
+        description
+      `
       )
+
+      .eq("id", subjectId)
+
+      .single();
+
+    if (subjectError) {
+      throw subjectError;
+    }
+
+    currentSubject = subject;
+
+    document.getElementById("subjectTitle").innerText = subject.name;
+
+    document.title = `${subject.name} | E-Gyan`;
+
+    /* -----------------------------------------
+       DESCRIPTION
+    ----------------------------------------- */
+
+    const description =
+      subject.description ||
+      "Explore all available learning resources for this subject.";
+
+    const descriptionElement = document.getElementById("subjectDescription");
+
+    const descriptionButton = document.getElementById("subjectDescriptionBtn");
+
+    descriptionElement.innerText = description;
+
+    if (description.length > 180) {
+      descriptionElement.classList.add("collapsed");
+
+      descriptionButton.style.display = "inline-flex";
+
+      descriptionButton.innerText = "Show more ↓";
+    } else {
+      descriptionButton.style.display = "none";
+    }
+
+    /* -----------------------------------------
+       RESOURCES
+    ----------------------------------------- */
+
+    const { data: resources, error: resourceError } = await supabaseClient
+
+      .from("resources")
+
+      .select("*")
+
       .eq("subject_id", subjectId)
+
       .order("year", {
         ascending: false,
+      })
+
+      .order("display_order", {
+        ascending: true,
       });
 
-    if (error) throw error;
+    if (resourceError) {
+      throw resourceError;
+    }
 
-    allResources = data;
+    renderResources(resources || []);
+  } catch (error) {
+    console.error("RESOURCE PAGE ERROR:", error);
 
-    populateYearFilter();
-    populateCategoryFilter();
-
-    applyFilters();
-
-    return;
-  } catch (err) {
-    console.error(err);
-
-    container.innerHTML = `
-            <div class="loading-card">
-                Failed to load resources
-            </div>
-        `;
+    document.getElementById("resourcesContainer").innerHTML = `
+      <div class="loading-card">
+        Failed to load resources.
+      </div>
+    `;
   }
 }
 
-function populateYearFilter() {
-  const select = document.getElementById("yearFilter");
+/* =========================================================
+   DESCRIPTION SHOW MORE
+========================================================= */
 
-  if (!select) return;
+function toggleSubjectDescription() {
+  const description = document.getElementById("subjectDescription");
 
-  select.innerHTML = `<option value="">All Years</option>`;
+  const button = document.getElementById("subjectDescriptionBtn");
 
-  const years = [...new Set(allResources.map((r) => r.year))];
+  const expanded = description.classList.contains("expanded");
 
-  years.sort((a, b) => b - a);
+  if (expanded) {
+    description.classList.remove("expanded");
 
-  years.forEach((year) => {
-    select.innerHTML += `<option value="${year}">${year}</option>`;
-  });
+    description.classList.add("collapsed");
+
+    button.innerText = "Show more ↓";
+  } else {
+    description.classList.remove("collapsed");
+
+    description.classList.add("expanded");
+
+    button.innerText = "Show less ↑";
+  }
 }
-function populateCategoryFilter() {
-  const select = document.getElementById("categoryFilter");
 
-  if (!select) return;
+/* =========================================================
+   RENDER RESOURCES
+========================================================= */
 
-  select.innerHTML = `<option value="">📚 All Categories</option>`;
-
-  const categories = [...new Set(allResources.map((r) => r.category))]
-    .filter(Boolean)
-    .sort();
-
-  categories.forEach((category) => {
-    select.innerHTML += `
-      <option value="${category}">
-          ${category}
-      </option>`;
-  });
-}
 function renderResources(resources) {
   const container = document.getElementById("resourcesContainer");
 
   container.innerHTML = "";
 
-  if (resources.length === 0) {
+  if (!resources.length) {
     container.innerHTML = `
-      <div class="loading-card">
-        No Resources Found
+      <div class="empty-resource">
+        <div class="empty-icon">
+          📚
+        </div>
+
+        <h3>
+          No Resources Available
+        </h3>
+
+        <p>
+          Resources for this subject will appear here.
+        </p>
       </div>
     `;
+
     return;
   }
+
+  /* Group by year */
 
   const grouped = {};
 
   resources.forEach((resource) => {
-    if (!grouped[resource.year]) {
-      grouped[resource.year] = [];
+    const year = resource.year || "Other";
+
+    if (!grouped[year]) {
+      grouped[year] = [];
     }
 
-    grouped[resource.year].push(resource);
+    grouped[year].push(resource);
   });
 
   Object.keys(grouped)
-    .sort((a, b) => b - a)
+    .sort((a, b) => {
+      if (a === "Other" || b === "Other") {
+        return 0;
+      }
+
+      return Number(b) - Number(a);
+    })
     .forEach((year) => {
-      const section = document.createElement("div");
+      const yearSection = document.createElement("div");
 
-      const heading = document.createElement("h2");
-      heading.className = "year-heading";
-      heading.textContent = year;
+      yearSection.className = "year-section";
 
-      section.appendChild(heading);
-
-      grouped[year].forEach((resource, index) => {
-        const card = document.createElement("div");
-
-        card.className = "resource-card";
-
-        card.style.animationDelay = `${index * 120}ms`;
-
-        card.innerHTML = `
-
-        ${
-          resource.cover_image
-            ? `<img class="resource-cover"
-                    src="${resource.cover_image}">`
-            : `<div class="resource-cover placeholder">📚</div>`
-        }
-
-        <div class="resource-content">
-
-        <div class="resource-tags">
-
-        <span class="resource-badge">
-            ${resource.category || "Resource"}
-        </span>
-    
-        <span class="origin-badge ${
-          resource.origin === "Foreign" ? "foreign" : "indian"
-        }">
-    
-            ${resource.origin === "Foreign" ? "🌍 Foreign" : "Indian"}
-    
-        </span>
-    
-    </div>
-
-            <h3>${resource.title}</h3>
-
-            <p>
-
-                ${resource.type.toUpperCase()} • ${resource.year}
-
-            </p>
-
-            ${
-              resource.type === "pdf" && resource.upload_date
-                ? `
-                <small class="upload-date">
-
-                    📅 ${new Date(resource.upload_date).toLocaleDateString()}
-
-                </small>
-                `
-                : ""
-            }
-
-            <div class="resource-actions">
-
-                ${
-                  resource.type === "pdf"
-                    ? `
-                    <a class="resource-btn"
-                       href="viewer.html?pdf=${encodeURIComponent(
-                         resource.file_url
-                       )}">
-                        👁 Read
-                    </a>
-
-                    <a class="resource-btn"
-                       target="_blank"
-                       href="${resource.file_url}">
-                        ⬇ Download
-                    </a>
-                    `
-                    : `
-                    <a class="resource-btn"
-                       target="_blank"
-                       href="${resource.file_url}">
-                        🔗 Open
-                    </a>
-                    `
-                }
-
-            </div>
-
+      yearSection.innerHTML = `
+        <div class="year-heading">
+          <span>📅</span>
+          ${escapeHtml(year)}
         </div>
-        `;
+      `;
 
-        section.appendChild(card);
+      grouped[year].forEach((resource) => {
+        const card = createResourceCard(resource);
+
+        yearSection.appendChild(card);
       });
 
-      container.appendChild(section);
+      container.appendChild(yearSection);
     });
 }
-function searchResources() {
-  applyFilters();
+
+/* =========================================================
+   RESOURCE CARD
+========================================================= */
+
+function createResourceCard(resource) {
+  const card = document.createElement("div");
+
+  card.className = "resource-card";
+
+  const isPdf = resource.type === "pdf";
+
+  const typeLabel = isPdf ? "PDF" : "LINK";
+
+  const actionText = isPdf ? "Open PDF" : "Open Resource";
+
+  card.innerHTML = `
+
+    <div class="resource-icon">
+      ${isPdf ? "📄" : "🔗"}
+    </div>
+
+
+    <div class="resource-info">
+
+      <h3>
+        ${escapeHtml(resource.title)}
+      </h3>
+
+
+      <div class="resource-meta">
+
+        <span>
+          ${typeLabel}
+        </span>
+
+        ${
+          resource.category
+            ? `
+              <span>
+                ${escapeHtml(resource.category)}
+              </span>
+            `
+            : ""
+        }
+
+      </div>
+
+    </div>
+
+
+    <a
+      class="resource-btn"
+      href="${escapeAttribute(resource.file_url)}"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      ${actionText}
+      →
+    </a>
+  `;
+
+  return card;
 }
-function filterResources() {
-  applyFilters();
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-function applyFilters() {
-  const search =
-    document.getElementById("searchResource")?.value?.toLowerCase()?.trim() ||
-    "";
-
-  const year = document.getElementById("yearFilter")?.value || "";
-
-  const category = document.getElementById("categoryFilter")?.value || "";
-
-  const type = document.getElementById("typeFilter")?.value || "";
-
-  const sort = document.getElementById("sortFilter")?.value || "latest";
-
-  let filtered = [...allResources];
-  const origin = document.getElementById("originFilter").value;
-
-  if (origin) {
-    filtered = filtered.filter((r) => r.origin === origin);
-  }
-  if (search) {
-    filtered = filtered.filter(
-      (r) =>
-        r.title.toLowerCase().includes(search) ||
-        (r.category || "").toLowerCase().includes(search) ||
-        r.type.toLowerCase().includes(search) ||
-        String(r.year).includes(search)
-    );
-  }
-
-  if (year) {
-    filtered = filtered.filter((r) => String(r.year) === year);
-  }
-
-  if (category) {
-    filtered = filtered.filter((r) => r.category === category);
-  }
-
-  if (type) {
-    filtered = filtered.filter((r) => r.type === type);
-  }
-
-  switch (sort) {
-    case "latest":
-      filtered.sort(
-        (a, b) => new Date(b.upload_date) - new Date(a.upload_date)
-      );
-      break;
-
-    case "oldest":
-      filtered.sort(
-        (a, b) => new Date(a.upload_date) - new Date(b.upload_date)
-      );
-      break;
-
-    case "az":
-      filtered.sort((a, b) => a.title.localeCompare(b.title));
-      break;
-
-    case "za":
-      filtered.sort((a, b) => b.title.localeCompare(a.title));
-      break;
-  }
-
-  const counter = document.getElementById("resourceCount");
-
-  if (counter) {
-    counter.innerText = `${filtered.length} Resources`;
-  }
-
-  renderResources(filtered);
+function escapeAttribute(value) {
+  return String(value || "")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
