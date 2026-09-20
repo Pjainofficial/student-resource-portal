@@ -2006,3 +2006,132 @@ body{
                                         grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
                                         gap:25px;
                                         }
+  /* =========================================================
+   TOPIC DESCRIPTION
+========================================================= */
+
+.topic-description-container {
+    margin-top: 12px;
+    margin-bottom: 18px;
+  }
+  
+  
+  /* -----------------------------------------
+     DESCRIPTION
+  ----------------------------------------- */
+  
+  .topic-description {
+    margin: 0;
+  
+    color: #536b88;
+  
+    font-size: 16px;
+  
+    line-height: 1.7;
+  
+    /*
+     * Normal horizontal text wrapping
+     */
+    white-space: normal;
+  
+    transition: max-height 0.3s ease;
+  }
+  
+  
+  /* -----------------------------------------
+     COLLAPSED DESCRIPTION
+  ----------------------------------------- */
+  
+  .topic-description.collapsed {
+  
+    display: -webkit-box;
+  
+    -webkit-box-orient: vertical;
+  
+    -webkit-line-clamp: 3;
+  
+    overflow: hidden;
+  
+  }
+  
+  
+  /* -----------------------------------------
+     SHOW MORE LINK
+  ----------------------------------------- */
+  
+  .show-more-link {
+  
+    display: inline-block;
+  
+    margin-top: 6px;
+  
+    padding: 0;
+  
+    border: none;
+  
+    background: none;
+  
+    color: #4f46e5;
+  
+    font-size: 14px;
+  
+    font-weight: 600;
+  
+    line-height: 1.5;
+  
+    cursor: pointer;
+  
+    text-align: left;
+  
+  }
+  
+  
+  .show-more-link:hover {
+  
+    color: #3730a3;
+  
+    text-decoration: underline;
+  
+  }
+  
+  
+  /* =========================================================
+     TOPIC META
+  ========================================================= */
+  
+  .topic-meta {
+  
+    display: flex;
+  
+    justify-content: space-between;
+  
+    align-items: center;
+  
+    gap: 12px;
+  
+    flex-wrap: wrap;
+  
+  }
+  
+  
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+  
+  @media (max-width: 768px) {
+  
+    .topic-description {
+  
+      font-size: 15px;
+  
+      line-height: 1.65;
+  
+    }
+  
+    .topic-description.collapsed {
+  
+      -webkit-line-clamp: 4;
+  
+    }
+  
+  }

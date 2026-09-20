@@ -1855,19 +1855,145 @@ body {
   }
 
 
-  .topic-content h3 {
+  
+}
+/* =========================================================
+   COURSE DESCRIPTION
+========================================================= */
 
-    font-size: 17px;
+.topic-description-box {
+  margin-top: 12px;
+  margin-bottom: 18px;
+}
 
-  }
+
+/* =========================================================
+   DESCRIPTION TEXT
+========================================================= */
+
+.topic-description {
+  margin: 0;
+
+  color: #536b88;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+
+  /*
+   * Normal text wrapping.
+   * Text goes horizontally across the card.
+   */
+  white-space: normal;
+}
 
 
-  .topic-description-text {
+/* =========================================================
+   COLLAPSED DESCRIPTION
+========================================================= */
 
-    font-size: 13px;
+.topic-description.description-collapsed {
 
-    line-height: 1.65;
+  display: -webkit-box !important;
 
-  }
+  -webkit-box-orient: vertical !important;
+
+  -webkit-line-clamp: 3 !important;
+
+  overflow: hidden !important;
+
+}
+
+
+/* =========================================================
+   SHOW MORE
+========================================================= */
+
+/*
+ * IMPORTANT:
+ * !important is intentional here because your existing
+ * .topic-card button / button styles are overriding it.
+ */
+
+.topic-card .show-more-link {
+
+  display: inline-block !important;
+
+  width: auto !important;
+
+  min-width: 0 !important;
+
+  height: auto !important;
+
+  margin: 6px 0 0 0 !important;
+
+  padding: 0 !important;
+
+  border: none !important;
+
+  border-radius: 0 !important;
+
+  background: transparent !important;
+
+  box-shadow: none !important;
+
+  color: #4f46e5 !important;
+
+  font-family: inherit !important;
+
+  font-size: 14px !important;
+
+  font-weight: 600 !important;
+
+  line-height: 1.5 !important;
+
+  text-align: left !important;
+
+  cursor: pointer !important;
+
+  transition: color 0.2s ease;
+
+}
+
+
+.topic-card .show-more-link:hover {
+
+  background: transparent !important;
+
+  color: #3730a3 !important;
+
+  text-decoration: underline;
+
+}
+
+
+/* =========================================================
+   SHOW LESS
+========================================================= */
+
+.topic-card .show-more-link:focus {
+
+  outline: none;
+
+  background: transparent !important;
+
+}
+
+
+/* =========================================================
+   COURSE META
+========================================================= */
+
+.topic-card .topic-meta {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
 
 }
