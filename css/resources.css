@@ -485,3 +485,595 @@ body {
       margin-left: 66px;
     }
   }
+  /* =========================================================
+   RESOURCE FILTER SECTION
+========================================================= */
+
+.resource-filter-section {
+  width: min(1400px, 92%);
+  margin: 40px auto 10px;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  border-radius: 22px;
+  box-shadow: 0 10px 35px rgba(30, 60, 90, 0.07);
+}
+
+.resource-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.filter-label {
+  display: inline-block;
+  color: #315d87;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.resource-filter-header h2 {
+  margin: 0;
+  color: #173b61;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.resource-filter-header p {
+  margin: 6px 0 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   CLEAR FILTER BUTTON
+========================================================= */
+
+.clear-filter-btn {
+  border: 1px solid #dce4ed;
+  background: #f7f9fc;
+  color: #315d87;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
+
+.clear-filter-btn:hover {
+  background: #315d87;
+  color: white;
+}
+
+
+/* =========================================================
+   FILTER GRID
+========================================================= */
+
+.resource-filters {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 2fr)
+    repeat(4, minmax(150px, 1fr));
+
+  gap: 14px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.filter-search {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 15px;
+
+  background: #f7f9fc;
+
+  border: 1px solid #e0e6ee;
+  border-radius: 11px;
+
+  transition: 0.2s ease;
+}
+
+.filter-search:focus-within {
+  background: white;
+  border-color: #315d87;
+  box-shadow: 0 0 0 3px rgba(49, 93, 135, 0.08);
+}
+
+.filter-search span {
+  font-size: 16px;
+}
+
+.filter-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 13px;
+  color: #243b53;
+}
+
+.filter-search input::placeholder {
+  color: #8a99aa;
+}
+
+
+/* =========================================================
+   FILTER CONTROLS
+========================================================= */
+
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-control label {
+  color: #52667a;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.filter-control select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 12px;
+
+  border: 1px solid #e0e6ee;
+  border-radius: 11px;
+
+  background: #f7f9fc;
+
+  color: #263f59;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.filter-control select:focus {
+  background: white;
+  border-color: #315d87;
+  box-shadow: 0 0 0 3px rgba(49, 93, 135, 0.08);
+}
+
+
+/* =========================================================
+   RESOURCE LIST
+========================================================= */
+
+.resource-list-section {
+  padding-top: 30px;
+}
+
+.resources-container {
+  width: min(1400px, 92%);
+  margin: auto;
+}
+
+
+/* =========================================================
+   YEAR SECTION
+========================================================= */
+
+.year-section {
+  margin-bottom: 40px;
+}
+
+.year-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 18px;
+
+  color: #173b61;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.year-heading::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background: #e1e7ee;
+
+  margin-left: 10px;
+}
+
+
+/* =========================================================
+   RESOURCE CARD
+========================================================= */
+
+.resource-card {
+  display: grid;
+
+  grid-template-columns: 90px 1fr auto;
+
+  align-items: center;
+
+  gap: 20px;
+
+  width: 100%;
+
+  margin-bottom: 14px;
+
+  padding: 17px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 20px rgba(30, 60, 90, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #cbd9e7;
+
+  box-shadow:
+    0 10px 30px rgba(30, 60, 90, 0.09);
+}
+
+
+/* =========================================================
+   BOOK COVER
+========================================================= */
+
+.resource-cover-wrapper {
+  width: 90px;
+  height: 115px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #f4f6fa;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.10);
+}
+
+.resource-cover {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.resource-cover-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 32px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #edf3fa,
+      #f8fafc
+    );
+
+  color: #315d87;
+}
+
+
+/* =========================================================
+   RESOURCE INFO
+========================================================= */
+
+.resource-info {
+  min-width: 0;
+}
+
+.resource-info h3 {
+  margin: 0 0 9px;
+
+  color: #173b61;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  line-height: 1.45;
+}
+
+.resource-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.resource-meta span {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 9px;
+
+  background: #f5f7fa;
+
+  border-radius: 7px;
+
+  color: #64748b;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.resource-meta .pdf-label {
+  background: #fff1f1;
+  color: #c0392b;
+}
+
+.resource-meta .link-label {
+  background: #edf6ff;
+  color: #2563a6;
+}
+
+
+/* =========================================================
+   RESOURCE DESCRIPTION
+========================================================= */
+
+.resource-description {
+  margin: 8px 0 0;
+
+  color: #718096;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   RESOURCE BUTTON
+========================================================= */
+
+.resource-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 125px;
+
+  padding: 11px 16px;
+
+  border-radius: 9px;
+
+  background: #28547d;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+
+  white-space: nowrap;
+}
+
+.resource-btn:hover {
+  background: #173f65;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-resource {
+  text-align: center;
+
+  padding: 70px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+
+  border-radius: 18px;
+}
+
+.empty-icon {
+  font-size: 45px;
+  margin-bottom: 12px;
+}
+
+.empty-resource h3 {
+  margin: 0 0 7px;
+
+  color: #173b61;
+
+  font-size: 20px;
+}
+
+.empty-resource p {
+  margin: 0 0 20px;
+
+  color: #7b8794;
+
+  font-size: 14px;
+}
+
+.reset-empty-btn {
+  border: none;
+
+  padding: 10px 18px;
+
+  border-radius: 9px;
+
+  background: #28547d;
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   SUBJECT DESCRIPTION
+========================================================= */
+
+.subject-description-wrapper {
+  max-width: 850px;
+}
+
+#subjectDescription {
+  line-height: 1.7;
+}
+
+#subjectDescription.collapsed {
+  display: -webkit-box;
+
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+#subjectDescription.expanded {
+  display: block;
+}
+
+.subject-description-btn {
+  border: none;
+
+  padding: 0;
+
+  margin-top: 8px;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .resource-filters {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .filter-search {
+    grid-column: 1 / -1;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .resource-filter-section {
+    padding: 20px;
+  }
+
+  .resource-filter-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resource-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-search {
+    grid-column: auto;
+  }
+
+  .resource-card {
+    grid-template-columns: 70px 1fr;
+    gap: 14px;
+  }
+
+  .resource-cover-wrapper {
+    width: 70px;
+    height: 95px;
+  }
+
+  .resource-info {
+    min-width: 0;
+  }
+
+  .resource-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .year-heading {
+    font-size: 17px;
+  }
+
+}

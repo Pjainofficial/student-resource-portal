@@ -1,4 +1,5 @@
 let currentSubject = null;
+let allResources = [];
 
 /* =========================================================
    LOAD
@@ -8,7 +9,6 @@ document.addEventListener("DOMContentLoaded", loadResources);
 
 async function loadResources() {
   const params = new URLSearchParams(window.location.search);
-
   const subjectId = params.get("subject");
 
   if (!subjectId) {
@@ -17,19 +17,16 @@ async function loadResources() {
         Invalid Subject
       </div>
     `;
-
     return;
   }
 
   try {
-    /* -----------------------------------------
+    /* =====================================================
        SUBJECT
-    ----------------------------------------- */
+    ===================================================== */
 
     const { data: subject, error: subjectError } = await supabaseClient
-
       .from("subjects")
-
       .select(
         `
         id,
@@ -37,9 +34,7 @@ async function loadResources() {
         description
       `
       )
-
       .eq("id", subjectId)
-
       .single();
 
     if (subjectError) {
@@ -48,13 +43,14 @@ async function loadResources() {
 
     currentSubject = subject;
 
-    document.getElementById("subjectTitle").innerText = subject.name;
+    document.getElementById("subjectTitle").innerText =
+      subject.name || "Subject";
 
-    document.title = `${subject.name} | E-Gyan`;
+    document.title = `${subject.name || "Subject"} | E-Gyan`;
 
-    /* -----------------------------------------
-       DESCRIPTION
-    ----------------------------------------- */
+    /* =====================================================
+       SUBJECT DESCRIPTION
+    ===================================================== */
 
     const description =
       subject.description ||
@@ -73,25 +69,25 @@ async function loadResources() {
 
       descriptionButton.innerText = "Show more ↓";
     } else {
+      descriptionElement.classList.remove("collapsed");
+
       descriptionButton.style.display = "none";
     }
 
-    /* -----------------------------------------
-       RESOURCES
-    ----------------------------------------- */
+    /* =====================================================
+       LOAD RESOURCES
+    ===================================================== */
 
     const { data: resources, error: resourceError } = await supabaseClient
-
       .from("resources")
-
       .select("*")
-
       .eq("subject_id", subjectId)
-
       .order("year", {
         ascending: false,
       })
-
+      .order("upload_date", {
+        ascending: false,
+      })
       .order("display_order", {
         ascending: true,
       });
@@ -100,7 +96,19 @@ async function loadResources() {
       throw resourceError;
     }
 
-    renderResources(resources || []);
+    allResources = resources || [];
+
+    /* =====================================================
+       BUILD FILTERS
+    ===================================================== */
+
+    buildFilters(allResources);
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
+
+    renderResources(allResources);
   } catch (error) {
     console.error("RESOURCE PAGE ERROR:", error);
 
@@ -113,7 +121,7 @@ async function loadResources() {
 }
 
 /* =========================================================
-   DESCRIPTION SHOW MORE
+   SUBJECT DESCRIPTION SHOW MORE
 ========================================================= */
 
 function toggleSubjectDescription() {
@@ -121,21 +129,255 @@ function toggleSubjectDescription() {
 
   const button = document.getElementById("subjectDescriptionBtn");
 
+  if (!description || !button) {
+    return;
+  }
+
   const expanded = description.classList.contains("expanded");
 
   if (expanded) {
     description.classList.remove("expanded");
-
     description.classList.add("collapsed");
 
     button.innerText = "Show more ↓";
   } else {
     description.classList.remove("collapsed");
-
     description.classList.add("expanded");
 
     button.innerText = "Show less ↑";
   }
+}
+
+/* =========================================================
+   BUILD FILTERS
+========================================================= */
+
+function buildFilters(resources) {
+  const yearFilter = document.getElementById("resourceYearFilter");
+
+  const categoryFilter = document.getElementById("resourceCategoryFilter");
+
+  if (!yearFilter || !categoryFilter) {
+    return;
+  }
+
+  /* -------------------------------------------------------
+     YEARS
+  ------------------------------------------------------- */
+
+  const years = [
+    ...new Set(
+      resources
+        .map((resource) => resource.year)
+        .filter((year) => year !== null && year !== undefined && year !== "")
+    ),
+  ].sort((a, b) => Number(b) - Number(a));
+
+  yearFilter.innerHTML = `
+    <option value="all">All Years</option>
+  `;
+
+  years.forEach((year) => {
+    yearFilter.innerHTML += `
+      <option value="${escapeAttribute(year)}">
+        ${escapeHtml(year)}
+      </option>
+    `;
+  });
+
+  /* -------------------------------------------------------
+     CATEGORIES
+  ------------------------------------------------------- */
+
+  const categories = [
+    ...new Set(
+      resources
+        .map((resource) => resource.category)
+        .filter(
+          (category) =>
+            category !== null && category !== undefined && category !== ""
+        )
+    ),
+  ].sort();
+
+  categoryFilter.innerHTML = `
+    <option value="all">All Resources</option>
+  `;
+
+  categories.forEach((category) => {
+    categoryFilter.innerHTML += `
+      <option value="${escapeAttribute(category)}">
+        ${escapeHtml(category)}
+      </option>
+    `;
+  });
+}
+
+/* =========================================================
+   APPLY FILTERS
+========================================================= */
+
+function applyResourceFilters() {
+  const searchInput = document.getElementById("resourceSearch");
+
+  const yearFilter = document.getElementById("resourceYearFilter");
+
+  const typeFilter = document.getElementById("resourceTypeFilter");
+
+  const categoryFilter = document.getElementById("resourceCategoryFilter");
+
+  const sortFilter = document.getElementById("resourceSortFilter");
+
+  const search = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+  const selectedYear = yearFilter ? yearFilter.value : "all";
+
+  const selectedType = typeFilter ? typeFilter.value : "all";
+
+  const selectedCategory = categoryFilter ? categoryFilter.value : "all";
+
+  const selectedSort = sortFilter ? sortFilter.value : "newest";
+
+  let filtered = [...allResources];
+
+  /* =====================================================
+     SEARCH
+  ===================================================== */
+
+  if (search) {
+    filtered = filtered.filter((resource) => {
+      const title = String(resource.title || "").toLowerCase();
+
+      const category = String(resource.category || "").toLowerCase();
+
+      const type = String(resource.type || "").toLowerCase();
+
+      return (
+        title.includes(search) ||
+        category.includes(search) ||
+        type.includes(search)
+      );
+    });
+  }
+
+  /* =====================================================
+     YEAR
+  ===================================================== */
+
+  if (selectedYear !== "all") {
+    filtered = filtered.filter(
+      (resource) => String(resource.year || "") === selectedYear
+    );
+  }
+
+  /* =====================================================
+     TYPE
+  ===================================================== */
+
+  if (selectedType !== "all") {
+    filtered = filtered.filter((resource) => {
+      const type = String(resource.type || "").toLowerCase();
+
+      if (selectedType === "pdf") {
+        return type === "pdf";
+      }
+
+      if (selectedType === "link") {
+        return type !== "pdf";
+      }
+
+      return true;
+    });
+  }
+
+  /* =====================================================
+     CATEGORY
+  ===================================================== */
+
+  if (selectedCategory !== "all") {
+    filtered = filtered.filter(
+      (resource) => String(resource.category || "") === selectedCategory
+    );
+  }
+
+  /* =====================================================
+     SORT
+  ===================================================== */
+
+  filtered.sort((a, b) => {
+    const dateA = getResourceDate(a);
+    const dateB = getResourceDate(b);
+
+    if (selectedSort === "oldest") {
+      return dateA - dateB;
+    }
+
+    return dateB - dateA;
+  });
+
+  renderResources(filtered);
+}
+
+/* =========================================================
+   RESET FILTERS
+========================================================= */
+
+function resetResourceFilters() {
+  const searchInput = document.getElementById("resourceSearch");
+
+  const yearFilter = document.getElementById("resourceYearFilter");
+
+  const typeFilter = document.getElementById("resourceTypeFilter");
+
+  const categoryFilter = document.getElementById("resourceCategoryFilter");
+
+  const sortFilter = document.getElementById("resourceSortFilter");
+
+  if (searchInput) {
+    searchInput.value = "";
+  }
+
+  if (yearFilter) {
+    yearFilter.value = "all";
+  }
+
+  if (typeFilter) {
+    typeFilter.value = "all";
+  }
+
+  if (categoryFilter) {
+    categoryFilter.value = "all";
+  }
+
+  if (sortFilter) {
+    sortFilter.value = "newest";
+  }
+
+  renderResources(allResources);
+}
+
+/* =========================================================
+   GET RESOURCE DATE
+========================================================= */
+
+function getResourceDate(resource) {
+  if (resource.upload_date) {
+    const date = new Date(resource.upload_date).getTime();
+
+    if (!isNaN(date)) {
+      return date;
+    }
+  }
+
+  if (resource.year) {
+    const yearDate = new Date(Number(resource.year), 0, 1).getTime();
+
+    if (!isNaN(yearDate)) {
+      return yearDate;
+    }
+  }
+
+  return 0;
 }
 
 /* =========================================================
@@ -145,29 +387,46 @@ function toggleSubjectDescription() {
 function renderResources(resources) {
   const container = document.getElementById("resourcesContainer");
 
+  if (!container) {
+    return;
+  }
+
   container.innerHTML = "";
 
-  if (!resources.length) {
+  /* -------------------------------------------------------
+     NO RESULTS
+  ------------------------------------------------------- */
+
+  if (!resources || resources.length === 0) {
     container.innerHTML = `
       <div class="empty-resource">
         <div class="empty-icon">
-          📚
+          🔍
         </div>
 
         <h3>
-          No Resources Available
+          No Resources Found
         </h3>
 
         <p>
-          Resources for this subject will appear here.
+          Try changing your search or filters.
         </p>
+
+        <button
+          class="reset-empty-btn"
+          onclick="resetResourceFilters()"
+        >
+          Clear Filters
+        </button>
       </div>
     `;
 
     return;
   }
 
-  /* Group by year */
+  /* -------------------------------------------------------
+     GROUP BY YEAR
+  ------------------------------------------------------- */
 
   const grouped = {};
 
@@ -183,9 +442,8 @@ function renderResources(resources) {
 
   Object.keys(grouped)
     .sort((a, b) => {
-      if (a === "Other" || b === "Other") {
-        return 0;
-      }
+      if (a === "Other") return 1;
+      if (b === "Other") return -1;
 
       return Number(b) - Number(a);
     })
@@ -220,46 +478,102 @@ function createResourceCard(resource) {
 
   card.className = "resource-card";
 
-  const isPdf = resource.type === "pdf";
+  const isPdf = String(resource.type || "").toLowerCase() === "pdf";
 
   const typeLabel = isPdf ? "PDF" : "LINK";
 
   const actionText = isPdf ? "Open PDF" : "Open Resource";
 
+  /* -------------------------------------------------------
+     COVER IMAGE
+  ------------------------------------------------------- */
+
+  let imageHTML = "";
+
+  if (resource.cover_image) {
+    imageHTML = `
+      <div class="resource-cover-wrapper">
+        <img
+          class="resource-cover"
+          src="${escapeAttribute(resource.cover_image)}"
+          alt="${escapeAttribute(resource.title || "Book")}"
+          loading="lazy"
+          onerror="this.parentElement.innerHTML='<div class=&quot;resource-cover-placeholder&quot;>📚</div>'"
+        />
+      </div>
+    `;
+  } else {
+    imageHTML = `
+      <div class="resource-cover-wrapper">
+        <div class="resource-cover-placeholder">
+          ${isPdf ? "📄" : "📚"}
+        </div>
+      </div>
+    `;
+  }
+
+  /* -------------------------------------------------------
+     DATE
+  ------------------------------------------------------- */
+
+  let dateHTML = "";
+
+  if (resource.upload_date) {
+    const date = new Date(resource.upload_date);
+
+    if (!isNaN(date.getTime())) {
+      dateHTML = `
+        <span>
+          📅 ${date.toLocaleDateString()}
+        </span>
+      `;
+    }
+  }
+
+  /* -------------------------------------------------------
+     CARD
+  ------------------------------------------------------- */
+
   card.innerHTML = `
-
-    <div class="resource-icon">
-      ${isPdf ? "📄" : "🔗"}
-    </div>
-
+    ${imageHTML}
 
     <div class="resource-info">
 
       <h3>
-        ${escapeHtml(resource.title)}
+        ${escapeHtml(resource.title || "Untitled Resource")}
       </h3>
-
 
       <div class="resource-meta">
 
-        <span>
-          ${typeLabel}
+        <span class="${isPdf ? "pdf-label" : "link-label"}">
+          ${isPdf ? "📄 PDF" : "🔗 LINK"}
         </span>
 
         ${
           resource.category
             ? `
               <span>
-                ${escapeHtml(resource.category)}
+                📚 ${escapeHtml(resource.category)}
               </span>
             `
             : ""
         }
 
+        ${dateHTML}
+
       </div>
 
-    </div>
+      ${
+        resource.description
+          ? `
+            <p class="resource-description">
+              ${escapeHtml(resource.description)}
+            </p>
+          `
+          : ""
+      }
 
+    </div>
 
     <a
       class="resource-btn"
@@ -290,6 +604,7 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
   return String(value || "")
+    .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");

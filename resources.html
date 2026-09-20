@@ -62,9 +62,82 @@
       </div>
     </section>
 
+    <!-- RESOURCE FILTERS -->
+
+    <section class="resource-filter-section">
+      <div class="resource-filter-header">
+        <div>
+          <span class="filter-label"> 📚 RESOURCE LIBRARY </span>
+
+          <h2>Find Your Resources</h2>
+
+          <p>Search books, journals, PDFs and other academic resources.</p>
+        </div>
+
+        <button
+          type="button"
+          class="clear-filter-btn"
+          onclick="resetResourceFilters()"
+        >
+          Clear Filters
+        </button>
+      </div>
+
+      <div class="resource-filters">
+        <div class="filter-search">
+          <span>🔍</span>
+
+          <input
+            type="text"
+            id="resourceSearch"
+            placeholder="Search by resource name..."
+            oninput="applyResourceFilters()"
+          />
+        </div>
+
+        <div class="filter-control">
+          <label for="resourceYearFilter"> 📅 Year </label>
+
+          <select id="resourceYearFilter" onchange="applyResourceFilters()">
+            <option value="all">All Years</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label for="resourceTypeFilter"> 📄 Type </label>
+
+          <select id="resourceTypeFilter" onchange="applyResourceFilters()">
+            <option value="all">All Types</option>
+
+            <option value="pdf">PDF</option>
+
+            <option value="link">Link</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label for="resourceCategoryFilter"> 📚 Category </label>
+
+          <select id="resourceCategoryFilter" onchange="applyResourceFilters()">
+            <option value="all">All Resources</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label for="resourceSortFilter"> ↕ Sort </label>
+
+          <select id="resourceSortFilter" onchange="applyResourceFilters()">
+            <option value="newest">Newest First</option>
+
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
     <!-- RESOURCES -->
 
-    <section class="section">
+    <section class="section resource-list-section">
       <div id="resourcesContainer" class="resources-container">
         <div class="loading-card">Loading resources...</div>
       </div>
