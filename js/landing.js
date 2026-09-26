@@ -1,37 +1,37 @@
-/* =========================================================
-   COLLEGE LANDING PAGE
-========================================================= */
-
-/* =========================================================
-   LOAD AUTHENTICATED COLLEGE
-========================================================= */
-
 async function loadLandingCollege() {
   try {
-    /* -----------------------------------------------------
-       CHECK LOGIN SESSION
-    ----------------------------------------------------- */
+    // ==========================================
+    // 1. CHECK AUTH SESSION
+    // ==========================================
 
     const {
       data: { session },
+      error: sessionError,
     } = await supabaseClient.auth.getSession();
 
+    if (sessionError) {
+      console.error("SESSION ERROR:", sessionError);
+
+      window.location.replace("student-login.html");
+      return;
+    }
+
+    // User is not logged in
     if (!session) {
       window.location.replace("student-login.html");
-
       return;
     }
 
     const user = session.user;
 
-    /* -----------------------------------------------------
-       FIND COLLEGE FOR LOGGED-IN USER
-    ----------------------------------------------------- */
+    console.log("AUTHENTICATED USER:", user.id);
+
+    // ==========================================
+    // 2. FIND COLLEGE CONNECTED TO THIS USER
+    // ==========================================
 
     const { data: collegeUser, error: mappingError } = await supabaseClient
-
       .from("college_users")
-
       .select(
         `
         college_id,
@@ -45,10 +45,12 @@ async function loadLandingCollege() {
         )
       `
       )
-
       .eq("user_id", user.id)
-
       .single();
+
+    // ==========================================
+    // 3. HANDLE INVALID COLLEGE MAPPING
+    // ==========================================
 
     if (mappingError) {
       console.error("COLLEGE MAPPING ERROR:", mappingError);
@@ -61,6 +63,8 @@ async function loadLandingCollege() {
     }
 
     if (!collegeUser?.colleges) {
+      console.error("NO COLLEGE FOUND FOR USER:", user.id);
+
       await supabaseClient.auth.signOut();
 
       window.location.replace("student-login.html");
@@ -68,11 +72,17 @@ async function loadLandingCollege() {
       return;
     }
 
+    // ==========================================
+    // 4. GET COLLEGE
+    // ==========================================
+
     const college = collegeUser.colleges;
 
-    /* =====================================================
-       CHECK COLLEGE STATUS
-    ===================================================== */
+    console.log("AUTHENTICATED COLLEGE:", college);
+
+    // ==========================================
+    // 5. CHECK COLLEGE STATUS
+    // ==========================================
 
     if (!college.is_active) {
       alert("This college portal is currently inactive.");
@@ -84,17 +94,36 @@ async function loadLandingCollege() {
       return;
     }
 
-    /* =====================================================
-       PAGE TITLE
-    ===================================================== */
+    // ==========================================
+    // 6. STORE COLLEGE ID
+    // UI convenience only.
+    // Authentication does NOT depend on this.
+    // ==========================================
+
+    localStorage.setItem("selectedCollegeId", college.id);
+
+    localStorage.setItem(
+      "selectedCollege",
+      JSON.stringify({
+        id: college.id,
+        name: college.name,
+        portal_title: college.portal_title,
+        logo_url: college.logo_url,
+        cover_image_url: college.cover_image_url,
+      })
+    );
+
+    // ==========================================
+    // 7. UPDATE PAGE TITLE
+    // ==========================================
 
     document.title = `${college.name} | ${
       college.portal_title || "Digital Knowledge Library"
     }`;
 
-    /* =====================================================
-       NAVBAR COLLEGE NAME
-    ===================================================== */
+    // ==========================================
+    // 8. NAVBAR COLLEGE NAME
+    // ==========================================
 
     const collegeName = document.getElementById("collegeName");
 
@@ -102,9 +131,9 @@ async function loadLandingCollege() {
       collegeName.innerText = college.name;
     }
 
-    /* =====================================================
-       HERO COLLEGE NAME
-    ===================================================== */
+    // ==========================================
+    // 9. HERO COLLEGE NAME
+    // ==========================================
 
     const heroCollegeName = document.getElementById("heroCollegeName");
 
@@ -112,9 +141,9 @@ async function loadLandingCollege() {
       heroCollegeName.innerText = college.name;
     }
 
-    /* =====================================================
-       PORTAL TITLE
-    ===================================================== */
+    // ==========================================
+    // 10. PORTAL TITLE
+    // ==========================================
 
     const portalTitle = document.getElementById("portalTitle");
 
@@ -123,30 +152,35 @@ async function loadLandingCollege() {
         college.portal_title || "Digital Knowledge Library";
     }
 
-    /* =====================================================
-       COLLEGE LOGOS
-       NAVBAR + FOOTER ONLY
-    ===================================================== */
+    // ==========================================
+    // 11. COLLEGE LOGO
+    // ==========================================
 
     const logoElements = ["collegeLogo", "footerLogo"];
 
     logoElements.forEach((id) => {
       const logo = document.getElementById(id);
 
-      if (!logo) return;
+      if (!logo) {
+        return;
+      }
 
       if (college.logo_url) {
         logo.src = college.logo_url;
 
+        logo.alt = `${college.name} Logo`;
+
         logo.style.display = "block";
       } else {
+        logo.removeAttribute("src");
+
         logo.style.display = "none";
       }
     });
 
-    /* =====================================================
-       FOOTER COLLEGE NAME
-    ===================================================== */
+    // ==========================================
+    // 12. FOOTER COLLEGE NAME
+    // ==========================================
 
     const footerCollegeName = document.getElementById("footerCollegeName");
 
@@ -154,9 +188,9 @@ async function loadLandingCollege() {
       footerCollegeName.innerText = college.name;
     }
 
-    /* =====================================================
-       HERO COVER IMAGE
-    ===================================================== */
+    // ==========================================
+    // 13. HERO COVER IMAGE
+    // ==========================================
 
     const hero = document.querySelector(".landing-hero");
 
@@ -183,9 +217,9 @@ async function loadLandingCollege() {
       hero.style.filter = "none";
     }
 
-    /* =====================================================
-       EXPLORE COURSES
-    ===================================================== */
+    // ==========================================
+    // 14. EXPLORE COURSES BUTTON
+    // ==========================================
 
     const exploreButton = document.getElementById("exploreBtn");
 
@@ -193,23 +227,35 @@ async function loadLandingCollege() {
       exploreButton.href = "index.html";
     }
 
-    /* =====================================================
-       DEBUG
-    ===================================================== */
+    // ==========================================
+    // 15. UPDATE ALL INDEX LINKS
+    // ==========================================
 
-    console.log("AUTHENTICATED COLLEGE:", college);
+    const courseLinks = document.querySelectorAll('a[href="index.html"]');
+
+    courseLinks.forEach((link) => {
+      link.href = "index.html";
+    });
   } catch (error) {
+    // ==========================================
+    // UNEXPECTED ERROR
+    // ==========================================
+
     console.error("LANDING PAGE ERROR:", error);
 
-    await supabaseClient.auth.signOut();
+    try {
+      await supabaseClient.auth.signOut();
+    } catch (signOutError) {
+      console.error("SIGN OUT ERROR:", signOutError);
+    }
 
     window.location.replace("student-login.html");
   }
 }
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+// ==========================================
+// LOAD LANDING PAGE
+// ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
   loadLandingCollege();
