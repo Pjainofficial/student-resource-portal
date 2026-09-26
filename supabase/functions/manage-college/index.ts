@@ -119,7 +119,7 @@ Deno.serve(async (req) => {
       }
 
       // Internal email used only for Supabase Auth
-      const authEmail = `${username}@college.egyan.internal`;
+      const authEmail = `${username}@college.egyaan.internal`;
 
       // Create Auth user
       const { data: authData, error: authError } =

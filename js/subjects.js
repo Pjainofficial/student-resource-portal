@@ -84,7 +84,7 @@ async function loadSubjects() {
        * Browser title
        */
 
-      document.title = `${topic.name} | E-Gyan`;
+      document.title = `${topic.name} | E-Gyaan`;
     }
 
     /* -----------------------------------------

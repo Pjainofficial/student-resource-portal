@@ -42,7 +42,7 @@ function loadCollegeBranding() {
   const collegeName = document.getElementById("collegeName");
 
   if (collegeName) {
-    collegeName.innerText = college.name || "E-Gyan";
+    collegeName.innerText = college.name || "E-Gyaan";
   }
 
   /* -----------------------------------------
@@ -52,7 +52,7 @@ function loadCollegeBranding() {
   const collegeHeader = document.getElementById("collegeHeader");
 
   if (collegeHeader) {
-    collegeHeader.innerText = college.name || "E-Gyan";
+    collegeHeader.innerText = college.name || "E-Gyaan";
   }
 
   /* -----------------------------------------
@@ -92,7 +92,7 @@ function loadCollegeBranding() {
      PAGE TITLE
   ----------------------------------------- */
 
-  document.title = `${college.name || "E-Gyan"} | E-Gyan Knowledge Library`;
+  document.title = `${college.name || "E-Gyaan"} | E-Gyaan Knowledge Library`;
 }
 
 /* =========================================================

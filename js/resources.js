@@ -46,7 +46,7 @@ async function loadResources() {
     document.getElementById("subjectTitle").innerText =
       subject.name || "Subject";
 
-    document.title = `${subject.name || "Subject"} | E-Gyan`;
+    document.title = `${subject.name || "Subject"} | E-Gyaan`;
 
     /* =====================================================
        SUBJECT DESCRIPTION
