@@ -45,8 +45,19 @@
 
       <div class="landing-nav-links">
         <a href="#home">Home</a>
+
         <a href="#about">About</a>
+
         <a href="#contact">Contact</a>
+
+        <!-- LOGOUT -->
+        <a
+          href="javascript:void(0)"
+          class="admin-btn"
+          onclick="logoutStudent()"
+        >
+          Logout
+        </a>
       </div>
     </nav>
 
@@ -65,7 +76,7 @@
         <p id="heroCollegeName" class="hero-college-name">Loading College...</p>
 
         <p class="hero-description">
-          Access academic resources, journals, and digital learning
+          Access academic resources, books, journals, and digital learning
           materials—all in one convenient place.
         </p>
 
@@ -89,13 +100,13 @@
         <h2>Everything You Need to Learn</h2>
 
         <p>
-          Everything you need for learning, study, and research-journals, and
-          digital resources—all in one convenient place.
+          Everything you need for learning, study, and research—books, journals,
+          and digital resources—all in one convenient place.
         </p>
       </div>
 
       <div class="landing-feature-grid">
-        <!-- Academic Resources -->
+        <!-- ACADEMIC RESOURCES -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">📚</div>
@@ -103,13 +114,13 @@
           <h3>Academic Resources</h3>
 
           <p>
-            Access a comprehensive collection of Journals, research materials,
-            and other academic resources—all in one place to support learning,
-            teaching, and research.
+            Access a comprehensive collection of Journals, Books, research
+            materials, and other academic resources—all in one place to support
+            learning, teaching, and research.
           </p>
         </div>
 
-        <!-- Student Focused -->
+        <!-- STUDENT FOCUSED -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">🎓</div>
@@ -123,7 +134,7 @@
           </p>
         </div>
 
-        <!-- Digital Access -->
+        <!-- DIGITAL ACCESS -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">☁️</div>
@@ -149,26 +160,26 @@
         <h2>Why Students Love E-Gyaan</h2>
 
         <p>
-          Everything you need for learning, study, and research-journals, and
-          digital resources—all in one convenient place.
+          Everything you need for learning, study, and research—books, journals,
+          and digital resources—all in one convenient place.
         </p>
       </div>
 
       <div class="landing-feature-grid">
-        <!-- Journals -->
+        <!-- BOOKS -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">📘</div>
 
-          <h3>Journals</h3>
+          <h3>Books</h3>
 
           <p>
-            Access the latest editions of medical journals from publishers to
+            Access the latest editions of medical books from publishers to
             support your studies and professional learning.
           </p>
         </div>
 
-        <!-- Digital Access -->
+        <!-- DIGITAL ACCESS -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">☁️</div>
@@ -181,7 +192,7 @@
           </p>
         </div>
 
-        <!-- Explore Courses -->
+        <!-- EXPLORE COURSES -->
 
         <div class="landing-feature-card">
           <div class="feature-icon">🎓</div>
@@ -249,7 +260,7 @@
           <h3>Start Learning</h3>
 
           <p>
-            Access PDFs, journals, and other learning resources anytime,
+            Access books, PDFs, journals, and other learning resources anytime,
             anywhere.
           </p>
         </div>
@@ -347,13 +358,18 @@
     </footer>
 
     <!-- =========================
-         SUPABASE
+         SCRIPTS
     ========================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <!-- Supabase Config -->
     <script src="js/config.js"></script>
 
+    <!-- Student Authentication + Logout -->
+    <script src="js/student-auth.js"></script>
+
+    <!-- Landing Page -->
     <script src="js/landing.js"></script>
   </body>
 </html>
