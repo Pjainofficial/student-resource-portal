@@ -18,6 +18,7 @@ async function loadLandingCollege() {
 
     if (!session) {
       window.location.replace("student-login.html");
+
       return;
     }
 
@@ -28,7 +29,9 @@ async function loadLandingCollege() {
     ----------------------------------------------------- */
 
     const { data: collegeUser, error: mappingError } = await supabaseClient
+
       .from("college_users")
+
       .select(
         `
         college_id,
@@ -42,7 +45,9 @@ async function loadLandingCollege() {
         )
       `
       )
+
       .eq("user_id", user.id)
+
       .single();
 
     if (mappingError) {
@@ -119,10 +124,8 @@ async function loadLandingCollege() {
     }
 
     /* =====================================================
-       COLLEGE LOGO
-       
-       Only navbar + footer.
-       No hero logo.
+       COLLEGE LOGOS
+       NAVBAR + FOOTER ONLY
     ===================================================== */
 
     const logoElements = ["collegeLogo", "footerLogo"];
@@ -153,26 +156,20 @@ async function loadLandingCollege() {
 
     /* =====================================================
        HERO COVER IMAGE
-       
-       College uploaded image:
-       → use college image
-
-       No college image:
-       → use generic library image
     ===================================================== */
 
     const hero = document.querySelector(".landing-hero");
 
     const defaultCover =
-      "https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=2000&q=85";
+      "https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=2000&q=90";
 
     if (hero) {
       const coverImage = college.cover_image_url || defaultCover;
 
       hero.style.backgroundImage = `
         linear-gradient(
-          rgba(15, 23, 42, 0.55),
-          rgba(15, 23, 42, 0.70)
+          rgba(15, 23, 42, 0.48),
+          rgba(15, 23, 42, 0.68)
         ),
         url("${coverImage}")
       `;
@@ -182,27 +179,12 @@ async function loadLandingCollege() {
       hero.style.backgroundPosition = "center";
 
       hero.style.backgroundRepeat = "no-repeat";
-    }
 
-    /* =====================================================
-       LOGOUT BUTTON
-    ===================================================== */
-
-    const logoutButton = document.getElementById("logoutBtn");
-
-    if (logoutButton) {
-      logoutButton.addEventListener("click", async function (event) {
-        event.preventDefault();
-
-        await logoutStudent();
-      });
+      hero.style.filter = "none";
     }
 
     /* =====================================================
        EXPLORE COURSES
-       
-       User is already authenticated,
-       so go directly to library.
     ===================================================== */
 
     const exploreButton = document.getElementById("exploreBtn");
@@ -217,10 +199,6 @@ async function loadLandingCollege() {
 
     console.log("AUTHENTICATED COLLEGE:", college);
   } catch (error) {
-    /* =======================================================
-     ERROR HANDLING
-  ======================================================= */
-
     console.error("LANDING PAGE ERROR:", error);
 
     await supabaseClient.auth.signOut();
@@ -233,6 +211,6 @@ async function loadLandingCollege() {
    INITIALIZE
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   loadLandingCollege();
 });
